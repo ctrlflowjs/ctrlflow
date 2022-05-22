@@ -1,0 +1,20 @@
+{
+  "kind": "type-def",
+  "type": "workflow",
+  "name": "TaskLogic",
+  "paramsSchema": {
+
+  },
+  "outputSchema": {
+
+  },
+  "excludeTypes": {
+    
+  },
+  "includeTypes": {
+
+  },
+  "requiredNodes": [
+    
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "kind": "workflow",
+  "type": "TaskLogic",
+  "params": {
+    
+  },
+  "nodes": [
+    {
+      "id": 1,
+      "kind": "trigger",
+      "type": "Http",
+      "params": {
+        "path": {
+          "kind": "inline",
+          "value": "/tasks/:taskId/"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "kind": "action",
+      "type": "CreateDbRecord",
+      "displayName": "Create a record",
+      "params": {
+        "path": {
+          "kind": "reference",
+          "value": [1, "route", "taskId"]
+        }
+      },
+      "await": [1]
+    },
+    {
+
+    }
+  ]
+}
