@@ -4,3 +4,6 @@ def show(params)
     type: params[:alert_type]
   )
 end
+
+
+AzureAlertTrigger.all

@@ -12,7 +12,9 @@ module Actions
     outputs ({
       name: {
         type: :string,
-        required: true
+        required: true,
+        title: 'Name',
+        description: 'This is what will display bla bla bla'
       }
     })
 

@@ -1,5 +1,5 @@
 class CreateRecord
-  include LowriderAction
+  include Lowrider::Action
 
   action 
     display_name: 'Create DB Record',

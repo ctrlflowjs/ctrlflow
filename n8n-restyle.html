@@ -29,33 +29,54 @@
 
 <!-- restyle css -->
 <style>
-  .main-header {
+  .iframed .main-header {
+    /* transform: translateY(-100px); */
     display: none;
   }
 
-  .node-creator {
+  .iframed .node-creator {
     top: 0 !important;
   }
 
-  #side-menu {
+  .iframed #side-menu {
     display: none !important;
   }
 
-  .node-creator-button {
+  .iframed .node-creator-button {
     top: 20px !important;
   }
 
-  .workflow-execute-wrapper {
+  .iframed .workflow-execute-wrapper {
     display: none;
   }
 
-  .zoom-menu.regular-zoom-menu {
+  .iframed .zoom-menu.regular-zoom-menu {
     left: 40px !important;
   }
 
-  .scrollable {
+  .iframed .scrollable {
     height: 100% !important;
   }
+
+  /* INACTIVE STATE */
+  .iframed.inactive .zoom-menu.regular-zoom-menu {
+    display: none;
+  }
+
+  .iframed.inactive .node-creator-button {
+    display: none;
+  }
 </style>
+
+<script>
+  window.addEventListener("message", (message) => {
+    console.log(message)
+    if (!message.data) {
+      return;
+    }
+    let [action, classNames] = message.data.split(":");
+    document.body.classList[action](...classNames.split(","))
+  }, false);
+</script>
 
 </html>

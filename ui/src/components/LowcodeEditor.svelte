@@ -3,6 +3,11 @@
 
   let active = false;
   let editor;
+  let editorIframe;
+
+  function send(data) {
+    editorIframe.contentWindow.postMessage(data, "http://localhost:5678")
+  }
 </script>
 
 <div
@@ -11,6 +16,7 @@
   on:fullscreenchange={() => {
     if (!document.fullscreenElement) {
       active = false;
+      send("add:inactive")
     }
   }}
 >
@@ -19,14 +25,17 @@
     on:click={() => {
       editor.requestFullscreen();
       active = true
+      send("remove:inactive")
     }}
   />
   <iframe
-    src="http://localhost:5678/workflow"
+    src="http://localhost:5678/workflow/2"
     width="100%"
     height="100%"
     title="editor"
     class={cx({ active })}
+    on:load={() => send("add:iframed,inactive")}
+    bind:this={editorIframe}
   />
 </div>
 

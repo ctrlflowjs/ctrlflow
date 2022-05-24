@@ -2,7 +2,7 @@
   "kind": "workflow",
   "type": "TaskLogic",
   "params": {
-    
+    "something": "hey"
   },
   "nodes": [
     {
