@@ -1,33 +1,36 @@
 <script>
-	import LowcodeEditor from './LowcodeEditor.svelte';
-
-	export let name;
+	import LowcodeEditor from "./molecules/LowcodeEditor.svelte";
+	import Nav from "./Nav.svelte"
 </script>
 
-<main>
-	<h1>Helldddo {name}!!!!!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svee tutorial</a> to learn how to build Svelte apps.</p>
-	<LowcodeEditor/>
-</main>
+<div class="background">
+	<Nav/>
+	<div class="editor-area">
+		<LowcodeEditor/>
+	</div>
+</div>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+	.background {
+		background-color: rgb(248 248 248 / 1);
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		z-index: -999999;
 	}
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	.editor-area {
+		position: fixed;
+		top: 0;
+		left: 300px;
+		bottom: 0;
+		right: 0;
+		padding: 30px;
 	}
 </style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet">

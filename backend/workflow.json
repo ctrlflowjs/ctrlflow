@@ -1,0 +1,28 @@
+{
+  "kind": "workflow",
+  "type": "list-actions",
+  "name": "Add New Business Tag on App Created",
+  "nodes": [
+    {
+      "id": 1,
+      "kind": "event-trigger",
+      "type": "application-created"
+    },
+    {
+      "id": 2,
+      "kind": "action",
+      "type": "add-numbers",
+      "displayName": "Add these numbers!!!",
+      "params": {
+        "path": {
+          "kind": "reference",
+          "value": [1, "route", "taskId"]
+        }
+      },
+      "await": [1]
+    },
+    {
+
+    }
+  ]
+}
