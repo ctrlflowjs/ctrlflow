@@ -1,15 +1,16 @@
 <script>
   import { flip } from "svelte/animate"
   import { onMount } from "svelte"
+  import { getMetadata } from "./actions"
 
   let trigger = {}
   let actions = []
   let editingItem;
-  let triggerDefinitions = [];
+  let triggerDefinitions = []
   let actionDefinitions = []
 
   onMount(async () => {
-    let { events, actions } = await fetch("http://localhost:3000/lowrider").then(x => x.json())
+    let { events, actions } = await getMetadata()
     triggerDefinitions = events
     actionDefinitions = actions
   })

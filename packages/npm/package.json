@@ -1,5 +1,7 @@
 {
-  "name": "lowrider",
+  "name": "lcdk",
   "version": "0.0.0",
-  "author": "Max North"
+  "description": "",
+  "author": "Max North",
+  "license": "MIT"
 }

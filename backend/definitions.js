@@ -1,8 +1,8 @@
-let lowrider = require("./core")
+let lcdk = require("./core")
 
 /////////////////////////////////////////////////////////////
 
-lowrider.defineEvent("application-created", {
+lcdk.defineEvent("application-created", {
   version: "1",
   displayName: "Application Created",
   tags: ['business'],
@@ -13,17 +13,17 @@ lowrider.defineEvent("application-created", {
   }
 })
 
-lowrider.defineEvent("application-product-changed", {
+lcdk.defineEvent("application-product-changed", {
   displayName: 'Application Product Type Changed'
 })
 
-lowrider.defineEvent("policy-went-in-force", {
+lcdk.defineEvent("policy-went-in-force", {
   displayName: 'Policy Went In-Force'
 })
 
 /////////////////////////////////////////////////////////////
 
-lowrider.defineAction("add-numbers", {
+lcdk.defineAction("add-numbers", {
   version: "1",
   displayName: "Add Numbers",
   inputSchema: {
@@ -40,7 +40,7 @@ lowrider.defineAction("add-numbers", {
   }
 })
 
-lowrider.defineAction("add-remove-tag", {
+lcdk.defineAction("add-remove-tag", {
   displayName: 'Add/Remove Tag',
   inputSchema: {
     required: ["tagName", "referenceId"],
@@ -65,7 +65,7 @@ lowrider.defineAction("add-remove-tag", {
   }
 })
 
-lowrider.defineAction("set-lifecycle-stage",  {
+lcdk.defineAction("set-lifecycle-stage",  {
   displayName: 'Set Lifecycle Stage',
   inputSchema: {
     required: ["lifecycleStage", "referenceId"],
@@ -88,7 +88,7 @@ lowrider.defineAction("set-lifecycle-stage",  {
   }
 })
 
-lowrider.defineAction("apply-macro", {
+lcdk.defineAction("apply-macro", {
   displayName: 'Apply Macro',
   inputSchema: {
     required: ["macro", "referenceId"],
@@ -106,7 +106,7 @@ lowrider.defineAction("apply-macro", {
 })
 /////////////////////////////////////////////////////////////
 
-// lowrider.defineWorkflowTemplate("list-actions", {
+// lcdk.defineWorkflowTemplate("list-actions", {
 //   validate() {
 
 //   }
@@ -114,6 +114,6 @@ lowrider.defineAction("apply-macro", {
 
 /////////////////////////////////////////////////////////////
 
-// await lowrider.emitEvent("application-created", {
+// await lcdk.emitEvent("application-created", {
 
 // })
