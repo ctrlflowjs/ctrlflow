@@ -13,24 +13,27 @@ export async function getWorkflow(workflowId) {
 }
 
 export async function createWorkflow(workflow) {
-  return await fetch({
+  return await fetch(`${host}/lcdk/workflows`, {
     method: "POST",
-    url: `${host}/lcdk/workflows`,
-    body: JSON.stringify(workflow)
-  } as any).then(x => x.json())
+    body: JSON.stringify(workflow),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(x => x.json())
 }
 
 export async function updateWorkflow(workflowId, workflow) {
-  return await fetch({
+  return await fetch(`${host}/lcdk/workflows/${workflowId}`, {
     method: "PUT",
-    url: `${host}/lcdk/workflows/${workflowId}`,
-    body: JSON.stringify(workflow)
-  } as any).then(x => x.json())
+    body: JSON.stringify(workflow),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(x => x.json())
 }
 
 export async function deleteWorkflows(workflowId) {
-  await fetch({
+  await fetch(`${host}/lcdk/workflows/${workflowId}`, {
     method: "DELETE",
-    url: `${host}/lcdk/workflows/${workflowId}`,
-  } as any)
+  })
 }

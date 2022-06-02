@@ -1,12 +1,12 @@
 <script>
-	import LowcodeEditor from "./molecules/LowcodeEditor.svelte";
 	import Nav from "./Nav.svelte"
+	import WorkflowLookup from "./pages/WorkflowLookup.svelte";
 </script>
 
 <div class="background">
 	<Nav/>
 	<div class="editor-area">
-		<LowcodeEditor/>
+		<WorkflowLookup/>
 	</div>
 </div>
 
@@ -28,6 +28,7 @@
 		bottom: 0;
 		right: 0;
 		padding: 30px;
+		overflow-y: scroll;
 	}
 </style>
 

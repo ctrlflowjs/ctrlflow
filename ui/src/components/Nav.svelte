@@ -3,7 +3,7 @@
 
   </div>
   <div class="nav-items">
-    <div class="nav-item">
+    <!-- <div class="nav-item">
       Dashboard
     </div>
     <div class="nav-item">
@@ -17,7 +17,7 @@
     </div>
     <div class="nav-item">
       Settings
-    </div>
+    </div> -->
   </div>
 </nav>
 

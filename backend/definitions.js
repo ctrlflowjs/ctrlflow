@@ -62,6 +62,9 @@ lcdk.defineAction("add-remove-tag", {
         title: "Action"
       }
     }
+  },
+  perform() {
+
   }
 })
 
@@ -85,6 +88,9 @@ lcdk.defineAction("set-lifecycle-stage",  {
         title: "Reference Id"
       }
     }
+  },
+  perform() {
+
   }
 })
 
@@ -102,6 +108,9 @@ lcdk.defineAction("apply-macro", {
         title: "Reference Id"
       }
     }
+  },
+  perform() {
+
   }
 })
 /////////////////////////////////////////////////////////////

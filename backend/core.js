@@ -1,22 +1,52 @@
 const { Queue, Worker } = require('bullmq')
 const { randomUUID } = require('crypto')
+const Redis = require("ioredis");
+const redis = new Redis();
 
 const _queue = new Queue('lcdk')
 const _events = {}
 const _actions = {}
 
-const _workflowDefStore = {}
-const _jobStateStore = {}
-const _eventSubscriptions = {}
+const _workflowDefStore = {
+  async set(workflowId, workflowDef) {
+    await redis.hset("lcdk:workflows", workflowId, JSON.stringify(workflowDef))
+  },
+  async getAll() {
+    let hash = await redis.hgetall("lcdk:workflows")
+    return Object.values(hash).map(x => JSON.parse(x))
+  },
+  async get(workflowId) {
+    return JSON.parse(await redis.hget("lcdk:workflows", workflowId))
+  },
+  async delete(workflowId) {
+    await redis.hdel("lcdk:workflows", workflowId)
+  }
+}
+const _workflowRunStateStore = {
+  async set(runId, runState) {
+    await redis.hset("lcdk:workflow-runs", runId, JSON.stringify(runState))
+  },
+  async get(runId) {
+    return JSON.parse(await redis.hget("lcdk:workflow-runs", runId))
+  }
+}
+const _eventSubscriptions = {
+  async add(eventName, workflowId) {
+    await redis.sadd(`lcdk:event-subs:${eventName}`, workflowId)
+  },
+  async getAll(eventName) {
+    return await redis.smembers(`lcdk:event-subs:${eventName}`)
+  }
+}
 
 module.exports = {
-  defineEvent(typeId, def) {
-    def.typeId = typeId
-    _events[typeId] = def
+  defineEvent(type, def) {
+    def.type = type
+    _events[type] = def
   },
-  defineAction(typeId, def) {
-    def.typeId = typeId
-    _actions[typeId] = def
+  defineAction(type, def) {
+    def.type = type
+    _actions[type] = def
   },
   getEvents() {
     return Object.values(_events)
@@ -24,30 +54,29 @@ module.exports = {
   getActions() {
     return Object.values(_actions)
   },
-  getAllWorkflows() {
-    return Object.values(_workflowDefStore)
+  async getAllWorkflows() {
+    return await _workflowDefStore.getAll()
   },
-  getWorkflow(id) {
-    return _workflowDefStore[id]
+  async getWorkflow(id) {
+    return await _workflowDefStore.get(id)
   },
-  createWorkflow(workflowDef) {
+  async createWorkflow(workflowDef) {
     let id = workflowDef.id = randomUUID()
-    _workflowDefStore[id] = workflowDef
+    await _workflowDefStore.set(id, workflowDef)
     let firstNode = workflowDef.nodes[0]
-    let subscriptions = _eventSubscriptions[firstNode.type] || new Set([])
-    _eventSubscriptions[firstNode.type] = subscriptions
-    subscriptions.add(id)
+    await _eventSubscriptions.add(firstNode.type, id)
     return workflowDef
   },
-  updateWorkflow(id, workflowDef) {
+  async updateWorkflow(id, workflowDef) {
     workflowDef.id = id
-    _workflowDefStore[id] = workflowDef
+    await _workflowDefStore.set(id, workflowDef)
     return workflowDef
   },
-  deleteWorkflow(id) {
-    delete _workflowDefStore[id]
+  async deleteWorkflow(id) {
+    await _workflowDefStore.delete(id)
   },
   async emitEvent(eventName, eventInputs) {
+    console.log(new Date(), "- Emit event", eventName)
     let eventId = randomUUID()
     await _queue.add('HandleEvent', {
       eventName,
@@ -64,11 +93,9 @@ module.exports = {
 const worker = new Worker('lcdk', async ({ name, data }) => {
   jobs = {
     async 'HandleEvent'({ eventName, eventInputs, eventId }) {
-      console.log('HandleEvent', { eventName, eventId, eventId })
+      // console.log('HandleEvent', { eventName, eventId, eventId })
 
-      let subscribedWorkflowIds = [..._eventSubscriptions[eventName] || []]
-
-      console.log(_eventSubscriptions, eventName, subscribedWorkflowIds)
+      let subscribedWorkflowIds = await _eventSubscriptions.getAll(eventName)
 
       await _queue.addBulk(subscribedWorkflowIds.map(workflowId => ({
         name: 'StartWorkflow',
@@ -83,11 +110,11 @@ const worker = new Worker('lcdk', async ({ name, data }) => {
     },
 
     async 'StartWorkflow'({ workflowId, workflowRunId, eventId, eventName, eventInputs }) {
-      console.log('StartWorkflow', { workflowId, workflowRunId, eventId, eventName, eventInputs })
+      // console.log('StartWorkflow', { workflowId, workflowRunId, eventId, eventName, eventInputs })
 
-      let workflowDef = _workflowDefStore[workflowId]
+      let workflowDef = await _workflowDefStore.get(workflowId)
 
-      _jobStateStore[workflowRunId] = {
+      await _workflowRunStateStore.set(workflowRunId, {
         workflowId,
         nodeResults: {
           trigger: {
@@ -97,7 +124,7 @@ const worker = new Worker('lcdk', async ({ name, data }) => {
             nodeId: workflowDef.nodes[0].id
           }
         }
-      }
+      })
 
       await _queue.add('ScheduleNextAction', {
         workflowRunId,
@@ -106,16 +133,19 @@ const worker = new Worker('lcdk', async ({ name, data }) => {
     },
 
     async 'ScheduleNextAction'({ workflowRunId, actionRunId }) {
-      console.log('ScheduleNextAction', { workflowRunId, actionRunId })
+      // console.log('ScheduleNextAction', { workflowRunId, actionRunId })
 
-      console.log(_workflowDefStore)
-
-      let jobState = _jobStateStore[workflowRunId]
+      let jobState = await _workflowRunStateStore.get(workflowRunId)
       let lastNodeResult = jobState.nodeResults[actionRunId || 'trigger'] // revisit
 
-      let workflowDef = _workflowDefStore[jobState.workflowId]
+      let workflowDef = await _workflowDefStore.get(jobState.workflowId)
       let lastNodeIndex = workflowDef.nodes.findIndex(n => n.id === lastNodeResult.nodeId)
       let nextNode = workflowDef.nodes[lastNodeIndex + 1]
+
+      if (!nextNode) {
+        console.log(new Date(), "- Workflow finished!")
+        return;
+      }
 
       await _queue.add('RunAction', {
         workflowRunId,
@@ -127,18 +157,26 @@ const worker = new Worker('lcdk', async ({ name, data }) => {
     },
 
     async 'RunAction'({ actionName, actionInputs, actionRunId, workflowRunId, nodeId }) {
-      console.log('RunAction', { actionName, actionInputs, actionRunId, workflowRunId, nodeId })
+      // console.log('RunAction', { actionName, actionInputs, actionRunId, workflowRunId, nodeId })
 
       let actionDef = _actions[actionName]
+
+      if (!actionDef) {
+        throw `No action found named: '${actionName}'`
+      }
 
       let outputs = await actionDef.perform(actionInputs)
       console.log("Action Result", actionName, actionInputs, outputs)
 
-      _jobStateStore[workflowRunId].nodeResults[actionRunId] = {
+      let workflowDef = await _workflowRunStateStore.get(workflowRunId)
+
+      workflowDef.nodeResults[actionRunId] = {
         nodeId,
         actionName,
         outputs
       }
+
+      await _workflowRunStateStore.set(workflowRunId, workflowDef)
 
       await _queue.add('ScheduleNextAction', {
         workflowRunId,

@@ -1,7 +1,9 @@
 <script>
   import { flip } from "svelte/animate"
   import { onMount } from "svelte"
-  import { getMetadata } from "./actions"
+  import { getMetadata, createWorkflow, updateWorkflow } from "./actions"
+
+  export let workflow;
 
   let trigger = {}
   let actions = []
@@ -9,15 +11,22 @@
   let triggerDefinitions = []
   let actionDefinitions = []
 
+  $: {
+    if (workflow?.nodes) {
+      trigger =  { ...workflow.nodes[0] }
+      actions = workflow.nodes.slice(1).map(node => ({ ...node }))
+    }
+  }
+
   onMount(async () => {
-    let { events, actions } = await getMetadata()
-    triggerDefinitions = events
-    actionDefinitions = actions
+    const metadata = await getMetadata()
+    triggerDefinitions = metadata.eventDefs
+    actionDefinitions = metadata.actionDefs
   })
 
   function addAction() {
     actions.push({
-
+      inputs: {}
     })
     actions = actions
   }
@@ -38,14 +47,52 @@
   function editItem(item) {
     editingItem = item
   }
+
+  function getType(name, kind) {
+    types = kind === 'event' ? triggerDefinitions : actionDefinitions
+    return types.find(t => t.type === name)
+  }
+
+  function getActionInputs(name) {
+    let def = actionDefinitions.find(x => x.type === name)
+    let keys = Object.keys(def.inputSchema.properties)
+    return keys.map(k => ({ inputName: k, inputDef: def.inputSchema.properties[k] }))
+  }
+
+  async function saveWorkflow() {
+    let newWorkflow = { ...workflow, nodes: [] }
+    let nodeId = 0
+    newWorkflow.nodes[0] = {
+      id: ++nodeId,
+      kind: 'event-trigger',
+      type: trigger.type
+    }
+    for (let action of actions) {
+      newWorkflow.nodes.push({
+        id: ++nodeId,
+        kind: 'action',
+        type: action.type,
+        inputs: { ...action.inputs }
+      })
+    }
+    if (workflow.id) {
+      workflow = await updateWorkflow(workflow.id, newWorkflow)
+    } else {
+      workflow = await createWorkflow(newWorkflow)
+    }
+  }
 </script>
 
+
+<p>
+  <button type="button" class="action-editor-save-btn" on:click={saveWorkflow}>💾 Save</button>
+</p>
 <h3>Trigger</h3>
 <div class="trigger">
   <select bind:value={trigger.type}>
     <option></option>
     {#each triggerDefinitions as option}
-      <option value={option}>{option.displayName}</option>
+      <option value={option.type}>{option.displayName}</option>
     {/each}
   </select>
 </div>
@@ -55,7 +102,7 @@
     <select bind:value={action.type}>
       <option></option>
       {#each actionDefinitions as option}
-        <option value={option}>{option.displayName}</option>
+        <option value={option.type}>{option.displayName}</option>
       {/each}
     </select>
     <button type="button" disabled={actions.indexOf(action) === 0} on:click={() => moveAction(action, -1)}>⬆️</button>
@@ -80,12 +127,16 @@
     >
       ❌
     </button>
-    <h2>{editingItem.type.displayName}</h2>
-    {#each Object.values(editingItem.type.inputSchema.properties) as inputField}
+    <h2>{getType(editingItem.type).displayName}</h2>
+    {#each getActionInputs(editingItem.type) as { inputName, inputDef }}
       <p>
         <label>
-          <span>{inputField.title}</span>
-          <input type="text"/>
+          <span>{inputDef.title}</span>
+          {#if inputDef.type === 'number'}
+            <input type="number" bind:value={editingItem.inputs[inputName]}/>
+          {:else}
+            <input type="text" bind:value={editingItem.inputs[inputName]}/>
+          {/if}
         </label>
       </p>
     {/each}

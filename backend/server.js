@@ -10,34 +10,34 @@ app.use(express.json());
 
 app.get('/lcdk/meta', (req, res) => {
   let result = {
-    events: lcdk.getEvents(),
-    actions: lcdk.getActions()
+    eventDefs: lcdk.getEvents(),
+    actionDefs: lcdk.getActions()
   }
   res.json(result)
 })
 
-app.get('/lcdk/workflows', (req, res) => {
-  let result = lcdk.getAllWorkflows()
+app.get('/lcdk/workflows', async (req, res) => {
+  let result = await lcdk.getAllWorkflows()
   res.json(result)
 })
 
-app.get('/lcdk/workflows/:workflowId', (req, res) => {
-  let result = lcdk.getWorkflow(req.params.workflowId)
+app.get('/lcdk/workflows/:workflowId', async (req, res) => {
+  let result = await lcdk.getWorkflow(req.params.workflowId)
   res.json(result)
 })
 
-app.post('/lcdk/workflows', (req, res) => {
-  let result = lcdk.createWorkflow(req.body)
+app.post('/lcdk/workflows', async (req, res) => {
+  let result = await lcdk.createWorkflow(req.body)
   res.json(result)
 })
 
-app.put('/lcdk/workflows/:workflowId', (req, res) => {
-  let result = lcdk.updateWorkflow(req.params.workflowId, req.body)
+app.put('/lcdk/workflows/:workflowId', async (req, res) => {
+  let result = await lcdk.updateWorkflow(req.params.workflowId, req.body)
   res.json(result)
 })
 
-app.delete('/lcdk/workflows/:workflowId', (req, res) => {
-  lcdk.deleteWorkflow(req.params.workflowId)
+app.delete('/lcdk/workflows/:workflowId', async (req, res) => {
+  await lcdk.deleteWorkflow(req.params.workflowId)
   res.end()
 })
 
