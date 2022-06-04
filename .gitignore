@@ -2,6 +2,6 @@ tmp
 log
 node_modules
 .parcel*/
-ui/dist/
+dist
 bin
 obj

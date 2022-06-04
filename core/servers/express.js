@@ -1,9 +1,12 @@
 let express = require("express")
+const lcdkDash = require("@lcdk/dashboard")
 
 module.exports = function({ app }) {
   const router = express.Router()
 
-  router.use('/', express.json())
+  router.use(express.static(lcdkDash.distDir()))
+
+  router.use(express.json())
 
   router.get('/lcdk/meta', (req, res) => {
     let result = {

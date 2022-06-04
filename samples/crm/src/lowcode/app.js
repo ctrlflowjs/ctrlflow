@@ -1,4 +1,4 @@
-const lcdk = require("../../../../core/main")
+const lcdk = require("@lcdk/core")
 
 module.exports = lcdk.app({
   components: [

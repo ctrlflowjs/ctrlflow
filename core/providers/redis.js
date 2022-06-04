@@ -9,13 +9,13 @@ module.exports = function({ components }) {
   const _actions = {}
 
   for (let component of components) {
-    if (component.kind = 'event-type') {
+    if (component.kind === 'event-type') {
       _events[component.type] = component
     }
-    if (component.kind = 'action-type') {
+    if (component.kind === 'action-type') {
       _actions[component.type] = component
     }
-    if (component.kind = 'workflow-type') {
+    if (component.kind === 'workflow-type') {
       console.log("NOT IMPLEMENTED: WORKFLOW TYPE")
     }
   }
