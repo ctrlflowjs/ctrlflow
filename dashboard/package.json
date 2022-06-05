@@ -2,11 +2,11 @@
   "name": "@lcdk/dashboard",
   "version": "0.0.0",
   "description": "",
-  "main": "module.js",
   "scripts": {
     "clean:output": "rimraf dist",
     "dev": "parcel ./src/index.html",
-    "build": "npm run clean:output && parcel build ./src/index.html"
+    "build": "npm run clean:output && parcel build ./src/index.html",
+    "watch": "npm run clean:output && parcel watch ./src/index.html"
   },
   "author": "",
   "license": "MIT",
@@ -14,7 +14,9 @@
     "classnames": "^2.3.1",
     "degit": "^2.8.4",
     "parcel": "^2.5.0",
-    "parcel-transformer-svelte": "^1.2.3",
+    "parcel-transformer-svelte": "^1.2.3"
+  },
+  "dependencies": {
     "svelte": "^3.48.0"
   }
 }

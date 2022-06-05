@@ -4,8 +4,11 @@
   "description": "",
   "author": "Max North",
   "license": "MIT",
+  "main": "main.js",
   "dependencies": {
     "@lcdk/dashboard": "0.0.0",
+    "bullmq": "^1.85.3",
+    "cors": "^2.8.5",
     "express": "^4.18.1"
   }
 }
