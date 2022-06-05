@@ -1,8 +1,0 @@
-{
-  "devDependencies": {
-    "rimraf": "^3.0.2"
-  },
-  "dependencies": {
-    "express": "^4.18.1"
-  }
-}

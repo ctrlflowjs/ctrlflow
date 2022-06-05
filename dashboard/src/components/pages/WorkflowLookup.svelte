@@ -1,19 +1,17 @@
 <script>
   import LowcodeEditor from "../molecules/LowcodeEditor.svelte";
   import { getAllWorkflows } from "../molecules/actions";
-  import { onMount } from "svelte"
 
   let selectedWorkflow;
   let workflows = []
 
   $: {
     if (!selectedWorkflow) {
-      getAllWorkflows().then(wf => workflows = workflows = wf)
+      getAllWorkflows().then(wf => workflows = wf)
     }
   }
 </script>
 
-<h1>Wooo?????!!!</h1>
 {#if selectedWorkflow}
   <button class="close-workflow" type="button" on:click={() => selectedWorkflow = null}>❌</button>
   <LowcodeEditor workflow={selectedWorkflow}/>
