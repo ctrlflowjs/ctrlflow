@@ -2,7 +2,7 @@ let lcdk = require("@lcdk/core")
 
 module.exports = lcdk.eventType("application-created", {
   version: "1",
-  displayName: "Application Created",
+  title: "Application Created",
   tags: ['business'],
   inputSchema: {
     properties: {

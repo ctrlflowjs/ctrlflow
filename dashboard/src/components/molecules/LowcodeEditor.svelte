@@ -5,6 +5,7 @@
 
   export let workflow;
 
+  let title;
   let trigger = {}
   let actions = []
   let editingItem;
@@ -60,7 +61,7 @@
   }
 
   async function saveWorkflow() {
-    let newWorkflow = { ...workflow, nodes: [] }
+    let newWorkflow = { ...workflow, title, lastModifiedAt: (new Date()).toLocaleString(), nodes: [] }
     let nodeId = 0
     newWorkflow.nodes[0] = {
       id: ++nodeId,
@@ -87,6 +88,8 @@
 <p>
   <button type="button" class="action-editor-save-btn" on:click={saveWorkflow}>💾 Save</button>
 </p>
+<h4>Title</h4>
+<input type="text" bind:value={title}/>
 <h3>Trigger</h3>
 <div class="trigger">
   <select bind:value={trigger.type}>
