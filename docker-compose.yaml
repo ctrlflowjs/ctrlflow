@@ -1,6 +1,6 @@
 version: "3.9"  # optional since v1.27.0
 services:
-  redis:
+  local-redis:
     image: redis
     ports:
       - target: 6379

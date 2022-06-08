@@ -1,4 +1,5 @@
 import App from './components/App.svelte';
+import 'modern-css-reset'
 
 const app = new App({
 	target: document.body,
