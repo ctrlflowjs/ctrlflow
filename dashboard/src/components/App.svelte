@@ -5,7 +5,7 @@
 
 <div class="background">
 	<Nav/>
-	<div class="editor-area">
+	<div class="main-body">
 		<WorkflowLookup/>
 	</div>
 </div>
@@ -22,10 +22,7 @@
 		overflow-y: auto;
 	}
 
-	.editor-area {
-		padding: 95px 50px 35px 50px;
-		max-width: 1100px;
-		margin-right: auto;
-		margin-left: auto;
+	.main-body {
+		height: calc(100vh - 60px);
 	}
 </style>

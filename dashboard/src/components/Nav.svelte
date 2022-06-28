@@ -16,10 +16,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&family=Roboto:wght@100;300;400;500&display=swap');
 
   .nav-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 16px;
+    width: 100%;
     height: 60px;
     background-color: rgb(36, 36, 36);
     box-shadow: 0 -10px 15px;

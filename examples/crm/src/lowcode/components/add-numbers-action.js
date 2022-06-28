@@ -1,4 +1,4 @@
-let lcdk = require("../../../../../core/main")
+let lcdk = require("@lcdk/core")
 
 module.exports = lcdk.actionType("add-numbers", {
   version: "1",

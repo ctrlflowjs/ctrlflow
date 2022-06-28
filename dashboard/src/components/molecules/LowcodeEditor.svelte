@@ -1,32 +1,28 @@
 <script>
   import { flip } from "svelte/animate"
-  import { onMount } from "svelte"
+  import NodeEditor from "./NodeEditor.svelte"
+  import { onMount, createEventDispatcher } from "svelte"
   import { getMetadata, createWorkflow, updateWorkflow } from "./actions"
 
   export let workflow;
 
+  const dispatch = createEventDispatcher();
+
   let title;
-  let trigger = {}
+  let trigger = { 'kind': 'trigger' }
   let actions = []
-  let editingItem;
-  let triggerDefinitions = []
-  let actionDefinitions = []
+  let editingNode;
 
   $: {
     if (workflow?.nodes) {
       trigger =  { ...workflow.nodes[0] }
-      actions = workflow.nodes.slice(1).map(node => ({ ...node }))
+      // actions = workflow.nodes.slice(1).map(node => ({ ...node }))
     }
   }
 
-  onMount(async () => {
-    const metadata = await getMetadata()
-    triggerDefinitions = metadata.eventDefs
-    actionDefinitions = metadata.actionDefs
-  })
-
   function addAction() {
     actions.push({
+      kind: 'action',
       inputs: {}
     })
     actions = actions
@@ -46,18 +42,7 @@
   }
 
   function editItem(item) {
-    editingItem = item
-  }
-
-  function getType(name, kind) {
-    types = kind === 'event' ? triggerDefinitions : actionDefinitions
-    return types.find(t => t.type === name)
-  }
-
-  function getActionInputs(name) {
-    let def = actionDefinitions.find(x => x.type === name)
-    let keys = Object.keys(def.inputSchema.properties)
-    return keys.map(k => ({ inputName: k, inputDef: def.inputSchema.properties[k] }))
+    editingNode = item
   }
 
   async function saveWorkflow() {
@@ -85,79 +70,112 @@
 </script>
 
 
-<p>
-  <button type="button" class="action-editor-save-btn" on:click={saveWorkflow}>💾 Save</button>
-</p>
-<h4>Title</h4>
-<input type="text" bind:value={title}/>
-<h3>Trigger</h3>
-<div class="trigger">
-  <select bind:value={trigger.type}>
-    <option></option>
-    {#each triggerDefinitions as option}
-      <option value={option.type}>{option.displayName}</option>
-    {/each}
-  </select>
-</div>
-<h3>Actions</h3>
-{#each actions as action (action)}
-  <p class="action-node" animate:flip>
-    <select bind:value={action.type}>
-      <option></option>
-      {#each actionDefinitions as option}
-        <option value={option.type}>{option.displayName}</option>
-      {/each}
-    </select>
-    <button type="button" disabled={actions.indexOf(action) === 0} on:click={() => moveAction(action, -1)}>⬆️</button>
-    <button type="button" disabled={actions.indexOf(action) === actions.length - 1} on:click={() => moveAction(action, 1)}>⬇️</button>
-    <button type="button" disabled={!action.type} on:click={() => editItem(action)}>
-      ✏️
-    </button>
-    <button type="button" on:click={() => removeAction(action)}>
-      🗑️
-    </button>
-  </p>
-{/each}
-<div>
-  <button type="button" on:click={addAction}>➕ Add Action</button>
-</div>
-{#if editingItem}
-  <div class="item-editor-sidebar">
-    <button
-      type="button"
-      on:click={() => editingItem = null}
-      style="float: right"
-    >
-      ❌
-    </button>
-    <h2>{getType(editingItem.type).displayName}</h2>
-    {#each getActionInputs(editingItem.type) as { inputName, inputDef }}
-      <p>
-        <label>
-          <span>{inputDef.title}</span>
-          {#if inputDef.type === 'number'}
-            <input type="number" bind:value={editingItem.inputs[inputName]}/>
-          {:else}
-            <input type="text" bind:value={editingItem.inputs[inputName]}/>
-          {/if}
-        </label>
+<div class="workflow-editor">
+  <div class="workflow-view-panel">
+    <div class="workflow-view-container">
+      <p style="float: right;">
+        <button class="close-workflow btn" type="button" on:click={() => dispatch('close')}>Close</button>
+        <button type="button" class="action-editor-save-btn btn" on:click={saveWorkflow}>Save</button>
       </p>
-    {/each}
+      <input class="title-input" type="text" bind:value={title} placeholder="Title"/>
+      <div class="node-flow">
+        <div class="node empty trigger" on:click={() => editingNode = trigger}>
+          Add Trigger +
+        </div>
+        {#each actions as action}
+          <div class="node action" on:click={() => editingNode = action}>
+            Action
+          </div>
+        {/each}
+        <div class="node empty action" on:click={addAction}>
+          Add Action +
+        </div>
+      </div>
+    </div>
   </div>
-{/if}
+  {#if editingNode}
+    <NodeEditor node={editingNode} on:close={() => editingNode = null}/>
+  {/if}
+</div>
 
 <style>
-  .item-editor-sidebar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    min-width: 300px;
-    max-width: 700px;
-    width: 40%;
-    border: 1px solid black;
-    z-index: 1;
-    background-color: #fdfdfd;
-    padding: 10px;
+  .workflow-editor {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    width: 100%;
+    height: 100%
   }
+
+  .workflow-view-panel {
+    padding-top: 35px;
+    min-width: 700px;
+    flex-grow: 5;
+  }
+
+  .workflow-view-container {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .title-input {
+    border: none;
+    outline: none;
+		background-color: rgb(245, 245, 245);
+    font-size: 36px;
+    width: 700px;
+    font-weight: 300;
+  }
+
+  .node-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 35px;
+  }
+
+  .node {
+    min-width: 200px;
+    padding: 10px 5px 10px 5px;
+    border: 1px solid gainsboro;
+    text-align: center;
+    margin-bottom: 30px;
+    cursor: pointer;
+    box-shadow: 0px 3px 10px -10px;
+    background-color: #8ebfe7;
+    position: relative;
+  }
+
+  .node.empty {
+    box-shadow: none;
+    border: 1.5px dashed;
+  }
+
+  .node.trigger.empty {
+		background-color: #e8eee7;
+    border-color: #90b684;
+  }
+
+  .node.action.empty {
+		background-color: #e7e9ee;
+    border-color: #63658f;
+  }
+
+  .btn {
+    font-size: 18px;
+    font-weight: 300;
+    margin-left: 15px;
+    border: 1px solid gainsboro;
+    padding: 5px 10px 5px 10px;
+    border-radius: 2px;
+    vertical-align: middle;
+    box-shadow: 0px 2px 10px -8px;
+    background-color: rgb(250, 250, 250);
+  }
+
+  .btn:hover {
+    cursor: pointer;
+  }
+
 </style>
