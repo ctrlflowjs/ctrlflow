@@ -5,14 +5,12 @@
 
   let showEditor = false
 
-  $: console.log(showEditor, '!!!!!!!!!!')
-
   function setShowEditor(show) {
     showEditor = show
   }
 </script>
 
-<div class="node" on:click={() => setShowEditor(true)}>
+<div class="node" on:click={(e) => { e.stopPropagation(), setShowEditor(true) }}>
   <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width="5" stroke-linecap="round">
     <path fill="none" stroke="black" d="M 0 -48 v 98" />
   </svg>

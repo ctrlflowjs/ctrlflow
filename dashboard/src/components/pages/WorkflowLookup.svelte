@@ -1,10 +1,9 @@
 <script>
-  import LowcodeEditor from "../molecules/LowcodeEditor.svelte"
-  import Workflow from "../NewFlow/Workflow.svelte"
-  import { getMetadata, getAllWorkflows } from "../molecules/actions"
+  import Workflow from "./editor/Workflow.svelte"
+  import { getMetadata, getAllWorkflows } from "./editor/actions"
 
   let selectedWorkflow
-  let metadata;
+  let metadata
   let workflows = []
 
   $: {
@@ -15,22 +14,29 @@
 
   $: {
     if (!metadata) {
-      getMetadata().then(m => {console.log(m), metadata = m})
+      getMetadata().then(m => metadata = m)
+    }
+  }
+
+  function createWorkflow() {
+    selectedWorkflow = {
+      triggers: [],
+      path: {
+        id: 0,
+        kind: "path",
+        steps: []
+      }
     }
   }
 </script>
 
 {#if selectedWorkflow}
-  {#if false}
-    <LowcodeEditor workflow={selectedWorkflow} on:close={() => selectedWorkflow = null}/>
-  {:else}
-    <Workflow workflow={selectedWorkflow} on:close={() => selectedWorkflow = null}/>
-  {/if}
+  <Workflow workflow={selectedWorkflow} on:close={() => selectedWorkflow = null}/>
 {:else}
   <div class="content-area">
     <h2 class="section-name">
       Workflows
-      <span class="btn" on:click={() => selectedWorkflow = {}}>
+      <span class="btn" on:click={createWorkflow}>
         New +
       </span>
     </h2>

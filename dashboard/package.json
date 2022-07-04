@@ -20,5 +20,10 @@
   },
   "dependencies": {
     "svelte": "^3.48.0"
+  },
+  "svelte": {
+    "compilerOptions": {
+      "dev": true
+    }
   }
 }

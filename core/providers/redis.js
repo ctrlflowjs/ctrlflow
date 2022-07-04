@@ -174,8 +174,8 @@ module.exports = function({ components }) {
     async createWorkflow(workflowDef) {
       let id = workflowDef.id = randomUUID()
       await _workflowDefStore.set(id, workflowDef)
-      let firstNode = workflowDef.nodes[0]
-      await _eventSubscriptions.add(firstNode.type, id)
+      // let firstNode = workflowDef.nodes[0]
+      // await _eventSubscriptions.add(firstNode.type, id)
       return workflowDef
     },
     async updateWorkflow(id, workflowDef) {

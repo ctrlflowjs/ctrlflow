@@ -2,16 +2,16 @@
   import { flip } from "svelte/animate"
   import NodeEditor from "./NodeEditor.svelte"
   import { onMount, createEventDispatcher } from "svelte"
-  import { getMetadata, createWorkflow, updateWorkflow } from "./actions"
+  import { getMetadata, createWorkflow, updateWorkflow } from "../editor/actions"
 
   export let workflow;
 
   const dispatch = createEventDispatcher();
 
   let title;
-  let trigger = { 'kind': 'trigger' }
+  let trigger = { kind: 'trigger' }
   let actions = []
-  let editingNode;
+  let editingNode
 
   $: {
     if (workflow?.nodes) {

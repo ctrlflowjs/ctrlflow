@@ -1,6 +1,6 @@
 <script>
   import { onMount, createEventDispatcher } from "svelte"
-  import { getMetadata } from "./actions"
+  import { getMetadata } from "../editor/actions"
 
   export let node;
 
@@ -10,19 +10,16 @@
 
   onMount(async () => {
     metadata = await getMetadata()
-    console.log(metadata)
   })
 
   function getNodeDefs() {
     let nodeDefs = node.kind === 'trigger' ? metadata.eventDefs : metadata.actionDefs
-    console.log(node, nodeDefs)
     return nodeDefs || []
   }
 
   function getActionInputs() {
     let nodeDefs = getNodeDefs()
     let def = nodeDefs.find(x => x.type === node.type)
-    console.log(node, nodeDefs, def)
     let keys = Object.keys(def.inputSchema.properties)
     return keys.map(k => ({ inputName: k, inputDef: def.inputSchema.properties[k] }))
   }
