@@ -8,6 +8,11 @@
 
   const dispatch = createEventDispatcher()
 
+  let workflowJSON
+  $: {
+    workflowJSON = JSON.stringify(workflow || null, null, 2)
+  }
+
   async function saveWorkflow() {
     let newWorkflow = {
       ...workflow,
@@ -37,6 +42,13 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="json-viewer">
+  <code>
+    <div><button type="button" on:click={() => workflow = workflow}>Refresh</button></div>
+    {workflowJSON}
+  </code>
 </div>
 
 <style>
@@ -100,4 +112,10 @@
     cursor: pointer;
   }
 
+  .json-viewer {
+    white-space: pre;
+    background-color: white;
+    color: gray;
+    margin-top: 20px;
+  }
 </style>

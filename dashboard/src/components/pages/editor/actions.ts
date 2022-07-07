@@ -1,7 +1,8 @@
 const host = "http://localhost:3000"
 
+let metadata = null
 export async function getMetadata() {
-  return await fetch(`${host}/lcdk/meta`).then(x => x.json())
+  return metadata ||= await fetch(`${host}/lcdk/meta`).then(x => x.json())
 }
 
 export async function getAllWorkflows() {

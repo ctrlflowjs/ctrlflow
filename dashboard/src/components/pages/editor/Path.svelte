@@ -7,10 +7,7 @@
 
   function addStep(kind, stepIndex) {
     if (kind === "node") {
-      const newStep = {
-        kind
-      }
-      def.steps.splice(stepIndex, 0, newStep)
+      def.steps.splice(stepIndex, 0, { kind })
     } else if (kind === "fork") {
       let followingSteps = def.steps.splice(stepIndex)
       const newStep = {

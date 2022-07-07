@@ -1,6 +1,9 @@
+let lcdk = require("@lcdk/core")
 
-module.exports = lcdk.defineAction("set-lifecycle-stage",  {
+module.exports = lcdk.actionType("set-lifecycle-stage",  {
+  version: "1",
   displayName: 'Set Lifecycle Stage',
+  title: 'Set Lifecycle Stage',
   inputSchema: {
     required: ["lifecycleStage", "referenceId"],
     properties: {
@@ -20,7 +23,7 @@ module.exports = lcdk.defineAction("set-lifecycle-stage",  {
       }
     }
   },
-  perform() {
-
+  async perform() {
+    return {}
   }
 })

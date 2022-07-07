@@ -1,72 +1,98 @@
-<script>
-  import { createEventDispatcher, onMount } from "svelte"
-  import { getMetadata } from "./actions"
-  import Expression from "./Expression.svelte"
-
-  export let def
-
-  let self
-
-  const dispatch = createEventDispatcher()
-
-  let rendered = false
-
-  let metadata
-  let actionType
-
-  $: {
-    actionType = metadata?.actionDefs.find(d => d.type === def.actionType)
-  }
-
-  onMount(() => {
-    rendered = true
-
-    getMetadata().then((m) => metadata = m)
-
-    return () => {
-      rendered = false
-    }
-  })
-
-  function handleExternalClick(event) {
-    if (rendered && event.target !== self && !self.contains(event.target)) {
-      dispatch("close")
-    }
-  }
-
-  function getNodeDefs() {
-    let nodeDefs = def.kind === 'trigger' ? metadata.eventDefs : metadata.actionDefs
-    return nodeDefs || []
-  }
-
-  function getActionInputs() {
-    let keys = Object.keys(actionType.inputSchema.properties)
-    return keys.map(k => ({ inputName: k, inputDef: actionType.inputSchema.properties[k] }))
-  }
+<script context="module">
+  let closeOthers = () => null
 </script>
 
-<div
-  bind:this={self}
-  class="action-editor"
->
-  <div class="actions">
-    <button on:click={(e) => (e.stopPropagation(), dispatch("close"))} type="button">Close</button>
-  </div>
-  <!-- <div>
-    <label>
-      <div>Module</div>
-      <select>
-        <option>Google Sheets</option>
-        <option>Trello</option>
-        <option>Mailchimp</option>
-      </select>
-    </label>
-  </div> -->
-  {#if true}
+<script>
+  import { onMount, createEventDispatcher } from "svelte"
+  import { getMetadata } from "./actions"
+  import Expression from "./expressions/Expression.svelte"
+
+  export let def
+  export let rootEl
+
+  const dispatch = createEventDispatcher()
+  $: {
+    if (def?.type) {
+      dispatch("change-type", def.type)
+    }
+  }
+
+  let metadata
+  onMount(async () => {
+    def.inputs = def.inputs || {}
+    metadata = await getMetadata()
+  })
+
+  let actionType
+  $: {
+    actionType = metadata?.actionDefs.find(d => d.type === def.type)
+    setInputs()
+  }
+
+  function setInputs() {
+    if (!actionType?.inputSchema.properties) {
+      return;
+    }
+
+    const inputs = {}
+    for (let key in actionType?.inputSchema.properties || []) {
+      inputs[key] = def.inputs[key] || {
+        kind: "expression"
+      }
+    }
+    def.inputs = inputs
+  }
+
+  let showEditor = false
+  export const open = () => {
+    if (!showEditor) {
+      closeOthers()
+      closeOthers = close
+      showEditor = true
+    }
+  }
+  export const close = () => {
+    if (showEditor) {
+      showEditor = false
+    }
+  }
+
+  let closeBtn
+  function handleGlobalClick(e) {
+    if (showEditor && e.target.isConnected && !rootEl.contains(e.target) || e.target === closeBtn) {
+      close()
+    }
+  }
+
+  $: actionInputs = Object.keys(actionType?.inputSchema.properties || {})
+  $: actionInputDefs = actionInputs.map(k => ({ inputName: k, inputDef: actionType.inputSchema.properties[k] }))
+
+</script>
+
+<svelte:window on:click={handleGlobalClick} />
+
+{#if showEditor}
+  <div
+    class="action-editor"
+  >
+    <div class="actions">
+      <button bind:this={closeBtn} type="button">Close</button>
+    </div>
+    <!-- <div>
+      <label>
+        <div>Module</div>
+        <select>
+          <option>Google Sheets</option>
+          <option>Trello</option>
+          <option>Mailchimp</option>
+        </select>
+      </label>
+    </div> -->
     <div>
       <label>
-        <div>Action</div>
-        <select bind:value={def.action}>
+        <div class="section-header">Action</div>
+        <select bind:value={def.type}>
+          <option value={undefined}>Select</option>
           {#if metadata}
             {#each metadata.actionDefs as actionDef}
               <option value={actionDef.type}>{actionDef.title}</option>
@@ -75,40 +101,40 @@
         </select>
       </label>
     </div>
-  {:else}
-    <div>
-    </div>
-  {/if}
-  <hr />
-  <div class="inputs-section">
-    <div class="inputs-header">Inputs</div>
-    <div class="inputs-area">
-      {#if actionType}
-        {#each getActionInputs() as { inputName, inputDef }}
-          <div class="input">
-            <div class="input-label">{inputName}</div>
-            <div>
-              <div class="input-value">
-                <Expression def={inputDef} />
+    {#if def.type}
+      <hr />
+      <div class="inputs-section">
+        <div class="section-header">Inputs</div>
+        <div class="inputs-area">
+          {#if actionType}
+            {#each actionInputDefs as { inputName, inputDef }}
+              <div class="input">
+                <div class="input-label">{inputDef.title || inputName}</div>
+                <div>
+                  <div class="input-value">
+                    <Expression def={def.inputs[inputName]} />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        {/each}
-      {/if}
-    </div>
+            {/each}
+          {/if}
+        </div>
+      </div>
+    {/if}
   </div>
-</div>
-
-<svelte:window on:click={handleExternalClick}/>
+{/if}
 
 <style>
   .action-editor {
     position: absolute;
-    top: -100px;
-    left: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: calc(100% + 30px);
     background-color: #f5f5f5;
     border: .5px solid black;
-    min-width: 400px;
+    min-width: 300px;
+    max-width: 500px;
+    width: max-content;
     z-index: 15;
     border-radius: 4px;
     cursor: default;
@@ -124,10 +150,7 @@
     right: 5px;
   }
 
-  .inputs-section {
-  }
-
-  .inputs-header {
+  .section-header {
     font-size: 20px;
     font-weight: 700;
   }
@@ -152,11 +175,8 @@
     font-weight: 700;
   }
 
-  .input-value {
-    background-color: white;
-    display: block;
-    width: 100px;
-    min-height: 24px;
-    border: 1px solid black;
+  select {
+    padding: 3px 7px;
+    border-radius: 2px;
   }
 </style>
