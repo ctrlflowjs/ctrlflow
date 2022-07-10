@@ -1,29 +1,28 @@
 {
   "name": "@lcdk/dashboard",
   "version": "0.0.0",
-  "description": "",
-  "_main": "module.js",
-  "scripts": {
-    "clean:output": "rimraf dist",
-    "dev": "parcel ./src/index.html",
-    "build": "npm run clean:output && parcel build ./src/index.html",
-    "watch": "npm run clean:output && parcel watch ./src/index.html"
+  "main": "module.js",
+  "targets": {
+    "main": false
   },
-  "author": "",
+  "scripts": {
+    "clean": "rimraf dist/*",
+    "dev": "parcel ./src/index.html",
+    "build": "npm run clean && parcel build ./src/index.html",
+    "watch": "npm run clean && parcel watch ./src/index.html",
+    "demo:clean": "rimraf demo/dist/*",
+    "demo:build": "npm run demo:clean && parcel build ./demo/src/index.html --dist-dir demo/dist",
+    "demo:watch": "npm run demo:clean && parcel watch ./demo/src/index.html --dist-dir demo/dist",
+    "demo:serve": "http-server demo/dist -p 3000"
+  },
+  "author": "Max North",
   "license": "MIT",
   "devDependencies": {
     "classnames": "^2.3.1",
     "degit": "^2.8.4",
     "modern-css-reset": "^1.4.0",
     "parcel": "^2.5.0",
-    "parcel-transformer-svelte": "^1.2.3"
-  },
-  "dependencies": {
+    "parcel-transformer-svelte": "^1.2.3",
     "svelte": "^3.48.0"
-  },
-  "svelte": {
-    "compilerOptions": {
-      "dev": true
-    }
   }
 }

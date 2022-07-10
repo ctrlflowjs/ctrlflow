@@ -4,6 +4,14 @@ const lcdkDash = require("@lcdk/dashboard")
 module.exports = function({ app }) {
   const router = express.Router()
 
+  // spa routing
+  router.get('*', (req, res, next) => {
+    if (!req.url.startsWith("/lcdk/") && !req.url.includes('.')) {
+      req.url = "/"
+    }
+    next()
+  })
+
   router.use(express.static(lcdkDash.distDir()))
 
   router.use(express.json())

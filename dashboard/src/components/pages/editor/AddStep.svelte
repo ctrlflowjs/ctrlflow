@@ -11,7 +11,7 @@
     <div class="placeholder"></div>
     <div class="add-step-btns">
       {#if kind === "path"}
-        <button type="button" on:click={() => dispatch("select", { kind: "node" })}>⬤</button>
+        <button type="button" on:click={() => dispatch("select", { kind: "action" })}>⬤</button>
         <button type="button" on:click={() => dispatch("select", { kind: "fork" })}>⅄</button>
         <!-- <button type="button" on:click={() => dispatch("select", { kind: "loop" })}>↻</button> -->
       {:else if kind === "trigger"}

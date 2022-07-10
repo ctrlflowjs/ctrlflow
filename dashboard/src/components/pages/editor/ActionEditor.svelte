@@ -4,7 +4,7 @@
 
 <script>
   import { onMount, createEventDispatcher } from "svelte"
-  import { getMetadata } from "./actions"
+  import actions from "./actions"
   import Expression from "./expressions/Expression.svelte"
 
   export let def
@@ -20,7 +20,7 @@
   let metadata
   onMount(async () => {
     def.inputs = def.inputs || {}
-    metadata = await getMetadata()
+    metadata = await actions.getMetadata()
   })
 
   let actionType

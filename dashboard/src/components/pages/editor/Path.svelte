@@ -2,11 +2,15 @@
   import Node from "./Node.svelte"
   import Fork from "./Fork.svelte"
   import AddStep from "./AddStep.svelte"
+  import { getContext, setContext } from "svelte"
 
   export let def
 
+  let parents = getContext("parents") || []
+  setContext("parents", [...parents, def])
+
   function addStep(kind, stepIndex) {
-    if (kind === "node") {
+    if (kind === "action") {
       def.steps.splice(stepIndex, 0, { kind })
     } else if (kind === "fork") {
       let followingSteps = def.steps.splice(stepIndex)
@@ -30,14 +34,14 @@
 </script>
 
 <div class="path">
-  <!-- {#if !def.steps.length}
+  {#if !def.steps.length}
     <div class="add-node-btn"><span>+</span></div>
-  {/if} -->
+  {/if}
 
   <AddStep on:select={(e) => addStep(e.detail.kind, 0)} kind="path" />
 
   {#each def.steps as step, stepIndex}
-    {#if step.kind === "node"}
+    {#if step.kind === "action"}
       <Node def={step} />
     {:else if step.kind === "fork"}
       <Fork def={step} />

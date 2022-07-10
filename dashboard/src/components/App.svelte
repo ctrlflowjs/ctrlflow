@@ -1,12 +1,21 @@
 <script>
+import { setContext } from "svelte";
+
 	import Nav from "./Nav.svelte"
-	import WorkflowLookup from "./pages/WorkflowLookup.svelte";
+	import Router from "./Router.svelte"
+
+	let history = {
+		pushState() {}
+	}
+
+	setContext('history', history)
+
 </script>
 
 <div class="background">
 	<Nav/>
 	<div class="main-body">
-		<WorkflowLookup/>
+		<Router />
 	</div>
 </div>
 

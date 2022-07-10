@@ -1,5 +1,11 @@
+<script>
+  import { getContext } from "svelte";
+
+  let history = getContext('history')
+</script>
+
 <nav class="nav-bar">
-  <div class="nav-banner">
+  <div class="nav-banner" on:click={() => history.pushState('/')}>
     <span class="brand-segment-lowcode">lowcode</span><span class="brand-segment-devkit">DevKit</span>
   </div>
   <div class="nav-items">
@@ -31,6 +37,7 @@
     margin-right: 160px;
     text-align: center;
     font-size: 24px;
+    cursor: pointer;
   }
 
   .brand-segment-lowcode {

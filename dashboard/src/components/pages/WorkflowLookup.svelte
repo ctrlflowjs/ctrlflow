@@ -1,20 +1,22 @@
 <script>
-  import Workflow from "./editor/Workflow.svelte"
-  import { getMetadata, getAllWorkflows } from "./editor/actions"
+  import actions from "./editor/actions"
+  import { getContext } from "svelte";
 
   let selectedWorkflow
   let metadata
   let workflows = []
 
+  let history = getContext('history')
+
   $: {
     if (!selectedWorkflow) {
-      getAllWorkflows().then(wf => workflows = wf)
+      actions.getAllWorkflows().then(wf => workflows = wf)
     }
   }
 
   $: {
     if (!metadata) {
-      getMetadata().then(m => metadata = m)
+      actions.getMetadata().then(m => metadata = m)
     }
   }
 
@@ -28,60 +30,60 @@
       }
     }
   }
+
+  function openWorkflow(workflowId) {
+    history.pushState(`/workflow/?workflow-id=${workflowId}`)
+  }
 </script>
 
-{#if selectedWorkflow}
-  <Workflow workflow={selectedWorkflow} on:close={() => selectedWorkflow = null}/>
-{:else}
-  <div class="content-area">
-    <h2 class="section-name">
-      Workflows
-      <span class="btn" on:click={createWorkflow}>
-        New +
-      </span>
-    </h2>
-    <div class="section-container">
-      <table class="section-table">
-        <tr height="60px" class="section-header">
-          <th>Title</th>
-          <th>Type</th>
-          <th>Last Modified</th>
+<div class="content-area">
+  <h2 class="section-name">
+    Workflows
+    <span class="btn" on:click={createWorkflow}>
+      New +
+    </span>
+  </h2>
+  <div class="section-container">
+    <table class="section-table">
+      <tr height="60px" class="section-header">
+        <th>Title</th>
+        <th>Type</th>
+        <th>Last Modified</th>
+      </tr>
+      {#each workflows as workflow}
+        <tr class="section-row" height="40px" on:click={() => openWorkflow(workflow.id)}>
+          <td>{workflow.title}</td>
+          <td>{workflow.type}</td>
+          <td>{workflow.lastModifiedAt}</td>
         </tr>
-        {#each workflows as workflow}
-          <tr class="section-row" height="40px" on:click={() => selectedWorkflow = workflow}>
-            <td>{workflow.title}</td>
-            <td>{workflow.type}</td>
-            <td>{workflow.lastModifiedAt}</td>
-          </tr>
-        {/each}
-      </table>
-    </div>
+      {/each}
+    </table>
+  </div>
 
-    <h2 class="section-name">
-      Components
-    </h2>
-    <div class="components-section">
-      <div class="component-col">
-        <div class="component-col-header">Events</div>
-        {#each metadata?.eventDefs || [] as event}
-          <div class="component-col-row">{event.title}</div>
-        {/each}
-      </div>
-      <div class="component-col">
-        <div class="component-col-header">Actions</div>
-        {#each metadata?.actionDefs || [] as action}
-          <div class="component-col-row">{action.title}</div>
-        {/each}
-      </div>
-      <div class="component-col">
-        <div class="component-col-header">Templates</div>
-        {#each metadata?.workflowDefs || [] as workflow}
-          <div class="component-col-row">{workflow.title}</div>
-        {/each}
-      </div>
+  <h2 class="section-name">
+    Components
+  </h2>
+  <div class="components-section">
+    <div class="component-col">
+      <div class="component-col-header">Events</div>
+      {#each metadata?.eventDefs || [] as event}
+        <div class="component-col-row">{event.title}</div>
+      {/each}
+    </div>
+    <div class="component-col">
+      <div class="component-col-header">Actions</div>
+      {#each metadata?.actionDefs || [] as action}
+        <div class="component-col-row">{action.title}</div>
+      {/each}
+    </div>
+    <div class="component-col">
+      <div class="component-col-header">Templates</div>
+      {#each metadata?.workflowDefs || [] as workflow}
+        <div class="component-col-row">{workflow.title}</div>
+      {/each}
     </div>
   </div>
-{/if}
+</div>
 
 <style>
 	.content-area {

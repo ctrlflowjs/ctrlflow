@@ -2,8 +2,8 @@ const lcdk = require("@lcdk/core")
 
 module.exports = lcdk.app({
   components: [
-    require("./components/application-created-event"),
-    require("./components/add-numbers-action"),
-    require("./components/set-lifecycle-stage-action")
+    require("./components/append-spreadsheet-action"),
+    require("./components/create-trello-card-action"),
+    require("./components/email-starred-event")
   ]
 })

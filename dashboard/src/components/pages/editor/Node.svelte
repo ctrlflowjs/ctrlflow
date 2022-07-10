@@ -1,10 +1,14 @@
 <script>
   import ActionEditor from "./ActionEditor.svelte"
+  import { getContext, setContext } from "svelte"
 
   export let def
   $: {
     displayName = def?.type
   }
+
+  let parents = getContext("parents") || []
+  setContext("parents", [...parents, def])
 
   let self
   let openEditor

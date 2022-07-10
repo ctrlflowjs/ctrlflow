@@ -1,10 +1,16 @@
 <script>
-  import { createWorkflow, updateWorkflow } from "./actions"
+  import actions from "./actions"
   import Path from "./Path.svelte"
   import Triggers from "./Triggers.svelte"
-  import { createEventDispatcher } from "svelte"
+  import { createEventDispatcher, getContext } from "svelte"
 
-  export let workflow
+  export let workflowId
+
+  let workflow
+
+  actions.getWorkflow(workflowId).then(w => workflow = w)
+
+  let history = getContext('history')
 
   const dispatch = createEventDispatcher()
 
@@ -19,37 +25,43 @@
       lastModifiedAt: (new Date()).toLocaleString(),
     }
     if (workflow.id) {
-      workflow = await updateWorkflow(workflow.id, newWorkflow)
+      workflow = await actions.updateWorkflow(workflow.id, newWorkflow)
     } else {
-      workflow = await createWorkflow(newWorkflow)
+      workflow = await actions.createWorkflow(newWorkflow)
     }
+  }
+
+  function close() {
+    history.pushState('/')
   }
 </script>
 
-<div class="workflow-editor">
-  <div class="workflow-view-panel">
-    <div class="workflow-view-container">
-      <p style="float: right;">
-        <button class="close-workflow btn" type="button" on:click={() => dispatch('close')}>Close</button>
-        <button type="button" class="action-editor-save-btn btn" on:click={saveWorkflow}>Save</button>
-      </p>
-      <input class="title-input" type="text" bind:value={workflow.title} placeholder="Title"/>
-      <div class="node-flow">
-        <div class="section-headers">Triggers</div>
-        <Triggers triggers={workflow.triggers} />
-        <div class="section-headers">Workflow</div>
-        <Path def={workflow.path}/>
+{#if workflow}
+  <div class="workflow-editor">
+    <div class="workflow-view-panel">
+      <div class="workflow-view-container">
+        <p style="float: right;">
+          <button class="close-workflow btn" type="button" on:click={close}>Close</button>
+          <button type="button" class="action-editor-save-btn btn" on:click={saveWorkflow}>Save</button>
+        </p>
+        <input class="title-input" type="text" bind:value={workflow.title} placeholder="Title"/>
+        <div class="node-flow">
+          <div class="section-headers">Triggers</div>
+          <Triggers triggers={workflow.triggers} />
+          <div class="section-headers">Workflow</div>
+          <Path def={workflow.path} />
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="json-viewer">
-  <code>
-    <div><button type="button" on:click={() => workflow = workflow}>Refresh</button></div>
-    {workflowJSON}
-  </code>
-</div>
+  <div class="json-viewer">
+    <code>
+      <div><button type="button" on:click={() => workflow = workflow}>Refresh</button></div>
+      {workflowJSON}
+    </code>
+  </div>
+{/if}
 
 <style>
   .workflow-editor {

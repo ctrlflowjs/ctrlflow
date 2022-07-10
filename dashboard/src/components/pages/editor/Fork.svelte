@@ -1,8 +1,12 @@
 <script>
   import Path from "./Path.svelte"
   import AddStep from "./AddStep.svelte"
+  import { getContext, setContext } from "svelte"
 
   export let def;
+
+  let parents = getContext("parents") || []
+  setContext("parents", [...parents, def])
 
   let forkRef;
 
