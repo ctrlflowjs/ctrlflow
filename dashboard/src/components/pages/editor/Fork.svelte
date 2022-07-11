@@ -73,13 +73,15 @@
     padding-top: 25px;
     padding-bottom: 25px;
     position: relative;
+    background-color: whitesmoke;
+    z-index: 1;
   }
 
   .fork svg {
     position: absolute;
     left: 0;
     top: 0;
-    z-index: -1;
+    z-index: 1;
     width: 10px;
     height: 10px;
     overflow: visible;

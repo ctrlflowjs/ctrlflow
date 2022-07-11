@@ -2,7 +2,7 @@
   import Node from "./Node.svelte"
   import Fork from "./Fork.svelte"
   import AddStep from "./AddStep.svelte"
-  import { getContext, setContext } from "svelte"
+  import { getContext, setContext, onDestroy } from "svelte"
 
   export let def
 
@@ -31,14 +31,29 @@
     def = def
   }
 
+  let rootEl
+  let pathDef = ''
+
+  let resizeObserver = new ResizeObserver(() => pathDef = `M 0 1 v ${rootEl?.offsetHeight -3}`);
+  $: if (rootEl) {
+    resizeObserver.observe(rootEl)
+  }
+  onDestroy(() => {
+    resizeObserver.disconnect()
+  })
+
 </script>
 
-<div class="path">
+<div class="path" bind:this={rootEl}>
   {#if !def.steps.length}
-    <div class="add-node-btn"><span>+</span></div>
+    <div
+      class="add-node-btn"
+      on:click={() => addStep('action', 0)}
+    ><span>+</span>
+    </div>
+  {:else}
+    <AddStep on:select={(e) => addStep(e.detail.kind, 0)} kind="path" />
   {/if}
-
-  <AddStep on:select={(e) => addStep(e.detail.kind, 0)} kind="path" />
 
   {#each def.steps as step, stepIndex}
     {#if step.kind === "action"}
@@ -50,7 +65,7 @@
   {/each}
 
   <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width="5" stroke-linecap="round">
-    <path fill="none" stroke="black" d="M 0 2 v 6" />
+    <path fill="none" stroke="black" d={pathDef} />
   </svg>
 </div>
 
@@ -61,10 +76,13 @@
     align-items: center;
     text-align: center;
     padding: 5px;
+    padding-top: 20px;
     border: .5px solid black;
     border-radius: 10px;
     margin: 5px;
     position: relative;
+    background-color: whitesmoke;
+    z-index: 1;
   }
 
   .svg-path {

@@ -30,8 +30,4 @@ import { setContext } from "svelte";
 		font-family: 'Roboto', sans-serif;
 		overflow-y: auto;
 	}
-
-	.main-body {
-		height: calc(100vh - 60px);
-	}
 </style>

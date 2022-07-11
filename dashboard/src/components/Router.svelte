@@ -5,6 +5,24 @@
 
   let history = getContext('history')
 
+  // const urlSlashRegex = '\\/*'
+  // function route(urlTemplate) {
+  //   let regexStr = '^' + urlSlashRegex
+  //   for (let segment of location.pathname.trim().split("/").filter(Boolean)) {
+  //     if (segment.startsWith(':')) {
+  //       regexStr += '([^\\/]+)'
+  //     } else {
+  //       regexStr += segment
+  //     }
+  //     regexStr += urlSlashRegex
+  //   }
+  // }
+
+  // route.add(
+  //   'workflow/:workflowId/actions/:actionId',
+  //   (workflowId, actionId) => [WorkflowEditor, { workflowId, actionId }]
+  // )
+
   history.pushState = function(url) {
     window.history.pushState({}, 'lowcodeDevKit', url)
     loadPage()

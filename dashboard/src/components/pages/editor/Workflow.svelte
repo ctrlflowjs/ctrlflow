@@ -12,8 +12,6 @@
 
   let history = getContext('history')
 
-  const dispatch = createEventDispatcher()
-
   let workflowJSON
   $: {
     workflowJSON = JSON.stringify(workflow || null, null, 2)
@@ -54,6 +52,7 @@
       </div>
     </div>
   </div>
+  <div id="action-editor-portal"></div>
 
   <div class="json-viewer">
     <code>
@@ -97,14 +96,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 35px;
+    padding-top: 10px;
   }
 
   .section-headers {
     font-size: 24px;
     font-weight: 300;
     text-align: left;
-    width: 500px;
+    width: 100px;
     margin: 10px;
   }
 

@@ -22,9 +22,9 @@
   on:click={openEditor}
   bind:this={self}
 >
-  <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width="5" stroke-linecap="round">
+  <!-- <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width="5" stroke-linecap="round">
     <path fill="none" stroke="black" d="M 0 -48 v 98" />
-  </svg>
+  </svg> -->
 
   <div class="node-name">{displayName}</div>
 
@@ -59,6 +59,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     border-radius: 10000px;
+    white-space: nowrap;
   }
 
   .svg-path {
