@@ -1,11 +1,9 @@
 <script>
   import ActionEditor from "./ActionEditor.svelte"
   import { getContext, setContext } from "svelte"
+  import actions from "./actions"
 
   export let def
-  $: {
-    displayName = def?.type
-  }
 
   let parents = getContext("parents") || []
   setContext("parents", [...parents, def])
@@ -15,6 +13,16 @@
 
   let displayName
 
+  let actionDefs
+  actions.getMetadata().then(m => {
+    actionDefs = m.actionDefs
+    setDisplayName(def?.type)
+  })
+
+  function setDisplayName(actionType) {
+    let actionDef = actionDefs?.find(a => a.type === actionType)
+    displayName = actionDef?.title || "?"
+  }
 </script>
 
 <div
@@ -32,7 +40,7 @@
     def={def}
     rootEl={self}
     bind:open={openEditor}
-    on:change-type={(e) => displayName = e.detail}
+    on:change-type={(e) => setDisplayName(e.detail)}
   />
 </div>
 
