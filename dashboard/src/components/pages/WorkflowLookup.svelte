@@ -69,12 +69,12 @@
         <div class="component-col-row">{action.title}</div>
       {/each}
     </div>
-    <div class="component-col">
+    <!-- <div class="component-col">
       <div class="component-col-header">Templates</div>
       {#each metadata?.workflowDefs || [] as workflow}
         <div class="component-col-row">{workflow.title}</div>
       {/each}
-    </div>
+    </div> -->
   </div>
 </div>
 
@@ -111,7 +111,7 @@
 
   .section-container {
     width: 100%;
-    min-height: 300px;
+    min-height: 30vh;
     border: 1px solid gainsboro;
     border-radius: 2px;
     background-color: rgb(250, 250, 250);
@@ -144,7 +144,7 @@
   }
 
   .component-col {
-    width: calc(100% / 3);
+    width: calc(100% / 2);
     padding: 20px;
     border: 1px solid gainsboro;
     border-radius: 2px;

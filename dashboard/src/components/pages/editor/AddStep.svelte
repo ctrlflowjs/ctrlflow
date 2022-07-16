@@ -13,13 +13,13 @@
     </div>
     <div class="add-step-btns">
       {#if kind === "path"}
-        <button type="button" on:click={() => dispatch("select", { kind: "action" })}>⬤</button>
+        <button type="button" on:click={() => dispatch("select", { kind: "action" })}>+</button>
         <button type="button" on:click={() => dispatch("select", { kind: "fork" })}>⅄</button>
         <!-- <button type="button" on:click={() => dispatch("select", { kind: "loop" })}>↻</button> -->
       {:else if kind === "trigger"}
-        <button type="button" on:click={() => dispatch("select")}>＋</button>
+        <button type="button" on:click={() => dispatch("select")}>+</button>
       {:else}
-        <button type="button" on:click={() => dispatch("select")}>ᛣ</button>
+        <button type="button" on:click={() => dispatch("select")}>⅄</button>
       {/if}
     </div>
   </div>
@@ -33,11 +33,11 @@
 
   .add-step {
     position: absolute;
-    width: 100px;
-    height: 30px;
-    top: -15px;
-    left: -45px;
-    z-index: 5
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    white-space: nowrap;
   }
 
   .add-step-btns button {
@@ -46,8 +46,10 @@
     color: white;
     border-radius: 100px;
     cursor: pointer;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    line-height: 10px;
   }
 
   .add-step:hover .placeholder {

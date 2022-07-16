@@ -34,12 +34,18 @@
 
   .add-trigger {
     position: absolute;
-    right: -45px;
-    top: calc(50% - 5px);
+    top: 50%;
+    right: 0;
+    transform: translate(50%, -50%);
+    display: none;
   }
 
   .hovering {
     border: 3px solid lightblue;
     padding: 2.5px 2.5px;
+  }
+
+  .hovering > .add-trigger {
+    display: block;
   }
 </style>

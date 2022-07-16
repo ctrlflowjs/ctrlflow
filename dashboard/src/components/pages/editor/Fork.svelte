@@ -85,6 +85,7 @@
     width: 10px;
     height: 10px;
     overflow: visible;
+    box-sizing: border-box;
   }
 
   .hovering {
@@ -101,5 +102,10 @@
 
   .hovering > .add-step {
     display: block;
+  }
+
+  .hovering > .svg-path {
+    margin-top: -2.5px;
+    margin-left: -2.5px;
   }
 </style>

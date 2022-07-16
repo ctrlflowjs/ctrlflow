@@ -29,12 +29,11 @@
     display: flex;
     align-items: center;
     color: white;
+    padding: 0 5vw;
   }
 
   .nav-banner {
     display: inline-block;
-    margin-left: 45px;
-    margin-right: 160px;
     text-align: center;
     font-size: 24px;
     cursor: pointer;
