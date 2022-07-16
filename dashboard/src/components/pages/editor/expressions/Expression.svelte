@@ -19,11 +19,16 @@
     expression = e.detail
     def.type = e.detail.type
   }
+
+  function remove() {
+    def.type = undefined
+    def.inputs = {}
+  }
 </script>
 
 <div
   bind:this={self}
-  class="expression-root"
+  class="expression-root hover-target {"" && "hovering"}"
 >
   {#if expression}
     <svelte:component this={expression.component} def={def} />
@@ -36,6 +41,12 @@
     bind:open={openSelector}
     on:selection={receiveSelection}
   />
+
+  {#if expression}
+    <div class="remove-btn">
+      <button type="button" on:click={remove}>Remove</button>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -50,5 +61,17 @@
 
   .expression-root {
     position: relative;
+  }
+
+  .remove-btn {
+    position: absolute;
+    top: 0;
+    transform: translate(-50%, -100%);
+    left: 50%;
+    display: none;
+  }
+
+  .hovering > .remove-btn {
+    display: block;
   }
 </style>

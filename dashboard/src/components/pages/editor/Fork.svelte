@@ -36,24 +36,26 @@
   function addPath() {
     def.paths.push({
       kind: "path",
-      steps: []
+      steps: [{
+        kind: "action"
+      }]
     })
     def = def
   }
 
 </script>
 
-<div class="fork" bind:this={forkRef}>
+<div class="fork hover-target {"" && "hovering"}" bind:this={forkRef}>
 
-  <div style="position: absolute; top: 15px; left: calc(50% - 5px);">
+  <div class="add-step">
     <AddStep on:select={addPath} kind="branch"/>
   </div>
 
-  {#each def.paths as path, pathIndex}
+  {#each def.paths as path}
     <Path def={path} />
   {/each}
 
-  <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width="5" stroke-linecap="round">
+  <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width="2.5" stroke-linecap="round">
     {#if forkRef}
       {#each def.paths as _, pathIndex}
         <path fill="none" stroke="black" d={getLine(pathIndex, forkRef)} />
@@ -66,18 +68,16 @@
   .fork {
     display: flex;
     flex-direction: row;
-    padding: 5px;
+    padding: 25px 5px;
     border: .5px solid black;
     border-radius: 10px;
     margin: 5px;
-    padding-top: 25px;
-    padding-bottom: 25px;
     position: relative;
-    background-color: whitesmoke;
+    background-color: #fafafa;
     z-index: 1;
   }
 
-  .fork svg {
+  .svg-path {
     position: absolute;
     left: 0;
     top: 0;
@@ -85,5 +85,21 @@
     width: 10px;
     height: 10px;
     overflow: visible;
+  }
+
+  .hovering {
+    border: 3px solid lightblue;
+    padding: 22.5px 2.5px;
+  }
+
+  .add-step {
+    position: absolute;
+    top: 15px;
+    left: calc(50% - 5px);
+    display: none;
+  }
+
+  .hovering > .add-step {
+    display: block;
   }
 </style>

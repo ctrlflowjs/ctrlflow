@@ -6,22 +6,24 @@
 
   export let def
 
-  let parents = getContext("parents") || []
+  let parents = getContext("parents")
   setContext("parents", [...parents, def])
 
   function addStep(kind, stepIndex) {
     if (kind === "action") {
-      def.steps.splice(stepIndex, 0, { kind })
+      def.steps.splice(stepIndex, 0, { kind: "action" })
     } else if (kind === "fork") {
       let followingSteps = def.steps.splice(stepIndex)
       const newStep = {
         kind,
         paths: [
           {
+            kind: "path",
             steps: followingSteps
           },
           {
-            steps: []
+            kind: "path",
+            steps: [{ kind: "action" }]
           }
         ]
       }
@@ -42,29 +44,30 @@
     resizeObserver.disconnect()
   })
 
+  function removeStep(stepIndex) {
+    def.steps.splice(stepIndex, 1)
+    def = def
+  }
+
 </script>
 
-<div class="path" bind:this={rootEl}>
-  {#if !def.steps.length}
-    <div
-      class="add-node-btn"
-      on:click={() => addStep('action', 0)}
-    ><span>+</span>
-    </div>
-  {:else}
+<div class="path hover-target {"" && "hovering"}" bind:this={rootEl}>
+  <div class="add-step">
     <AddStep on:select={(e) => addStep(e.detail.kind, 0)} kind="path" />
-  {/if}
+  </div>
 
   {#each def.steps as step, stepIndex}
     {#if step.kind === "action"}
-      <Node def={step} />
+      <Node def={step} on:remove={() => removeStep(stepIndex)}/>
     {:else if step.kind === "fork"}
       <Fork def={step} />
     {/if}
-    <AddStep on:select={(e) => addStep(e.detail.kind, stepIndex + 1)} kind="path"/>
+    <div class="add-step">
+      <AddStep on:select={(e) => addStep(e.detail.kind, stepIndex + 1)} kind="path"/>
+    </div>
   {/each}
 
-  <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width="5" stroke-linecap="round">
+  <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width="2.5" stroke-linecap="round">
     <path fill="none" stroke="black" d={pathDef} />
   </svg>
 </div>
@@ -75,14 +78,15 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 5px;
+    padding: 20px 5px;
     padding-top: 20px;
     border: .5px solid black;
     border-radius: 10px;
     margin: 5px;
     position: relative;
-    background-color: whitesmoke;
+    background-color: #fafafa;
     z-index: 1;
+    min-width: 50px;
   }
 
   .svg-path {
@@ -108,9 +112,16 @@
     cursor: pointer;
   }
 
-  .add-node-btn > span {
-    position: absolute;
-    top: -16px;
-    left: 11px;
+  .hovering {
+    border: 3px solid lightblue;
+    padding: 17.5px 2.5px;
+  }
+
+  .add-step {
+    display: none;
+  }
+
+  .hovering > .add-step {
+    display: block;
   }
 </style>

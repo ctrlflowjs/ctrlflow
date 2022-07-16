@@ -12,7 +12,7 @@
   }
 </script>
 
-<div class="trigger-set">
+<div class="trigger-set hover-target {"" && "hovering"}">
   {#each triggers as trigger}
     <Node kind="trigger" def={trigger} />
   {/each}
@@ -36,5 +36,10 @@
     position: absolute;
     right: -45px;
     top: calc(50% - 5px);
+  }
+
+  .hovering {
+    border: 3px solid lightblue;
+    padding: 2.5px 2.5px;
   }
 </style>

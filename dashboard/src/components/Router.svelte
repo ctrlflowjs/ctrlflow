@@ -5,17 +5,15 @@
 
   let history = getContext('history')
 
-  // const urlSlashRegex = '\\/*'
-  // function route(urlTemplate) {
-  //   let regexStr = '^' + urlSlashRegex
-  //   for (let segment of location.pathname.trim().split("/").filter(Boolean)) {
-  //     if (segment.startsWith(':')) {
-  //       regexStr += '([^\\/]+)'
-  //     } else {
-  //       regexStr += segment
-  //     }
-  //     regexStr += urlSlashRegex
-  //   }
+  // function routeRegex(urlTemplate) {
+  //   let pathRegex = location.pathname
+  //     .trim()
+  //     .split("/")
+  //     .filter(Boolean)
+  //     .map((segment) => segment[0] === ':' ? '([^\\/]+)' : segment)
+  //     .join('\\/*') // slash regex
+  //
+  //   return new RegExp(`^${pathRegex}$`)
   // }
 
   // route.add(
@@ -34,19 +32,20 @@
 
   onMount(() => loadPage())
 
-  function getComponentFromRoute(location) {
+  function loadPage() {
+    [component, props] = getRoutedComponent(window.location)
+  }
+
+  function getRoutedComponent(location) {
     const path = location.pathname.trim().split("/").filter(Boolean).join("/").toLowerCase()
     const queryParams = new URLSearchParams(location.search)
-    if (path === "workflow" && queryParams.get("workflow-id")) {
+
+    if (path === "workflow") {
       const workflowId = queryParams.get("workflow-id")
       return [WorkflowEditor, { workflowId }]
     }
 
     return [WorkflowLookup, {}]
-  }
-
-  function loadPage() {
-    [component, props] = getComponentFromRoute(window.location)
   }
 </script>
 

@@ -2,13 +2,31 @@
   import actions from "./actions"
   import Path from "./Path.svelte"
   import Triggers from "./Triggers.svelte"
-  import { createEventDispatcher, getContext } from "svelte"
+  import { getContext, setContext } from "svelte"
 
   export let workflowId
 
   let workflow
 
-  actions.getWorkflow(workflowId).then(w => workflow = w)
+  if (workflowId) {
+    actions.getWorkflow(workflowId).then(w => workflow = w)
+  } else {
+    workflow = {
+      kind: "workflow",
+      triggers: [{
+        kind: "trigger"
+      }],
+      path: {
+        id: 0,
+        kind: "path",
+        steps: [{
+          kind: "action"
+        }]
+      }
+    }
+  }
+
+  $: setContext("parents", [workflow])
 
   let history = getContext('history')
 
@@ -26,13 +44,27 @@
       workflow = await actions.updateWorkflow(workflow.id, newWorkflow)
     } else {
       workflow = await actions.createWorkflow(newWorkflow)
+      history.pushState(`/workflow/?workflow-id=${workflow.id}`)
     }
   }
 
   function close() {
     history.pushState('/')
   }
+
+  function setHover(e) {
+    let nearestExpr = e.target.closest(".hover-target")
+    if (nearestExpr?.matches(".hovering")) {
+      return
+    }
+    for (let el of document.querySelectorAll(".hovering")) {
+      el.classList.remove("hovering")
+    }
+    nearestExpr?.classList.add("hovering")
+  }
 </script>
+
+<svelte:window on:mouseover={setHover} />
 
 {#if workflow}
   <div class="workflow-editor">
@@ -42,7 +74,12 @@
           <button class="close-workflow btn" type="button" on:click={close}>Close</button>
           <button type="button" class="action-editor-save-btn btn" on:click={saveWorkflow}>Save</button>
         </p>
-        <input class="title-input" type="text" bind:value={workflow.title} placeholder="Title"/>
+        <input
+          class="title-input"
+          type="text"
+          bind:value={workflow.title}
+          placeholder="Title"
+        />
         <div class="node-flow">
           <div class="section-headers">Triggers</div>
           <Triggers triggers={workflow.triggers} />
@@ -54,12 +91,12 @@
   </div>
   <div id="action-editor-portal"></div>
 
-  <div class="json-viewer">
+  <!-- <div class="json-viewer">
     <code>
       <div><button type="button" on:click={() => workflow = workflow}>Refresh</button></div>
       {workflowJSON}
     </code>
-  </div>
+  </div> -->
 {/if}
 
 <style>
@@ -86,7 +123,7 @@
   .title-input {
     border: none;
     outline: none;
-		background-color: rgb(245, 245, 245);
+		background-color: #fafafa;
     font-size: 36px;
     width: 700px;
     font-weight: 300;
@@ -100,10 +137,8 @@
   }
 
   .section-headers {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 300;
-    text-align: left;
-    width: 100px;
     margin: 10px;
   }
 

@@ -8,7 +8,9 @@
 
 <div class="add-step-container">
   <div class="add-step">
-    <div class="placeholder"></div>
+    <div class="placeholder">
+      <div class="placeholder-text">...</div>
+    </div>
     <div class="add-step-btns">
       {#if kind === "path"}
         <button type="button" on:click={() => dispatch("select", { kind: "action" })}>⬤</button>
@@ -38,6 +40,16 @@
     z-index: 5
   }
 
+  .add-step-btns button {
+    background-color: black;
+    border: none;
+    color: white;
+    border-radius: 100px;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+  }
+
   .add-step:hover .placeholder {
     display: none;
   }
@@ -47,6 +59,21 @@
   }
 
   .placeholder {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
     font-weight: 700;
+    background-color: black;
+    padding: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+  }
+
+  .placeholder-text {
+    line-height: 9px;
+    text-align: center;
   }
 </style>

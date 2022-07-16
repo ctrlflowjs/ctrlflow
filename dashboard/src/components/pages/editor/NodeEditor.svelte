@@ -71,6 +71,11 @@
     }
   }
 
+  function removeNode() {
+    dispatch('remove')
+    close()
+  }
+
   $: actionInputs = Object.keys(actionType?.inputSchema.properties || {})
   $: actionInputDefs = actionInputs.map(k => ({ inputName: k, inputDef: actionType.inputSchema.properties[k] }))
 </script>
@@ -81,6 +86,7 @@
   <Portal target="#action-editor-portal">
     <div class="action-editor" bind:this={editorEl}>
       <div class="actions">
+        <button on:click={removeNode} type="button">Remove</button>
         <button bind:this={closeBtn} type="button">Close</button>
       </div>
       <!-- <div>
@@ -93,20 +99,37 @@
           </select>
         </label>
       </div> -->
-      <div>
-        <label>
-          <div class="section-header">Action</div>
-          <select bind:value={def.type}>
-            <option value={undefined}>Select</option>
-            {#if metadata}
-              {#each metadata.actionDefs as actionDef}
-                <option value={actionDef.type}>{actionDef.title}</option>
-              {/each}
-            {/if}
-          </select>
-        </label>
-      </div>
-      {#if def.type}
+      {#if def.kind === "action"}
+        <div>
+          <label>
+            <div class="section-header">Action</div>
+            <select bind:value={def.type}>
+              <option value={undefined} disabled>Select</option>
+              {#if metadata}
+                {#each metadata.actionDefs as actionDef}
+                  <option value={actionDef.type}>{actionDef.title}</option>
+                {/each}
+              {/if}
+            </select>
+          </label>
+        </div>
+      {/if}
+      {#if def.kind === "trigger"}
+        <div>
+          <label>
+            <div class="section-header">Trigger</div>
+            <select bind:value={def.type}>
+              <option value={undefined} disabled>Select</option>
+              {#if metadata}
+                {#each metadata.eventDefs as eventDef}
+                  <option value={eventDef.type}>{eventDef.title}</option>
+                {/each}
+              {/if}
+            </select>
+          </label>
+        </div>
+      {/if}
+      {#if def.type && def.kind === "action"}
         <hr />
         <div class="inputs-section">
           <div class="section-header">Inputs</div>
@@ -135,7 +158,7 @@
     position: absolute;
     left: 60px;
     transform: translateY(-50%);
-    background-color: #f5f5f5;
+    background-color: #fafafa;
     border: .5px solid black;
     min-width: 300px;
     max-width: 500px;

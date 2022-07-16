@@ -8,14 +8,14 @@
   <div class="nav-banner" on:click={() => history.pushState('/')}>
     <span class="brand-segment-lowcode">lowcode</span><span class="brand-segment-devkit">DevKit</span>
   </div>
-  <div class="nav-items">
+  <!-- <div class="nav-items">
     <div class="nav-item nav-active">
       Editor
     </div>
     <div class="nav-item">
       Activity
     </div>
-  </div>
+  </div> -->
 </nav>
 
 <style>

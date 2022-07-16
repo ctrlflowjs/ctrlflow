@@ -21,7 +21,7 @@ import { setContext } from "svelte";
 
 <style>
 	.background {
-		background-color: rgb(245, 245, 245);
+		background-color: #fafafa;
 		position: fixed;
 		left: 0;
 		right: 0;

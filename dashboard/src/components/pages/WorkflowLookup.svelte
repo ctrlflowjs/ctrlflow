@@ -21,14 +21,7 @@
   }
 
   function createWorkflow() {
-    selectedWorkflow = {
-      triggers: [],
-      path: {
-        id: 0,
-        kind: "path",
-        steps: []
-      }
-    }
+    history.pushState('/workflow/')
   }
 
   function openWorkflow(workflowId) {

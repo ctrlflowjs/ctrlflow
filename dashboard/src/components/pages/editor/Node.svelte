@@ -1,9 +1,11 @@
 <script>
-  import ActionEditor from "./ActionEditor.svelte"
+  import NodeEditor from "./NodeEditor.svelte"
   import { getContext, setContext } from "svelte"
   import actions from "./actions"
+  import { pickColor } from "./colors"
 
   export let def
+  export let kind
 
   let parents = getContext("parents") || []
   setContext("parents", [...parents, def])
@@ -13,34 +15,36 @@
 
   let displayName
 
-  let actionDefs
+  let nodeTypeDefs
   actions.getMetadata().then(m => {
-    actionDefs = m.actionDefs
+    if (kind === "trigger") {
+      nodeTypeDefs = m.eventDefs
+    } else {
+      nodeTypeDefs = m.actionDefs
+    }
     setDisplayName(def?.type)
   })
 
   function setDisplayName(actionType) {
-    let actionDef = actionDefs?.find(a => a.type === actionType)
+    let actionDef = nodeTypeDefs?.find(a => a.type === actionType)
     displayName = actionDef?.title || "?"
   }
 </script>
 
 <div
-  class="node"
+  class="node hover-target {"" && "hovering"}"
+  style="background-color: {pickColor(displayName)}"
   on:click={openEditor}
   bind:this={self}
 >
-  <!-- <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width="5" stroke-linecap="round">
-    <path fill="none" stroke="black" d="M 0 -48 v 98" />
-  </svg> -->
-
   <div class="node-name">{displayName}</div>
 
-  <ActionEditor
+  <NodeEditor
     def={def}
     rootEl={self}
     bind:open={openEditor}
     on:change-type={(e) => setDisplayName(e.detail)}
+    on:remove
   />
 </div>
 
@@ -48,26 +52,28 @@
 
   .node {
     background-color: black;
-    padding: 30px;
+    padding: 50px;
     border-radius: 1000px;
     color: white;
     margin: 15px;
     position: relative;
     cursor: pointer;
+    box-shadow: black 0px 1px 6px -3px;
+    filter: brightness(1.1)
   }
 
   .node-name {
-    background-color: white;
-    padding: 0 10px;
-    border: 1.75px solid black;
+    background-color: #f9f9f9;
+    padding: 0 7px;
     position: absolute;
     color: black;
-    font-size: 10px;
+    font-size: 14px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    border-radius: 10000px;
+    border-radius: 5px;
     white-space: nowrap;
+    box-shadow: black 0px 1px 7px -4px;
   }
 
   .svg-path {
@@ -79,4 +85,8 @@
     overflow: visible;
   }
 
+  .hovering {
+    border: 3px solid lightblue;
+    padding: 47px;
+  }
 </style>
