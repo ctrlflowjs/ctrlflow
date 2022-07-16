@@ -1,77 +1,287 @@
 {
   "eventDefs": [
     {
-      "version": "1",
-      "title": "Application Created",
-      "tags": [
-        "business"
-      ],
+      "title": "Case created",
       "inputSchema": {
-        "properties": {
-          "referenceId": {
-            "type": "string",
-            "title": "Reference Id"
-          }
-        }
+        "properties": {}
       },
       "kind": "event-type",
-      "type": "application-created"
+      "type": "case-created"
+    },
+    {
+      "title": "Case status changed",
+      "inputSchema": {
+        "properties": {}
+      },
+      "kind": "event-type",
+      "type": "case-status-changed"
+    },
+    {
+      "title": "Email received",
+      "inputSchema": {
+        "properties": {}
+      },
+      "kind": "event-type",
+      "type": "email-received"
+    },
+    {
+      "title": "Payment received",
+      "inputSchema": {
+        "properties": {}
+      },
+      "kind": "event-type",
+      "type": "payment-received"
+    },
+    {
+      "title": "Product review submitted",
+      "inputSchema": {
+        "properties": {}
+      },
+      "kind": "event-type",
+      "type": "review-submitted"
+    },
+    {
+      "title": "Tag added to case",
+      "inputSchema": {
+        "properties": {}
+      },
+      "kind": "event-type",
+      "type": "tag-added"
     }
   ],
   "actionDefs": [
     {
-      "version": "1",
-      "displayName": "Add Numbers",
-      "title": "Add Numbers",
-      "descriptions": "",
-      "docs": "",
+      "title": "Add user to mailing list",
       "inputSchema": {
-        "required": [
-          "numA",
-          "numB"
-        ],
         "properties": {
-          "numA": {
-            "type": "number",
-            "title": "Number 1"
+          "userId": {
+            "type": "string",
+            "title": "User"
           },
-          "numB": {
-            "type": "number",
-            "title": "Number 2"
+          "mailingList": {
+            "type": "string",
+            "title": "Mailing List"
           }
         }
       },
       "kind": "action-type",
-      "type": "add-numbers"
+      "type": "add-to-mailing-list"
     },
     {
-      "version": "1",
-      "displayName": "Set Lifecycle Stage",
-      "title": "Set Lifecycle Stage",
+      "title": "Set lifecycle stage",
       "inputSchema": {
-        "required": [
-          "lifecycleStage",
-          "referenceId"
-        ],
         "properties": {
+          "caseId": {
+            "type": "string",
+            "title": "Case ID"
+          },
           "lifecycleStage": {
             "type": "string",
-            "title": "Lifecycle Stage",
-            "enum": [
-              "Not Started",
-              "Quotes Sent",
-              "Policy In-Force Service",
-              "Merged"
-            ]
-          },
-          "referenceId": {
-            "type": "string",
-            "title": "Reference Id"
+            "title": "Lifecycle stage"
           }
         }
       },
       "kind": "action-type",
       "type": "set-lifecycle-stage"
+    },
+    {
+      "title": "Create to-do item",
+      "inputSchema": {
+        "properties": {
+          "itemName": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        }
+      },
+      "kind": "action-type",
+      "type": "create-action-item"
+    },
+    {
+      "title": "Create user",
+      "inputSchema": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "emailAddress": {
+            "type": "string",
+            "title": "Email address"
+          },
+          "firstName": {
+            "type": "string",
+            "title": "First name"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "Last name"
+          }
+        }
+      },
+      "kind": "action-type",
+      "type": "create-user"
+    },
+    {
+      "title": "Retrieve file",
+      "inputSchema": {
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "title": "File name"
+          }
+        }
+      },
+      "kind": "action-type",
+      "type": "get-file"
+    },
+    {
+      "title": "Save file",
+      "inputSchema": {
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "title": "File name"
+          },
+          "fileData": {
+            "type": "string",
+            "title": "File"
+          }
+        }
+      },
+      "kind": "action-type",
+      "type": "save-file"
+    },
+    {
+      "title": "Send email",
+      "inputSchema": {
+        "properties": {
+          "to": {
+            "type": "string",
+            "title": "To"
+          },
+          "subject": {
+            "type": "string",
+            "title": "Subject"
+          },
+          "body": {
+            "type": "string",
+            "title": "Body"
+          },
+          "cc": {
+            "type": "string",
+            "title": "CC"
+          }
+        }
+      },
+      "kind": "action-type",
+      "type": "send-email"
+    },
+    {
+      "title": "Send invoice",
+      "inputSchema": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "Username"
+          }
+        }
+      },
+      "kind": "action-type",
+      "type": "send-invoice"
+    },
+    {
+      "title": "Send slack message",
+      "inputSchema": {
+        "properties": {
+          "channel": {
+            "type": "string",
+            "title": "Channel"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        }
+      },
+      "kind": "action-type",
+      "type": "send-slack-message"
+    },
+    {
+      "title": "Send text message",
+      "inputSchema": {
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "title": "Phone number"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        }
+      },
+      "kind": "action-type",
+      "type": "send-text-message"
+    },
+    {
+      "title": "Set assignee",
+      "inputSchema": {
+        "properties": {
+          "caseId": {
+            "type": "string",
+            "title": "Case ID"
+          },
+          "assignee": {
+            "type": "string",
+            "title": "Assignee"
+          }
+        }
+      },
+      "kind": "action-type",
+      "type": "set-assignee"
+    },
+    {
+      "title": "Set case followup date",
+      "inputSchema": {
+        "properties": {
+          "caseId": {
+            "type": "string",
+            "title": "Case ID"
+          },
+          "followupDate": {
+            "type": "string",
+            "title": "Followup date"
+          }
+        }
+      },
+      "kind": "action-type",
+      "type": "set-case-followup-date"
+    },
+    {
+      "title": "Track analytics event",
+      "inputSchema": {
+        "properties": {
+          "caseId": {
+            "type": "string",
+            "title": "Case ID"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "details": {
+            "type": "string",
+            "title": "Details"
+          }
+        }
+      },
+      "kind": "action-type",
+      "type": "track-analytics-event"
     }
   ]
 }

@@ -40,13 +40,13 @@
     <table class="section-table">
       <tr height="60px" class="section-header">
         <th>Title</th>
-        <th>Type</th>
+        <!-- <th>Type</th> -->
         <th>Last Modified</th>
       </tr>
       {#each workflows as workflow}
         <tr class="section-row" height="40px" on:click={() => openWorkflow(workflow.id)}>
           <td>{workflow.title}</td>
-          <td>{workflow.type}</td>
+          <!-- <td>{workflow.type}</td> -->
           <td>{workflow.lastModifiedAt}</td>
         </tr>
       {/each}

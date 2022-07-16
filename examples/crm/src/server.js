@@ -1,6 +1,5 @@
 const express = require("express")
 const lcdk = require("@lcdk/core")
-
 const lowcodeApp = require('./lowcode/app')
 
 const app = express()

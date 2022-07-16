@@ -19,10 +19,11 @@ actions.getMetadata = async function() {
 
 actions.getWorkflow = async function(workflowId) {
   let workflows = getWorkflows()
-  workflows[0]
+  return workflows.find(w => w.id === workflowId)
 },
 
 actions.createWorkflow = async function(workflow) {
+  workflow.id = crypto.randomUUID()
   let workflows = getWorkflows()
   workflows.push(workflow)
   setWorkflows(workflows)
@@ -31,13 +32,15 @@ actions.createWorkflow = async function(workflow) {
 
 actions.updateWorkflow = async function(workflowId, workflow) {
   let workflows = getWorkflows()
-  // workflows.push(workflow)
+  let oldIndex = workflows.findIndex(w => w.id === workflowId)
+  workflows.splice(oldIndex, 1, workflow)
   setWorkflows(workflows)
   return workflow
 },
 
 actions.deleteWorkflows = async function(workflowId) {
   let workflows = getWorkflows()
-  // workflows.push(workflow)
+  let oldIndex = workflows.findIndex(w => w.id === workflowId)
+  workflows.splice(oldIndex, 1)
   setWorkflows(workflows)
 }

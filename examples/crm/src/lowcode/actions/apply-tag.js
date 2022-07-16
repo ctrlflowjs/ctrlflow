@@ -1,11 +1,11 @@
 let lcdk = require("@lcdk/core")
 
-module.exports = lcdk.actionType("set-case-followup-date", {
-  title: "Set case followup date",
+module.exports = lcdk.actionType("set-lifecycle-stage", {
+  title: "Apply tag",
   inputSchema: {
     properties: {
       caseId: { type: "string", title: "Case ID" },
-      followupDate: { type: "string", title: "Followup date" },
+      tagName: { type: "string", title: "Tag name" },
     }
   },
   async perform(inputs, ctx) {

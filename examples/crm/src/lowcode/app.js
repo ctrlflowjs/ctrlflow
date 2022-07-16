@@ -3,8 +3,8 @@ const lcdk = require("@lcdk/core")
 module.exports = lcdk.app({
   components: [
     // actions
-    require("./actions/add-tag"),
     require("./actions/add-to-mailing-list"),
+    require("./actions/apply-tag"),
     require("./actions/create-action-item"),
     require("./actions/create-user"),
     require("./actions/get-file"),
@@ -16,6 +16,7 @@ module.exports = lcdk.app({
     require("./actions/set-assignee"),
     require("./actions/set-case-followup-date"),
     require("./actions/set-lifecycle-stage"),
+    require("./actions/track-analytics-event"),
     // events
     require("./events/case-created-event"),
     require("./events/case-status-changed-event"),
