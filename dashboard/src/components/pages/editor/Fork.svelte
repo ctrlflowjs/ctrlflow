@@ -18,18 +18,23 @@
     }
   }
 
-  function getLine(pathIndex, forkRef) {
+  function getLine(path, pathIndex, forkRef) {
     let pathEl = forkRef.children[pathIndex + 1]
     if (!pathEl) {
       return 0
     }
 
     const containerCenterX = forkRef.offsetWidth / 2
-    const containerBottom = pathEl.offsetHeight + 30
+    const containerBottom = pathEl.offsetHeight + 28
+    let offsetLeft = pathEl.offsetLeft + (pathEl.offsetWidth / 2)
+    if (path.condition) {
+      console.log("!!!!!")
+      offsetLeft = pathEl.offsetLeft + pathEl.children[0].offsetLeft + (pathEl.children[0].offsetWidth / 2)
+    }
 
     return `
-      M ${containerCenterX} -1 L ${pathEl.offsetLeft + (pathEl.offsetWidth / 2)} 31
-      M ${containerCenterX} ${forkRef.offsetHeight + 1} L ${pathEl.offsetLeft + (pathEl.offsetWidth / 2)} ${containerBottom}
+      M ${containerCenterX} -1 L ${offsetLeft} 27
+      M ${containerCenterX} ${forkRef.offsetHeight + 1} L ${offsetLeft} ${containerBottom}
     `
   }
 
@@ -57,8 +62,8 @@
 
   <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width="2.5" stroke-linecap="round">
     {#if forkRef}
-      {#each def.paths as _, pathIndex}
-        <path fill="none" stroke="black" d={getLine(pathIndex, forkRef)} />
+      {#each def.paths as path, pathIndex}
+        <path fill="none" stroke="black" d={getLine(path, pathIndex, forkRef)} />
       {/each}
     {/if}
   </svg>
@@ -68,13 +73,12 @@
   .fork {
     display: flex;
     flex-direction: row;
-    padding: 25px 5px;
-    border: .5px solid black;
+    padding: 28px 0;
     border-radius: 10px;
-    margin: 5px;
     position: relative;
     background-color: #fafafa;
     z-index: 1;
+    transition: box-shadow .1s;
   }
 
   .svg-path {
@@ -89,8 +93,7 @@
   }
 
   .hovering {
-    border: 3px solid lightblue;
-    padding: 22.5px 2.5px;
+    box-shadow: black 0 0 6px -3px;
   }
 
   .add-step {
@@ -102,10 +105,5 @@
 
   .hovering > .add-step {
     display: block;
-  }
-
-  .hovering > .svg-path {
-    margin-top: -2.5px;
-    margin-left: -2.5px;
   }
 </style>
