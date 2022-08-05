@@ -1,8 +1,0 @@
-{
-  "name": "root",
-  "private": true,
-  "workspaces": [
-    "core",
-    "dashboard"
-  ]
-}
