@@ -19,7 +19,10 @@
       {:else if kind === "trigger"}
         <button type="button" on:click={() => dispatch("select")}>+</button>
       {:else}
-        <button type="button" on:click={() => dispatch("select")}>⅄</button>
+        <button type="button" on:click={() => dispatch("select", { kind: "conditions" })}>
+          <span class="fork-route">⇄</span>
+        </button>
+        <button type="button" on:click={() => dispatch("select", { kind: "fork" })}>⅄</button>
       {/if}
     </div>
   </div>
@@ -77,5 +80,10 @@
   .placeholder-text {
     line-height: 9px;
     text-align: center;
+  }
+
+  .fork-route {
+    transform: scale(1.1) translate(0px, -1px);
+    display: inline-block;
   }
 </style>

@@ -38,7 +38,13 @@
     }
 
     let absOriginDim = getDimensions(originEl)
-    el.setAttribute("style", `position: absolute; left: ${absOriginDim.offsetLeft}px; top: ${absOriginDim.offsetTop}px;`)
+    el.setAttribute("style", `
+      position: absolute;
+      left: ${absOriginDim.offsetLeft}px;
+      top: ${absOriginDim.offsetTop}px;
+      width: ${originEl.offsetParent.offsetWidth}px;
+      height: ${originEl.offsetParent.offsetHeight}px;
+    `)
 
     update(target);
     return {
@@ -62,8 +68,10 @@
   export let target = "body";
 </script>
 
-<div use:portal={target}>
-  <div hidden>
-    <slot />
+<div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0;">
+  <div use:portal={target}>
+    <div hidden>
+      <slot />
+    </div>
   </div>
 </div>

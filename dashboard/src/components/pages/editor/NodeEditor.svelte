@@ -156,7 +156,8 @@
 <style>
   .action-editor {
     position: absolute;
-    left: 60px;
+    left: calc(100% + 40px);
+    top: 50%;
     transform: translateY(-50%);
     background-color: #fafafa;
     border: .5px solid black;

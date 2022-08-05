@@ -1,6 +1,8 @@
 <script>
   import Path from "./Path.svelte"
   import AddStep from "./AddStep.svelte"
+  import ConditionsEditor from "./ConditionsEditor.svelte"
+  import { getLineDef } from "./svg"
   import { getContext, setContext } from "svelte"
 
   export let def;
@@ -27,33 +29,43 @@
     const containerCenterX = forkRef.offsetWidth / 2
     const containerBottom = pathEl.offsetHeight + 28
     let offsetLeft = pathEl.offsetLeft + (pathEl.offsetWidth / 2)
-    if (path.condition) {
-      console.log("!!!!!")
-      offsetLeft = pathEl.offsetLeft + pathEl.children[0].offsetLeft + (pathEl.children[0].offsetWidth / 2)
-    }
 
     return `
-      M ${containerCenterX} -1 L ${offsetLeft} 27
-      M ${containerCenterX} ${forkRef.offsetHeight + 1} L ${offsetLeft} ${containerBottom}
+      ${getLineDef(containerCenterX, -1, offsetLeft, 27)}
+      ${getLineDef(
+        containerCenterX,
+        forkRef.offsetHeight + 1,
+        offsetLeft,
+        containerBottom
+      )}
     `
   }
 
-  function addPath() {
-    def.paths.push({
-      kind: "path",
-      steps: [{
-        kind: "action"
-      }]
-    })
-    def = def
+  function handleAddStep(e) {
+    if (e.detail.kind === "fork") {
+      def.paths.push({
+        kind: "path",
+        steps: [{
+          kind: "action"
+        }]
+      })
+      def = def
+    }
+
+    if (e.detail.kind === "conditions") {
+      openEditor()
+    }
   }
+
+  let openEditor
+  let addStepEl
 
 </script>
 
 <div class="fork hover-target {"" && "hovering"}" bind:this={forkRef}>
 
-  <div class="add-step">
-    <AddStep on:select={addPath} kind="branch"/>
+  <div class="add-step" bind:this={addStepEl}>
+    <AddStep on:select={handleAddStep} kind="branch"/>
   </div>
 
   {#each def.paths as path}
@@ -63,10 +75,16 @@
   <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width="2.5" stroke-linecap="round">
     {#if forkRef}
       {#each def.paths as path, pathIndex}
-        <path fill="none" stroke="black" d={getLine(path, pathIndex, forkRef)} />
+        <path class="path-line" fill="none" stroke="black" d={getLine(path, pathIndex, forkRef)} />
       {/each}
     {/if}
   </svg>
+
+  <ConditionsEditor
+    def={def}
+    rootEl={addStepEl}
+    bind:open={openEditor}
+  />
 </div>
 
 <style>
@@ -90,6 +108,7 @@
     height: 10px;
     overflow: visible;
     box-sizing: border-box;
+    stroke-linecap: square;
   }
 
   .hovering {
@@ -99,8 +118,10 @@
   .add-step {
     position: absolute;
     top: 15px;
-    left: calc(50% - 5px);
+    left: 50%;
+    transform: translateX(-50%);
     display: none;
+    z-index: 5;
   }
 
   .hovering > .add-step {

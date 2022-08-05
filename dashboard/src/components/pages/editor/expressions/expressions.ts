@@ -27,17 +27,17 @@ export default {
         },
         {
           component: DecisionExpression,
-          title: "Decision",
+          title: "If / Else",
           type: "decision"
         },
         {
           component: ConditionExpression,
-          title: "Condition",
+          title: "Assertion",
           type: "condition"
         },
         {
           component: AndOrExpression,
-          title: "AND/OR",
+          title: "And / Or",
           type: "and-or"
         },
       ]

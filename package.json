@@ -1,0 +1,11 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "core",
+    "dashboard"
+  ],
+  "devDependencies": {
+    "lerna": "^5.3.0"
+  }
+}

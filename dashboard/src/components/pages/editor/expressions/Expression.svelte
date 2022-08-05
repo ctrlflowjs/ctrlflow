@@ -5,7 +5,7 @@
   export let def
   $: {
     if (def?.type !== expression?.type) {
-      expression = expressions.categories[0].expressions.find(x => x.type === def.type)
+      expression = expressions.categories[0].expressions.find(x => x.type === def?.type)
     }
   }
 
