@@ -1,8 +1,12 @@
 tmp
 log
 node_modules
-.parcel*/
+.parcel-*/
 dist
-bin
 obj
 /demo/
+
+node_modules/
+test-results/
+playwright-report/
+playwright/.cache/
