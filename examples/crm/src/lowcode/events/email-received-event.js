@@ -1,6 +1,6 @@
-let lcdk = require("@lcdk/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.eventType("email-received", {
+module.exports = ctrlflow.eventType("email-received", {
   title: "Email received",
   inputSchema: {
     properties: {

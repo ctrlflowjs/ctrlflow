@@ -1,6 +1,6 @@
-const lcdk = require("@lcdk/core")
+const ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.app({
+module.exports = ctrlflow.app({
   components: [
     // actions
     require("./actions/add-to-mailing-list"),

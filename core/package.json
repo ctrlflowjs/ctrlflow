@@ -1,12 +1,12 @@
 {
-  "name": "@lcdk/core",
+  "name": "@ctrlflow/core",
   "version": "0.0.2",
   "description": "",
   "author": "Max North",
   "license": "MIT",
   "main": "main.js",
   "dependencies": {
-    "@lcdk/dashboard": "workspace:0.0.2",
+    "@ctrlflow/dashboard": "workspace:0.0.2",
     "bullmq": "^1.85.3",
     "cors": "^2.8.5",
     "express": "^4.18.1",

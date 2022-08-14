@@ -1,6 +1,6 @@
-let lcdk = require("@lcdk/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.actionType("set-assignee", {
+module.exports = ctrlflow.actionType("set-assignee", {
   title: "Set assignee",
   inputSchema: {
     properties: {

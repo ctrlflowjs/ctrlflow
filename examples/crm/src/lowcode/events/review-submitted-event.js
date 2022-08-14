@@ -1,6 +1,6 @@
-let lcdk = require("@lcdk/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.eventType("review-submitted", {
+module.exports = ctrlflow.eventType("review-submitted", {
   title: "Product review submitted",
   inputSchema: {
     properties: {

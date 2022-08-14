@@ -1,0 +1,9 @@
+**/tmp/
+**/log/
+**/node_modules/
+**/.parcel-*/
+**/dist/
+**/obj/
+**/test-results/
+**/playwright-report/
+**/playwright/.cache/

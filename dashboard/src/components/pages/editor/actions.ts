@@ -3,19 +3,19 @@ const host = "http://localhost:3000"
 let metadata = null
 const actions = {
   async getMetadata() {
-    return metadata ||= await fetch(`${host}/lcdk/meta`).then(x => x.json())
+    return metadata ||= await fetch(`${host}/ctrlflow/meta`).then(x => x.json())
   },
 
   async getAllWorkflows() {
-    return await fetch(`${host}/lcdk/workflows`).then(x => x.json())
+    return await fetch(`${host}/ctrlflow/workflows`).then(x => x.json())
   },
 
   async getWorkflow(workflowId) {
-    return await fetch(`${host}/lcdk/workflows/${workflowId}`).then(x => x.json())
+    return await fetch(`${host}/ctrlflow/workflows/${workflowId}`).then(x => x.json())
   },
 
   async createWorkflow(workflow) {
-    return await fetch(`${host}/lcdk/workflows`, {
+    return await fetch(`${host}/ctrlflow/workflows`, {
       method: "POST",
       body: JSON.stringify(workflow),
       headers: {
@@ -25,7 +25,7 @@ const actions = {
   },
 
   async updateWorkflow(workflowId, workflow) {
-    return await fetch(`${host}/lcdk/workflows/${workflowId}`, {
+    return await fetch(`${host}/ctrlflow/workflows/${workflowId}`, {
       method: "PUT",
       body: JSON.stringify(workflow),
       headers: {
@@ -35,7 +35,7 @@ const actions = {
   },
 
   async deleteWorkflows(workflowId) {
-    await fetch(`${host}/lcdk/workflows/${workflowId}`, {
+    await fetch(`${host}/ctrlflow/workflows/${workflowId}`, {
       method: "DELETE",
     })
   }

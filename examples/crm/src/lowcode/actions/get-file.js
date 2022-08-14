@@ -1,6 +1,6 @@
-let lcdk = require("@lcdk/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.actionType("get-file", {
+module.exports = ctrlflow.actionType("get-file", {
   title: "Retrieve file",
   inputSchema: {
     properties: {

@@ -1,6 +1,6 @@
-let lcdk = require("@lcdk/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.actionType("send-invoice", {
+module.exports = ctrlflow.actionType("send-invoice", {
   title: "Send invoice",
   inputSchema: {
     properties: {

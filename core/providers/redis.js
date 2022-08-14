@@ -4,7 +4,7 @@ const Redis = require("ioredis");
 
 module.exports = function({ components }) {
   const redis = new Redis();
-  const _queue = new Queue('lcdk')
+  const _queue = new Queue('ctrlflow')
   const _events = {}
   const _actions = {}
 
@@ -22,37 +22,37 @@ module.exports = function({ components }) {
 
   const _workflowDefStore = {
     async set(workflowId, workflowDef) {
-      await redis.hset("lcdk:workflows", workflowId, JSON.stringify(workflowDef))
+      await redis.hset("ctrlflow:workflows", workflowId, JSON.stringify(workflowDef))
     },
     async getAll() {
-      let hash = await redis.hgetall("lcdk:workflows")
+      let hash = await redis.hgetall("ctrlflow:workflows")
       return Object.values(hash).map(x => JSON.parse(x))
     },
     async get(workflowId) {
-      return JSON.parse(await redis.hget("lcdk:workflows", workflowId))
+      return JSON.parse(await redis.hget("ctrlflow:workflows", workflowId))
     },
     async delete(workflowId) {
-      await redis.hdel("lcdk:workflows", workflowId)
+      await redis.hdel("ctrlflow:workflows", workflowId)
     }
   }
   const _workflowRunStateStore = {
     async set(runId, runState) {
-      await redis.hset("lcdk:workflow-runs", runId, JSON.stringify(runState))
+      await redis.hset("ctrlflow:workflow-runs", runId, JSON.stringify(runState))
     },
     async get(runId) {
-      return JSON.parse(await redis.hget("lcdk:workflow-runs", runId))
+      return JSON.parse(await redis.hget("ctrlflow:workflow-runs", runId))
     }
   }
   const _eventSubscriptions = {
     async add(eventName, workflowId) {
-      await redis.sadd(`lcdk:event-subs:${eventName}`, workflowId)
+      await redis.sadd(`ctrlflow:event-subs:${eventName}`, workflowId)
     },
     async getAll(eventName) {
-      return await redis.smembers(`lcdk:event-subs:${eventName}`)
+      return await redis.smembers(`ctrlflow:event-subs:${eventName}`)
     }
   }
 
-  const worker = new Worker('lcdk', async ({ name, data }) => {
+  const worker = new Worker('ctrlflow', async ({ name, data }) => {
     jobs = {
       async 'HandleEvent'({ eventName, eventInputs, eventId }) {
         // console.log('HandleEvent', { eventName, eventId, eventId })

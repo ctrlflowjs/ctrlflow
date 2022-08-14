@@ -1,6 +1,6 @@
-let lcdk = require("@lcdk/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.actionType("save-file", {
+module.exports = ctrlflow.actionType("save-file", {
   title: "Save file",
   inputSchema: {
     properties: {

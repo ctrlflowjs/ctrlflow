@@ -1,6 +1,6 @@
-let lcdk = require("@lcdk/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.actionType("send-text-message", {
+module.exports = ctrlflow.actionType("send-text-message", {
   title: "Send text message",
   inputSchema: {
     properties: {

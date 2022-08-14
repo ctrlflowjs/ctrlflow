@@ -1,6 +1,6 @@
-let lcdk = require("@lcdk/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.eventType("payment-received", {
+module.exports = ctrlflow.eventType("payment-received", {
   title: "Payment received",
   inputSchema: {
     properties: {

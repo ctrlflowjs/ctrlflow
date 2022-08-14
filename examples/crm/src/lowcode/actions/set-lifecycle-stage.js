@@ -1,6 +1,6 @@
-let lcdk = require("@lcdk/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.actionType("set-lifecycle-stage", {
+module.exports = ctrlflow.actionType("set-lifecycle-stage", {
   title: "Set lifecycle stage",
   inputSchema: {
     properties: {
