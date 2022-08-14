@@ -1,6 +1,6 @@
-let lcdk = require("@ctrlflow/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.actionType("track-analytics-event", {
+module.exports = ctrlflow.actionType("track-analytics-event", {
   title: "Track analytics event",
   inputSchema: {
     properties: {

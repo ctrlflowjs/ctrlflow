@@ -1,6 +1,6 @@
-let lcdk = require("@ctrlflow/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.eventType("tag-added", {
+module.exports = ctrlflow.eventType("tag-added", {
   title: "Tag added to case",
   inputSchema: {
     properties: {

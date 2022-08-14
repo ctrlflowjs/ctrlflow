@@ -1,6 +1,6 @@
-let lcdk = require("@ctrlflow/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.actionType("create-action-item", {
+module.exports = ctrlflow.actionType("create-action-item", {
   title: "Create to-do item",
   inputSchema: {
     properties: {

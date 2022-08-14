@@ -1,6 +1,6 @@
-let lcdk = require("@ctrlflow/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.actionType("set-case-followup-date", {
+module.exports = ctrlflow.actionType("set-case-followup-date", {
   title: "Set case followup date",
   inputSchema: {
     properties: {

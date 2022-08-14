@@ -1,6 +1,6 @@
-let lcdk = require("@ctrlflow/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.eventType("case-created", {
+module.exports = ctrlflow.eventType("case-created", {
   title: "Case created",
   inputSchema: {
     properties: {

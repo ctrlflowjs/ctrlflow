@@ -1,6 +1,6 @@
-let lcdk = require("@ctrlflow/core")
+let ctrlflow = require("@ctrlflow/core")
 
-module.exports = lcdk.actionType("create-user", {
+module.exports = ctrlflow.actionType("create-user", {
   title: "Create user",
   inputSchema: {
     properties: {

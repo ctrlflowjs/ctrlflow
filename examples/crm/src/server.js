@@ -1,11 +1,11 @@
 const express = require("express")
-const lcdk = require("@ctrlflow/core")
+const ctrlflow = require("@ctrlflow/core")
 const lowcodeApp = require('./lowcode/app')
 
 const app = express()
 const port = 3000
 
-app.use(lcdk.express({ app: lowcodeApp }))
+app.use(ctrlflow.express({ app: lowcodeApp }))
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
