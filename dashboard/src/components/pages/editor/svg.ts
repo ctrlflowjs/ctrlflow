@@ -1,4 +1,4 @@
-const defaultMode = "round"
+const defaultMode = "curved"
 export function getLineDef(startX, startY, endX, endY, mode = defaultMode) {
   if (mode === "direct") {
     return `
@@ -34,8 +34,8 @@ export function getLineDef(startX, startY, endX, endY, mode = defaultMode) {
     `
   }
 
-  if (mode === "round") {
-    let curveRadius = 14
+  if (mode === "curved") {
+    let curveRadius = 10
 
     if (Math.abs(startX - endX) < curveRadius * 2 || Math.abs(startY - endY) < curveRadius * 2) {
       return getLineDef(startX, startY, endX, endY, "direct")

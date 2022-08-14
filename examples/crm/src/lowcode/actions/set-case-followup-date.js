@@ -1,4 +1,4 @@
-let lcdk = require("@lcdk/core")
+let lcdk = require("@ctrlflow/core")
 
 module.exports = lcdk.actionType("set-case-followup-date", {
   title: "Set case followup date",

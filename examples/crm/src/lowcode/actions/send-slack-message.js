@@ -1,4 +1,4 @@
-let lcdk = require("@lcdk/core")
+let lcdk = require("@ctrlflow/core")
 
 module.exports = lcdk.actionType("send-slack-message", {
   title: "Send slack message",

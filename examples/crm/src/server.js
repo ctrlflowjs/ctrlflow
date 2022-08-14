@@ -1,5 +1,5 @@
 const express = require("express")
-const lcdk = require("@lcdk/core")
+const lcdk = require("@ctrlflow/core")
 const lowcodeApp = require('./lowcode/app')
 
 const app = express()

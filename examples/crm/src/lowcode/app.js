@@ -1,4 +1,4 @@
-const lcdk = require("@lcdk/core")
+const lcdk = require("@ctrlflow/core")
 
 module.exports = lcdk.app({
   components: [

@@ -1,4 +1,4 @@
-let lcdk = require("@lcdk/core")
+let lcdk = require("@ctrlflow/core")
 
 module.exports = lcdk.eventType("tag-added", {
   title: "Tag added to case",

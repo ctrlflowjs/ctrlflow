@@ -1,5 +1,5 @@
 let express = require("express")
-const lcdkDash = require("@lcdk/dashboard")
+const lcdkDash = require("@ctrlflow/dashboard")
 
 module.exports = function({ app }) {
   const router = express.Router()

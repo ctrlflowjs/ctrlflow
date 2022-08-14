@@ -1,4 +1,4 @@
-let lcdk = require("@lcdk/core")
+let lcdk = require("@ctrlflow/core")
 
 module.exports = lcdk.actionType("track-analytics-event", {
   title: "Track analytics event",

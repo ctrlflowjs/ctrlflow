@@ -4,13 +4,13 @@ importers:
 
   core:
     specifiers:
-      '@lcdk/dashboard': workspace:0.0.2
+      '@ctrlflow/dashboard': workspace:0.0.2
       bullmq: ^1.85.3
       cors: ^2.8.5
       express: ^4.18.1
       ioredis: ^5.2.2
     dependencies:
-      '@lcdk/dashboard': link:../dashboard
+      '@ctrlflow/dashboard': link:../dashboard
       bullmq: 1.87.0
       cors: 2.8.5
       express: 4.18.1
@@ -44,10 +44,10 @@ importers:
 
   examples/crm:
     specifiers:
-      '@lcdk/core': 0.0.2
+      '@ctrlflow/core': 0.0.2
       express: ^4.18.1
     dependencies:
-      '@lcdk/core': link:../../core
+      '@ctrlflow/core': link:../../core
       express: 4.18.1
 
 packages:

@@ -1,4 +1,4 @@
-let lcdk = require("@lcdk/core")
+let lcdk = require("@ctrlflow/core")
 
 module.exports = lcdk.actionType("send-text-message", {
   title: "Send text message",

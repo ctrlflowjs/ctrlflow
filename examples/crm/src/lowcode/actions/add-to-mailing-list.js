@@ -1,4 +1,4 @@
-let lcdk = require("@lcdk/core")
+let lcdk = require("@ctrlflow/core")
 
 module.exports = lcdk.actionType("add-to-mailing-list", {
   title: "Add user to mailing list",
