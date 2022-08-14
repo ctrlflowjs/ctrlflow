@@ -1,4 +1,3 @@
 packages:
-  - 'core'
-  - 'dashboard'
+  - 'packages/*'
   - 'examples/*'

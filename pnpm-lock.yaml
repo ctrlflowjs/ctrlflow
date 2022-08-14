@@ -2,7 +2,15 @@ lockfileVersion: 5.4
 
 importers:
 
-  core:
+  examples/crm:
+    specifiers:
+      '@ctrlflow/core': 0.0.2
+      express: ^4.18.1
+    dependencies:
+      '@ctrlflow/core': link:../../packages/core
+      express: 4.18.1
+
+  packages/core:
     specifiers:
       '@ctrlflow/dashboard': workspace:0.0.2
       bullmq: ^1.85.3
@@ -16,7 +24,7 @@ importers:
       express: 4.18.1
       ioredis: 5.2.2
 
-  dashboard:
+  packages/dashboard:
     specifiers:
       '@parcel/config-default': ^2.7.0
       '@playwright/test': ^1.25.0
@@ -41,14 +49,6 @@ importers:
       parcel-transformer-svelte: 1.2.3_@parcel+core@2.7.0
       rimraf: 3.0.2
       svelte: 3.49.0
-
-  examples/crm:
-    specifiers:
-      '@ctrlflow/core': 0.0.2
-      express: ^4.18.1
-    dependencies:
-      '@ctrlflow/core': link:../../core
-      express: 4.18.1
 
 packages:
 
