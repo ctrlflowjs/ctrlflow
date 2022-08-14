@@ -13,14 +13,10 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '14.x'
-    - name: Set dashboard project as workdir
-      run: cd dashboard
-    - name: Install dependencies
-      run: pnpm ci
-    - name: Install Playwright Browsers
-      run: pnpm exec playwright install --with-deps
-    - name: Run Playwright tests
-      run: pnpm exec playwright test
+    - name: Install pnpm
+      run: npm install -g pnpm
+    - name: Run dockerized tests
+      run: cd dashboard && pnpm docker:test
     - uses: actions/upload-artifact@v2
       if: always()
       with:

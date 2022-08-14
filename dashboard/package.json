@@ -16,7 +16,7 @@
     "demo:serve": "http-server demo/dist -p 3000 &",
     "test": "pnpm demo:build && (pnpm demo:serve &) && playwright test && pkill -f http-server",
     "docker:build": "docker build -t test -f Dockerfile.test ..",
-    "docker:test": "pnpm docker:build && docker run --rm -it test pnpm test"
+    "docker:test": "pnpm docker:build && docker run --rm -t test pnpm test"
   },
   "author": "Max North",
   "license": "MIT",
