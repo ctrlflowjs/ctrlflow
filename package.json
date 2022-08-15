@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "dashboard:watch": "cd packages/dashboard && pnpm watch",
+    "example:watch": "cd examples/crm && docker compose up -d && pnpm watch"
+  }
+}
