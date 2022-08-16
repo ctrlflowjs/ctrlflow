@@ -1,10 +1,15 @@
-const { Queue, Worker } = require('bullmq')
-const { randomUUID } = require('crypto')
-const Redis = require("ioredis");
+import { Queue, Worker } from 'bullmq'
+import { randomUUID } from 'crypto'
+import Redis from "ioredis"
 
-module.exports = function({ components }) {
+export default function({ components }) {
   const redis = new Redis();
-  const _queue = new Queue('ctrlflow')
+  const connectionOptions = {
+    connection: {
+      redisOptions: redis.options
+    }
+  };
+  const _queue = new Queue('ctrlflow', connectionOptions)
   const _events = {}
   const _actions = {}
 
@@ -53,7 +58,7 @@ module.exports = function({ components }) {
   }
 
   const worker = new Worker('ctrlflow', async ({ name, data }) => {
-    jobs = {
+    const jobs = {
       async 'HandleEvent'({ eventName, eventInputs, eventId }) {
         // console.log('HandleEvent', { eventName, eventId, eventId })
 
@@ -149,7 +154,8 @@ module.exports = function({ components }) {
 
     jobs[name](data)
   }, {
-    autorun: false
+    autorun: false,
+    ...connectionOptions
   })
 
   return {

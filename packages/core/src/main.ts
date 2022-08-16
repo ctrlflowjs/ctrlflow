@@ -1,5 +1,5 @@
-const redisProvider = require("./providers/redis")
-const expressRouter = require("./servers/express")
+import redisProvider from "./providers/redis"
+import expressRouter from "./servers/express"
 
 module.exports = {
   eventType(name, def) {

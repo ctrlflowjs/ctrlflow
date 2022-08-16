@@ -1,7 +1,7 @@
 let express = require("express")
 const ctrlflowDash = require("@ctrlflow/dashboard")
 
-module.exports = function({ app }) {
+export default function({ app }) {
   const router = express.Router()
 
   // spa routing

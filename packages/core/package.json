@@ -4,12 +4,19 @@
   "description": "",
   "author": "Max North",
   "license": "MIT",
-  "main": "main.js",
+  "main": "dist/main.js",
   "dependencies": {
     "@ctrlflow/dashboard": "workspace:0.0.2",
     "bullmq": "^1.85.3",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "ioredis": "^5.2.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
   }
 }

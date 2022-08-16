@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dashboard:watch": "cd packages/dashboard && pnpm watch",
-    "example:watch": "cd examples/crm && docker compose up -d && pnpm watch"
+    "example:redis": "cd examples/crm && docker compose up -d",
+    "watch": "pnpm example:redis && pnpm --parallel --recursive run watch"
   }
 }
