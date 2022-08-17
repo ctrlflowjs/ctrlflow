@@ -1,4 +1,4 @@
-import redisProvider from "./providers/redis"
+import app from "./app"
 import expressRouter from "./servers/express"
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
     }
   },
   app(def) {
-    return redisProvider(def)
+    return app(def)
   },
   express: expressRouter
 }

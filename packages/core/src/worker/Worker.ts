@@ -1,14 +1,23 @@
-import WorkerProvider from "../providers/WorkerProvider";
+import StepCompletedMessage from "../providers/interfaces/StepCompletedMessage";
+import StepScheduledMessage from "../providers/interfaces/StepScheduledMessage";
+import Provider from "../providers/interfaces/Provider";
 
-// generic code --------------------------------------------------------------
 export default class Worker {
-  constructor(readonly provider: WorkerProvider) {
+  constructor(readonly provider: Provider) {
+  }
+
+  async start(): Promise<void> {
+    await this.provider.startListening({
+      handleEventTriggered: this.handleEventTriggered.bind(this),
+      handleStepScheduled: this.handleStepScheduled.bind(this),
+      handleStepCompleted: this.handleStepCompleted.bind(this)
+    })
   }
 
   handleEventTriggered() {
     const workflows = []
     for (const workflow of workflows) {
-      this.provider.emitScheduleStep()
+      this.provider.emitScheduleStep({})
     }
 
     // should find subscribed workflows
@@ -16,7 +25,7 @@ export default class Worker {
     // should store the trigger event details, including the workflows created
   }
 
-  handleStepScheduled() {
+  handleStepScheduled(message: StepScheduledMessage) {
     ({
       path() {
         // TODO: how do variables fit in? anything to initialize here?
@@ -57,11 +66,11 @@ export default class Worker {
     })[""]()
   }
 
-  handleStepCompleted(result) {
-    if (result.kind === "action") {
-      // store action result (is it misguided doing this here?)
+  handleStepCompleted(message: StepCompletedMessage) {
+    // if (message.kind === "action") {
+    //   // store action result (is it misguided doing this here?)
 
-    }
+    // }
 
     ({
       path() {

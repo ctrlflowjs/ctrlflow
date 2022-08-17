@@ -2,9 +2,12 @@
   "compilerOptions": {
       "target": "es5",
       "module": "commonjs",
+      "declaration": true,
       "sourceMap": true,
       "outDir": "dist",
-      "allowJs": true
+      "allowJs": true,
+      "strict": false,
+      "moduleResolution": "node",
   },
   "watchOptions": {
     "watchFile": "useFsEvents",

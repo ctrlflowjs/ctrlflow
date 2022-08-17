@@ -1,6 +1,6 @@
 const express = require("express")
-const ctrlflow = require("@ctrlflow/core")
-const lowcodeApp = require('./lowcode/app')
+const ctrlflow = require("ctrlflowjs")
+const workflowApp = require('./lowcode/app')
 
 const app = express()
 const port = 3000
@@ -12,4 +12,4 @@ app.listen(port, () => {
 })
 
 // if you also want this app to run as a worker
-lowcodeApp.start()
+workflowApp.start()
