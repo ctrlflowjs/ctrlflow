@@ -1,11 +1,16 @@
-let express = require("express")
+import * as express from "express"
+import Application from "../Application"
 const ctrlflowDash = require("@ctrlflow/dashboard")
 
-export default function({ app }) {
+export interface ExpressServerOptions {
+  app: Application
+}
+
+export default function({ app }: ExpressServerOptions) {
   const router = express.Router()
 
   // spa routing
-  router.get('*', (req, res, next) => {
+  router.get('*', (req, _, next) => {
     if (!req.url.startsWith("/ctrlflow/") && !req.url.includes('.')) {
       req.url = "/"
     }

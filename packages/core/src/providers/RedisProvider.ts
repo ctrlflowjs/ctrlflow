@@ -1,10 +1,11 @@
-import { Processor, Queue, Worker } from "bullmq";
+import { Queue, Worker } from "bullmq";
 import Redis from "ioredis";
-import EventTriggeredMessage from "./interfaces/EventTriggeredMessage";
-import MessageHandlers from "./interfaces/MessageHandlers";
-import Provider from "./interfaces/Provider"
-import StepCompletedMessage from "./interfaces/StepCompletedMessage";
-import StepScheduledMessage from "./interfaces/StepScheduledMessage";
+import EventTriggeredMessage from "../worker/interfaces/EventTriggeredMessage";
+import MessageHandlers from "../worker/interfaces/MessageHandlers";
+import Provider from "./Provider"
+import StepCompletedMessage from "../worker/interfaces/StepCompletedMessage";
+import StepScheduledMessage from "../worker/interfaces/StepScheduledMessage";
+import Workflow from "../api/interfaces/Workflow";
 
 const EVENT_TRIGGERED_MESSAGE = "EventTriggered"
 const STEP_COMPLETED_MESSAGE = "StepCompleted"
@@ -14,7 +15,7 @@ export class RedisProvider implements Provider {
   readonly redis: Redis
   readonly queue: Queue
   readonly worker: Worker
-  private handlers: MessageHandlers
+  private handlers: MessageHandlers|null = null
 
   constructor() {
     this.redis = new Redis() // TODO accept options
@@ -59,17 +60,37 @@ export class RedisProvider implements Provider {
     await this.queue.add(STEP_COMPLETED_MESSAGE, message)
   }
 
-  private async workerProcessor({ name, data }) {
+  private async workerProcessor({ name, data }: { name: string, data: any }) {
     if (name === EVENT_TRIGGERED_MESSAGE) {
-      await this.handlers.handleEventTriggered(data as EventTriggeredMessage)
+      await this.handlers!.handleEventTriggered(data as EventTriggeredMessage)
     }
 
     if (name === STEP_SCHEDULED_MESSAGE) {
-      await this.handlers.handleStepScheduled()
+      await this.handlers!.handleStepScheduled(data as StepScheduledMessage)
     }
 
     if (name === STEP_COMPLETED_MESSAGE) {
-      await this.handlers.handleStepCompleted()
+      await this.handlers!.handleStepCompleted(data as StepCompletedMessage)
     }
+  }
+
+  getAllWorkflows(): Promise<Workflow[]> {
+    throw new Error("Method not implemented.");
+  }
+  getWorkflow(id: string): Promise<Workflow | null> {
+    throw new Error("Method not implemented.");
+  }
+  saveWorkflow(workflow: Workflow): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+  deleteWorkflow(id: string): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+
+  subscribeWorkflowToEvent(workflowId: string, eventId: string): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+  getWorkflowsSubscribedToEvent(eventId: string): Promise<string[]> {
+    throw new Error("Method not implemented.");
   }
 }
