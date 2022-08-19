@@ -18,9 +18,9 @@ export default class Application {
 
   constructor(options: ApplicationOptions, provider?: Provider) {
     provider = provider || new MemoryProvider()
-    this.worker = new Worker(provider)
-    this.client = new ApiClient(provider)
     this.registry = new Registry()
+    this.worker = new Worker(provider, this.registry)
+    this.client = new ApiClient(provider)
     for (let component of options.components) {
       if (component.kind === "action-type") {
         this.registry.addAction(component)

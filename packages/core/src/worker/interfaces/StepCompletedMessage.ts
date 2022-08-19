@@ -1,7 +1,5 @@
-export default interface StepCompletedMessage {
-  stepKind: string
-  parentStep: {
-    kind: "action"|"path"|"fork"|"workflow"
-    id: string
-  }
+import StepScheduledMessage from "./StepScheduledMessage";
+
+export default interface StepCompletedMessage extends StepScheduledMessage {
+  result: unknown
 }

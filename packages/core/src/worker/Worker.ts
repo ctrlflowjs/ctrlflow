@@ -1,18 +1,26 @@
-import Workflow from "../api/interfaces/Workflow";
 import Provider from "../providers/Provider";
+import Registry from "../registry/Registry";
+import ActionStepProvider from "./steps/ActionStepProvider";
+import ForkStepProvider from "./steps/ForkStepProvider";
+import EventTriggeredMessage from "./interfaces/EventTriggeredMessage";
 import StepCompletedMessage from "./interfaces/StepCompletedMessage";
 import StepProvider from "./interfaces/StepProvider";
 import StepScheduledMessage from "./interfaces/StepScheduledMessage";
+import PathStepProvider from "./steps/PathStepProvider";
+import WorkflowStepProvider from "./steps/WorkflowStepProvider";
 
 export default class Worker {
-  stepProviders: StepProviders
+  readonly stepProviders: StepProviders
 
-  constructor(readonly provider: Provider) {
+  constructor(
+    private readonly provider: Provider,
+    private readonly registry: Registry
+  ) {
     this.stepProviders = {
-      path: new PathProvider(this),
-      fork: new ForkProvider(this),
-      action: new ActionProvider(this),
-      workflow: new WorkflowProvider(this)
+      path: new PathStepProvider(provider),
+      fork: new ForkStepProvider(provider),
+      action: new ActionStepProvider(provider, registry),
+      workflow: new WorkflowStepProvider(provider)
     }
   }
 
@@ -24,120 +32,44 @@ export default class Worker {
     })
   }
 
-  async handleEventTriggered(): Promise<void> {
+  async stop(): Promise<void> {
+    await this.provider.stopListening()
+  }
+
+  async handleEventTriggered(message: EventTriggeredMessage): Promise<void> {
+    let workflowIds = await this.provider.getWorkflowsSubscribedToEvent(message.event.type)
     // should find subscribed workflows
     // should create ids for the instantiated workflows
     // should store the trigger event details, including the workflows created
-    const workflows: Workflow[] = []
-    for (const workflow of workflows) {
-      this.stepProviders.workflow.schedule()
+    for (const workflowId of workflowIds) {
+      this.provider.emitScheduleStep({
+        stepKind: "workflow",
+        parentStep: {
+          kind: "event",
+          id: ""
+        },
+        params: {
+          workflowId
+        }
+      })
     }
   }
 
   async handleStepScheduled(message: StepScheduledMessage): Promise<void> {
-    this.stepProviders[message.stepKind].execute(message)
+    const stepProvider: StepProvider = this.stepProviders[message.stepKind]
+    await stepProvider.startStep(message)
   }
 
   async handleStepCompleted(message: StepCompletedMessage): Promise<void> {
-    this.stepProviders[message.parentStep.kind].childCompleted(message)
+    const stepProvider: StepProvider = this.stepProviders[message.stepKind]
+    await stepProvider.childStepCompleted(message)
   }
 }
 
-class WorkflowProvider implements StepProvider {
-  constructor(private readonly worker: Worker) {}
-
-  async schedule(): Promise<void> {
-
-  }
-
-  async execute(message: StepScheduledMessage): Promise<void> {
-    // TODO: if trigger has conditions, evaluate them and skip if needed
-    // create the workflow in progress record
-    // populate initial state with trigger details
-    // TODO: if any variables to extract from the trigger, do so
-    // find the root path, and schedule it
-    const rootPath = {}
-    // this.provider.emitScheduleStep()
-  }
-
-  async childCompleted(message: StepCompletedMessage): Promise<void> {
-
-  }
-}
-
-class ActionProvider implements StepProvider {
-  constructor(private readonly worker: Worker) {}
-
-  async schedule(): Promise<void> {
-
-  }
-
-  async execute(message: StepScheduledMessage): Promise<void> {
-    // identify action to be run
-    // evaluate inputs
-    // invoke the action with them
-    // receive the output and pass it to notify step completed
-    const typeDef = {}
-    // const result = typeDef.run()
-    // this.worker.stepProviders.action.emitStepCompleted()
-  }
-
-  async childCompleted(message: StepCompletedMessage): Promise<void> {
-
-  }
-}
-
-class PathProvider implements StepProvider {
-  constructor(private readonly worker: Worker) {}
-
-  async schedule(): Promise<void> {
-
-  }
-
-  async execute(message: StepScheduledMessage): Promise<void> {
-    // TODO: how do variables fit in? anything to initialize here?
-    // update document state?
-    // most importantly, find first step and schedule it
-    const firstStep = {}
-    // this.worker.provider.emitScheduleStep()
-  }
-
-  async childCompleted(message: StepCompletedMessage): Promise<void> {
-    // identify next step, schedule it
-    // if last, emit stepCompleted
-
-  }
-}
-
-class ForkProvider implements StepProvider {
-  constructor(private readonly worker: Worker) {}
-
-  async schedule(): Promise<void> {
-
-  }
-
-  async execute(message: StepScheduledMessage): Promise<void> {
-    // get list of paths
-    // identify path selection type, single-path or multi-path
-    // if conditions provided, evaluate them
-    // select path(s) and schedule them
-    const paths: any[] = []
-    // TODO evaluate conditions
-    for (const path of paths) {
-      // this.worker.provider.emitScheduleStep()
-    }
-  }
-
-  async childCompleted(message: StepCompletedMessage): Promise<void> {
-    // emit stepCompleted
-    // any state to manage?
-
-  }
-}
 
 interface StepProviders {
-  action: ActionProvider
-  path: PathProvider
-  fork: ForkProvider
-  workflow: WorkflowProvider
+  action: ActionStepProvider
+  path: PathStepProvider
+  fork: ForkStepProvider
+  workflow: WorkflowStepProvider
 }

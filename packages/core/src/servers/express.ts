@@ -2,11 +2,11 @@ import * as express from "express"
 import Application from "../Application"
 const ctrlflowDash = require("@ctrlflow/dashboard")
 
-export interface ExpressServerOptions {
+export interface ExpressServerConfig {
   app: Application
 }
 
-export default function({ app }: ExpressServerOptions) {
+export default function({ app }: ExpressServerConfig) {
   const router = express.Router()
 
   // spa routing

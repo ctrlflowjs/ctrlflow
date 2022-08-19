@@ -4,6 +4,7 @@ import Provider from "./Provider"
 import StepCompletedMessage from "../worker/interfaces/StepCompletedMessage";
 import StepScheduledMessage from "../worker/interfaces/StepScheduledMessage";
 import Workflow from "../api/interfaces/Workflow";
+import ValueMap from "../api/interfaces/ValueMap";
 
 export class MemoryProvider implements Provider {
   private handlers: MessageHandlers|null = null
@@ -53,16 +54,36 @@ export class MemoryProvider implements Provider {
     delete this.workflows[id]
   }
 
-  async subscribeWorkflowToEvent(workflowId: string, eventId: string): Promise<void> {
-    let subscriptions = (this.eventSubscriptions[eventId] || []).concat(workflowId)
-    subscriptions = subscriptions.filter((x, i) => i === subscriptions.indexOf(x))
-    this.eventSubscriptions[eventId] = subscriptions
+  async subscribeWorkflowToEvent(workflowId: string, eventType: string): Promise<void> {
+    const subs = (this.eventSubscriptions[eventType] || []).concat(workflowId)
+    this.eventSubscriptions[eventType] = subs.filter((x, i) => i === subs.indexOf(x))
   }
 
-  async getWorkflowsSubscribedToEvent(eventId: string): Promise<string[]> {
-    return this.eventSubscriptions[eventId] || []
+  async getWorkflowsSubscribedToEvent(eventType: string): Promise<string[]> {
+    return this.eventSubscriptions[eventType] || []
+  }
+
+  async createWorkflowRun(workflowId: string, workflowRunId: string): Promise<void> {
+    this.workflowRuns[`${workflowId}|${workflowRunId}`] = {
+      workflowId,
+      workflowRunId
+    }
+  }
+
+  async getWorkflowRuns(): Promise<{ workflowId: string, workflowRunId: string }[]> {
+    return Object.values(this.workflowRuns)
+  }
+
+  async setWorkflowRunStepResult(workflowRunId: string, stepId: string, result: ValueMap): Promise<void> {
+    this.workflowRunStepResults[`${workflowRunId}:${stepId}`] = result
+  }
+
+  async getWorkflowRunStepResult(workflowRunId: string, stepId: string): Promise<ValueMap> {
+    return this.workflowRunStepResults[`${workflowRunId}:${stepId}`]
   }
 
   workflows: { [id: string]: Workflow } = {}
-  eventSubscriptions: { [eventId: string]: string[] } = {}
+  eventSubscriptions: { [eventType: string]: string[] } = {}
+  workflowRuns: { [id: string]: { workflowId: string, workflowRunId: string } } = {}
+  workflowRunStepResults: { [id: string]: ValueMap } = {}
 }

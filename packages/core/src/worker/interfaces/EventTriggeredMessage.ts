@@ -1,5 +1,9 @@
+import ValueMap from "../../api/interfaces/ValueMap"
+
 export default interface EventTriggeredMessage {
-  id: string
-  name: string
-  inputs: { [key: string]: any }
+  event: {
+    id: string
+    type: string
+    inputs: ValueMap
+  }
 }

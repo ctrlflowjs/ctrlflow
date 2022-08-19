@@ -1,16 +1,19 @@
 import Provider from "../providers/Provider";
 import { randomUUID } from 'crypto'
 import Workflow from "./interfaces/Workflow";
+import ValueMap from "./interfaces/ValueMap";
 
 export default class ApiClient {
   constructor(private readonly provider: Provider) {}
 
-  async emitEvent(eventName: string, eventInputs: { [key: string]: any }): Promise<void> {
+  async emitEvent(eventName: string, eventInputs: ValueMap): Promise<void> {
     const id = randomUUID()
     await this.provider.emitEventTriggered({
-      id,
-      name: eventName,
-      inputs: eventInputs
+      event: {
+        id,
+        type: eventName,
+        inputs: eventInputs
+      }
     })
   }
 
@@ -23,14 +26,17 @@ export default class ApiClient {
   }
 
   async createWorkflow(workflow: Workflow): Promise<Workflow> {
+    // missing validation
     workflow.id = randomUUID()
     await this.provider.saveWorkflow(workflow)
-    // let firstNode = workflowDef.nodes[0]
-    // await _eventSubscriptions.add(firstNode.type, id)
+    for (let event of workflow.triggers) {
+      await this.provider.subscribeWorkflowToEvent(workflow.id, event.type)
+    }
     return workflow
   }
 
   async updateWorkflow(id: string, workflow: Workflow): Promise<Workflow> {
+    // missing validation
     workflow.id = id
     await this.provider.saveWorkflow(workflow)
     return workflow
