@@ -1,7 +1,6 @@
-import Action from "./Action";
-import Fork from "./Fork";
-import Path from "./Path";
-
-type Step = Path | Action | Fork
+interface Step {
+  kind: "action"|"path"|"fork"|"workflow"
+  id: string
+}
 
 export default Step

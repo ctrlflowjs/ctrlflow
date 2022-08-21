@@ -10,9 +10,10 @@ export default class ApiClient {
     const id = randomUUID()
     await this.provider.emitEventTriggered({
       event: {
+        kind: "event",
         id,
         type: eventName,
-        inputs: eventInputs
+        values: eventInputs
       }
     })
   }

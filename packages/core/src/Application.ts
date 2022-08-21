@@ -5,21 +5,21 @@ import Provider from "./providers/Provider"
 import ActionType from "./registry/interfaces/ActionType"
 import EventType from "./registry/interfaces/EventType"
 import Registry from "./registry/Registry"
-import Worker from "./worker/Worker"
+import SyncWorker from "./worker/sync/SyncWorker"
 
 export interface ApplicationOptions {
   components: (EventType|ActionType)[]
 }
 
 export default class Application {
-  private readonly worker: Worker
+  private readonly worker: SyncWorker
   private readonly client: ApiClient
   private readonly registry: Registry
 
   constructor(options: ApplicationOptions, provider?: Provider) {
     provider = provider || new MemoryProvider()
     this.registry = new Registry()
-    this.worker = new Worker(provider, this.registry)
+    this.worker = new SyncWorker(provider, this.registry)
     this.client = new ApiClient(provider)
     for (let component of options.components) {
       if (component.kind === "action-type") {

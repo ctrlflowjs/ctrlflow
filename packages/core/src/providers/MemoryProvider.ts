@@ -1,7 +1,6 @@
 import EventTriggeredMessage from "../worker/interfaces/EventTriggeredMessage";
 import MessageHandlers from "../worker/interfaces/MessageHandlers";
 import Provider from "./Provider"
-import StepCompletedMessage from "../worker/interfaces/StepCompletedMessage";
 import StepScheduledMessage from "../worker/interfaces/StepScheduledMessage";
 import Workflow from "../api/interfaces/Workflow";
 import ValueMap from "../api/interfaces/ValueMap";
@@ -29,13 +28,6 @@ export class MemoryProvider implements Provider {
       throw new Error("handlers is not assigned in MemoryProvider")
     }
     await this.handlers.handleStepScheduled(message)
-  }
-
-  async emitStepCompleted(message: StepCompletedMessage): Promise<void> {
-    if (!this.handlers) {
-      throw new Error("handlers is not assigned in MemoryProvider")
-    }
-    await this.handlers.handleStepCompleted(message)
   }
 
   async getAllWorkflows(): Promise<Workflow[]> {
@@ -82,8 +74,21 @@ export class MemoryProvider implements Provider {
     return this.workflowRunStepResults[`${workflowRunId}:${stepId}`]
   }
 
+  async addFinishedForkPath(workflowRunId: string, forkId: string, pathId: string): Promise<void> {
+    const paths = this.workflowRunForkPaths[workflowRunId][forkId]
+    if (!paths.includes(pathId)) {
+      paths.push(pathId)
+    }
+    this.workflowRunForkPaths[workflowRunId][forkId] = paths
+  }
+
+  async getFinishedForkPaths(workflowRunId: string, forkId: string): Promise<string[]> {
+    return this.workflowRunForkPaths[workflowRunId][forkId] || []
+  }
+
   workflows: { [id: string]: Workflow } = {}
   eventSubscriptions: { [eventType: string]: string[] } = {}
   workflowRuns: { [id: string]: { workflowId: string, workflowRunId: string } } = {}
   workflowRunStepResults: { [id: string]: ValueMap } = {}
+  workflowRunForkPaths: { [workflowRunId: string]: { [forkId: string]: string[] } } = {}
 }

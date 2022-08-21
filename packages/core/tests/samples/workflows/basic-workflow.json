@@ -1,0 +1,30 @@
+{
+  "kind": "workflow",
+  "trigger": [
+    {
+      "kind": "trigger",
+      "inputs": {},
+      "type": "case-status-changed"
+    }
+  ],
+  "path": {
+    "kind": "path",
+    "steps": [
+      {
+        "kind": "action",
+        "inputs": {
+          "testInput": {
+            "kind": "expression",
+            "type": "number",
+            "inputs": {
+              "value": 9
+            }
+          }
+        },
+        "type": "test"
+      }
+    ]
+  },
+  "lastModifiedAt": "8/20/2022, 7:11:39 PM",
+  "id": "8a9b29dc-61cd-453b-a09e-3137ba8882a1"
+}

@@ -1,4 +1,5 @@
 export default interface Expression {
   kind: "expression"
-  type: "string"
+  type: "string",
+  inputs: { [name: string]: Expression }
 }

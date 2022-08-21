@@ -9,6 +9,9 @@
       "strict": true,
       "moduleResolution": "node",
       "strictNullChecks": true,
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+      "types": ["jest", "node"]
   },
   "watchOptions": {
     "watchFile": "useFsEvents",
