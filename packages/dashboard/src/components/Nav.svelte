@@ -1,7 +1,7 @@
-<script>
-  import { getContext } from "svelte";
+<script lang="ts">
+  import historyContext from "../components/context/history"
 
-  let history = getContext('history')
+  const history = historyContext.get()
 </script>
 
 <nav class="nav-bar">
@@ -66,7 +66,7 @@
     /* font-style: italic;
     font-variant-ligatures: common-ligatures; */
   }
-
+/*
   .nav-items {
     display: inline-block;
     font-family: 'Roboto', sans-serif;
@@ -83,5 +83,5 @@
     font-size: 22px;
     margin-right: 45px;
     font-weight: 400;
-  }
+  } */
 </style>

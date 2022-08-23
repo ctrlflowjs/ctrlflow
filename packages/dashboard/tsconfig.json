@@ -1,0 +1,17 @@
+{
+  "extends": "./node_modules/@tsconfig/svelte/tsconfig.json",
+  "include": ["./src/**/*", "tests"],
+  "compilerOptions": {
+      "target": "es6",
+      "allowJs": true,
+      "strict": true,
+      "strictNullChecks": true
+  },
+  "watchOptions": {
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents",
+    "fallbackPolling": "dynamicPriority",
+    "synchronousWatchDirectory": true,
+    "excludeDirectories": ["**/node_modules", "dist"],
+  }
+}

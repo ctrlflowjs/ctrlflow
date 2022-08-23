@@ -1,9 +1,11 @@
-<script>
+<script lang="ts">
 	import WorkflowLookup from "./pages/WorkflowLookup.svelte";
   import WorkflowEditor from "./pages/editor/Workflow.svelte";
-  import { getContext, onMount } from "svelte";
+  import historyContext from "../components/context/history"
+  import { onMount } from "svelte";
+  import type { ComponentType } from "svelte";
 
-  let history = getContext('history')
+  const history = historyContext.get()
 
   // function routeRegex(urlTemplate) {
   //   let pathRegex = location.pathname
@@ -28,15 +30,15 @@
   history.back = window.history.back
 
   let props = {}
-  let component = null
+  let component: ComponentType|null = null
 
-  onMount(() => loadPage())
+  onMount(loadPage)
 
   function loadPage() {
     [component, props] = getRoutedComponent(window.location)
   }
 
-  function getRoutedComponent(location) {
+  function getRoutedComponent(location: Location): [ComponentType, {}] {
     const path = location.pathname.trim().split("/").filter(Boolean).join("/").toLowerCase()
     const queryParams = new URLSearchParams(location.search)
 

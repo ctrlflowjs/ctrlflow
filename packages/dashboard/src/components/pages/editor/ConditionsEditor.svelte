@@ -132,9 +132,4 @@
     padding-right: 10px;
     font-weight: 700;
   }
-
-  select {
-    padding: 3px 7px;
-    border-radius: 2px;
-  }
 </style>

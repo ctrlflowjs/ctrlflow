@@ -42,11 +42,4 @@
     gap: 7px 7px;
     border-radius: 2px;
   }
-
-  .section {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 7px 7px;
-  }
 </style>

@@ -158,10 +158,10 @@
     cursor: pointer;
   }
 
-  .json-viewer {
+  /* .json-viewer {
     white-space: pre;
     background-color: white;
     color: gray;
     margin-top: 20px;
-  }
+  } */
 </style>

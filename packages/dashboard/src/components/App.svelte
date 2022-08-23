@@ -1,5 +1,5 @@
-<script>
-import { setContext } from "svelte";
+<script lang="ts">
+	import { setContext } from "svelte"
 
 	import Nav from "./Nav.svelte"
 	import Router from "./Router.svelte"

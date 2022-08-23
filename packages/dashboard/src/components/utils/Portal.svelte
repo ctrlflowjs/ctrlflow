@@ -1,12 +1,12 @@
 <!-- Taken from https://github.com/romkor/svelte-portal/blob/a650e7b762344a1bb0ad9e218660ed1ee66e3f90/src/Portal.svelte -->
-<script context="module">
+<script context="module"  lang="ts">
   import { tick } from "svelte";
 
-  export function portal(originEl, target = "body") {
-    let el = originEl.children[0]
-    let targetEl;
-    async function update(newTarget) {
-      target = newTarget;
+  export function portal(originEl: HTMLElement, target: string|HTMLElement|null = "body") {
+    let el: HTMLElement = originEl.children[0] as HTMLElement
+    let targetEl: Element|null
+    async function update(newTarget: string|HTMLElement|null) {
+      target = newTarget
       if (typeof target === "string") {
         targetEl = document.querySelector(target);
         if (targetEl === null) {
@@ -25,7 +25,7 @@
           `Unknown portal target type: ${
             target === null ? "null" : typeof target
           }. Allowed types: string (CSS selector) or HTMLElement.`
-        );
+        )
       }
       targetEl.appendChild(el);
       el.hidden = false;
@@ -38,12 +38,13 @@
     }
 
     let absOriginDim = getDimensions(originEl)
+    const offsetParent = originEl.offsetParent as HTMLElement
     el.setAttribute("style", `
       position: absolute;
       left: ${absOriginDim.offsetLeft}px;
       top: ${absOriginDim.offsetTop}px;
-      width: ${originEl.offsetParent.offsetWidth}px;
-      height: ${originEl.offsetParent.offsetHeight}px;
+      width: ${offsetParent.offsetWidth}px;
+      height: ${offsetParent.offsetHeight}px;
     `)
 
     update(target);
@@ -53,10 +54,11 @@
     };
   }
 
-  function getDimensions(el) {
+  function getDimensions(el: HTMLElement) {
     let { offsetTop, offsetLeft } = el
-    if (el.offsetParent) {
-      let parentDimensions = getDimensions(el.offsetParent)
+    const offsetParent = el.offsetParent as HTMLElement|null
+    if (offsetParent) {
+      let parentDimensions = getDimensions(offsetParent)
       offsetTop += parentDimensions.offsetTop
       offsetLeft += parentDimensions.offsetLeft
     }
@@ -64,7 +66,7 @@
   }
 </script>
 
-<script>
+<script lang="ts">
   export let target = "body";
 </script>
 
