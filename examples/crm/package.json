@@ -4,8 +4,8 @@
     "express": "^4.18.1"
   },
   "scripts": {
-    "start": "node ./src/server.js",
-    "watch": "nodemon --watch . --watch ../../packages/core/dist"
+    "start": "NODE_OPTIONS=--enable-source-maps node ./src/server.js",
+    "watch": "NODE_OPTIONS=--enable-source-maps nodemon --watch . --watch ../../packages/core/dist"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

@@ -2,6 +2,7 @@ import ApiClient from "./api/ApiClient"
 import Workflow from "./api/interfaces/Workflow"
 import { MemoryProvider } from "./providers/MemoryProvider"
 import Provider from "./providers/Provider"
+import { RedisProvider } from "./providers/RedisProvider"
 import ActionType from "./registry/interfaces/ActionType"
 import EventType from "./registry/interfaces/EventType"
 import Registry from "./registry/Registry"
@@ -17,7 +18,7 @@ export default class Application {
   private readonly registry: Registry
 
   constructor(options: ApplicationOptions, provider?: Provider) {
-    provider = provider || new MemoryProvider()
+    provider = provider || new RedisProvider()
     this.registry = new Registry()
     this.worker = new SyncWorker(provider, this.registry)
     this.client = new ApiClient(provider)

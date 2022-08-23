@@ -18,7 +18,7 @@ export default class SyncWorker {
 
   async start(): Promise<void> {
     await this.provider.startListening({
-      handleEventTriggered: this.handleEventTriggered.bind(this),
+      handleEventTriggered: this.errorSafeHandler.bind(this, this.handleEventTriggered.bind(this)),
       handleStepScheduled: () => {
         throw new Error("NOT IMPLEMENTED: SyncWorker.handleStepScheduled")
       }
@@ -31,13 +31,21 @@ export default class SyncWorker {
 
   async handleEventTriggered(message: EventTriggeredMessage) {
     let workflowIds = await this.provider.getWorkflowsSubscribedToEvent(message.event.type)
-
+    console.log("workflowIds", workflowIds)
     let workflowResults = workflowIds.map(async (workflowId: string) => {
       let workflow = await this.provider.getWorkflow(workflowId)
       await this.executeWorkflow(workflow!, message.event)
     })
 
     await Promise.all(workflowResults)
+  }
+
+  async errorSafeHandler(handler: (...args: any[]) => Promise<any>, ...args: any[]) {
+    try {
+      return await handler(...args)
+    } catch (err) {
+      console.error("Error occurred in event handler: ", err)
+    }
   }
 
   async executeWorkflow(workflow: Workflow, event: Event) {
@@ -89,7 +97,7 @@ export default class SyncWorker {
 
   async executeFork(fork: Fork, state: WorkflowRunState) {
     const pathResults: Promise<void>[] = []
-    for (let path of fork.paths) {
+    for (const path of fork.paths) {
       pathResults.push(this.executePath(path, state))
     }
     await Promise.all(pathResults)
@@ -144,7 +152,7 @@ class ExpressionEvaluator {
         "<": (firstValue: any, secondValue: any) => {
           return firstValue < secondValue
         },
-      }[exp.settings.conditionType as string]
+      }[exp.settings?.conditionType as string]
 
       if (!conditionEval) {
         throw new Error("NOT IMPLEMENTED: condition expression unrecognized type: " + exp?.settings?.conditionType)

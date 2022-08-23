@@ -1,96 +1,127 @@
-// import { Queue, Worker } from "bullmq";
-// import Redis from "ioredis";
-// import EventTriggeredMessage from "../worker/interfaces/EventTriggeredMessage";
-// import MessageHandlers from "../worker/interfaces/MessageHandlers";
-// import Provider from "./Provider"
-// import StepCompletedMessage from "../worker/interfaces/StepCompletedMessage";
-// import StepScheduledMessage from "../worker/interfaces/StepScheduledMessage";
-// import Workflow from "../api/interfaces/Workflow";
+import { Queue, Worker } from "bullmq";
+import Redis from "ioredis";
+import EventTriggeredMessage from "../worker/interfaces/EventTriggeredMessage";
+import MessageHandlers from "../worker/interfaces/MessageHandlers";
+import Provider from "./Provider"
+import StepScheduledMessage from "../worker/interfaces/StepScheduledMessage";
+import Workflow from "../api/interfaces/Workflow";
+import ValueMap from "../api/interfaces/ValueMap";
 
-// const EVENT_TRIGGERED_MESSAGE = "EventTriggered"
-// const STEP_COMPLETED_MESSAGE = "StepCompleted"
-// const STEP_SCHEDULED_MESSAGE = "StepScheduled"
+const EVENT_TRIGGERED_MESSAGE = "EventTriggered"
+const STEP_SCHEDULED_MESSAGE = "StepScheduled"
 
-// export class RedisProvider implements Provider {
-//   readonly redis: Redis
-//   readonly queue: Queue
-//   readonly worker: Worker
-//   private handlers: MessageHandlers|null = null
+const DATA_VERSION = "v0"
+const DATA_PREFIX = `${DATA_VERSION}:ctrflow`
+const WORKFLOW_STORE = `${DATA_PREFIX}:workflows`
+const WORKFLOW_RUN_STORE = `${DATA_PREFIX}:workflow-runs`
+const EVENT_SUB_STORE_PREFIX = `${DATA_PREFIX}:event-subscriptions`
 
-//   constructor() {
-//     this.redis = new Redis() // TODO accept options
-//     const connectionOptions = {
-//       connection: {
-//         redisOptions: this.redis.options
-//       }
-//     }
-//     this.queue = new Queue(
-//       'ctrlflow',
-//       connectionOptions
-//     )
-//     this.worker =  new Worker(
-//       'ctrlflow',
-//       this.workerProcessor.bind(this),
-//       {
-//         autorun: false,
-//         ...connectionOptions
-//       }
-//     )
-//   }
+export class RedisProvider implements Provider {
+  readonly redis: Redis
+  readonly queue: Queue
+  readonly worker: Worker
+  private handlers: MessageHandlers|null = null
 
-//   async startListening(handlers: MessageHandlers): Promise<void> {
-//     this.handlers = handlers
-//     await this.worker.run()
-//   }
+  constructor() {
+    this.redis = new Redis() // TODO accept options
+    const connectionOptions = {
+      connection: {
+        redisOptions: this.redis.options
+      }
+    }
+    this.queue = new Queue(
+      'ctrlflow',
+      connectionOptions
+    )
+    this.worker =  new Worker(
+      'ctrlflow',
+      this.workerProcessor.bind(this),
+      {
+        autorun: false,
+        ...connectionOptions
+      }
+    )
+  }
 
-//   async stopListening(): Promise<void> {
-//     await this.worker.close()
-//     this.handlers = null
-//   }
+  async startListening(handlers: MessageHandlers): Promise<void> {
+    this.handlers = handlers
+    await this.worker.run()
+  }
 
-//   async emitEventTriggered(message: EventTriggeredMessage): Promise<void> {
-//     await this.queue.add(EVENT_TRIGGERED_MESSAGE, message)
-//   }
+  async stopListening(): Promise<void> {
+    await this.worker.close()
+    this.handlers = null
+  }
 
-//   async emitScheduleStep(message: StepScheduledMessage): Promise<void> {
-//     await this.queue.add(STEP_SCHEDULED_MESSAGE, message)
-//   }
+  async emitEventTriggered(message: EventTriggeredMessage): Promise<void> {
+    await this.queue.add(EVENT_TRIGGERED_MESSAGE, message)
+  }
 
-//   async emitStepCompleted(message: StepCompletedMessage): Promise<void> {
-//     await this.queue.add(STEP_COMPLETED_MESSAGE, message)
-//   }
+  async emitScheduleStep(message: StepScheduledMessage): Promise<void> {
+    await this.queue.add(STEP_SCHEDULED_MESSAGE, message)
+  }
 
-//   private async workerProcessor({ name, data }: { name: string, data: any }) {
-//     if (name === EVENT_TRIGGERED_MESSAGE) {
-//       await this.handlers!.handleEventTriggered(data as EventTriggeredMessage)
-//     }
+  private async workerProcessor({ name, data }: { name: string, data: any }) {
+    if (name === EVENT_TRIGGERED_MESSAGE) {
+      await this.handlers!.handleEventTriggered(data as EventTriggeredMessage)
+    }
 
-//     if (name === STEP_SCHEDULED_MESSAGE) {
-//       await this.handlers!.handleStepScheduled(data as StepScheduledMessage)
-//     }
+    if (name === STEP_SCHEDULED_MESSAGE) {
+      await this.handlers!.handleStepScheduled(data as StepScheduledMessage)
+    }
+  }
 
-//     if (name === STEP_COMPLETED_MESSAGE) {
-//       await this.handlers!.handleStepCompleted(data as StepCompletedMessage)
-//     }
-//   }
+  async getAllWorkflows(): Promise<Workflow[]> {
+    let hash = await this.redis.hgetall(WORKFLOW_STORE)
+    return Object.values(hash).map(x => JSON.parse(x))
+  }
 
-//   getAllWorkflows(): Promise<Workflow[]> {
-//     throw new Error("Method not implemented.");
-//   }
-//   getWorkflow(id: string): Promise<Workflow | null> {
-//     throw new Error("Method not implemented.");
-//   }
-//   saveWorkflow(workflow: Workflow): Promise<void> {
-//     throw new Error("Method not implemented.");
-//   }
-//   deleteWorkflow(id: string): Promise<void> {
-//     throw new Error("Method not implemented.");
-//   }
+  async getWorkflow(id: string): Promise<Workflow | null> {
+    return JSON.parse(await this.redis.hget(WORKFLOW_STORE, id) || "null")
+  }
 
-//   subscribeWorkflowToEvent(workflowId: string, eventId: string): Promise<void> {
-//     throw new Error("Method not implemented.");
-//   }
-//   getWorkflowsSubscribedToEvent(eventId: string): Promise<string[]> {
-//     throw new Error("Method not implemented.");
-//   }
-// }
+  async saveWorkflow(workflow: Workflow): Promise<void> {
+    await this.redis.hset(WORKFLOW_STORE, workflow.id, JSON.stringify(workflow))
+  }
+
+  async deleteWorkflow(id: string): Promise<void> {
+    await this.redis.hdel(WORKFLOW_STORE, id)
+  }
+
+  async subscribeWorkflowToEvent(workflowId: string, eventName: string): Promise<void> {
+    await this.redis.sadd(`${EVENT_SUB_STORE_PREFIX}:${eventName}`, workflowId)
+  }
+
+  // TODO: add unsubscribeWorkflowFromEvent
+
+  async getWorkflowsSubscribedToEvent(eventName: string): Promise<string[]> {
+    return await this.redis.smembers(`${EVENT_SUB_STORE_PREFIX}:${eventName}`)
+  }
+
+  async createWorkflowRun(workflowId: string, workflowRunId: string): Promise<void> {
+    await this.redis.hset(WORKFLOW_RUN_STORE, workflowRunId, JSON.stringify({
+      workflowId,
+      workflowRunId
+    }))
+  }
+
+  async getWorkflowRuns(): Promise<{ workflowId: string, workflowRunId: string }[]> {
+    const entries = await this.redis.hgetall(WORKFLOW_RUN_STORE)
+    return Object.values(entries).map(v => JSON.parse(v))
+  }
+
+
+  // TODO: likely to be removed in short term or refactored
+  setWorkflowRunStepResult(workflowRunId: string, stepId: string, result: ValueMap): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+  getWorkflowRunStepResult(workflowRunId: string, stepId: string): Promise<ValueMap> {
+    throw new Error("Method not implemented.");
+  }
+  addFinishedForkPath(workflowRunId: string, forkId: string, pathId: string): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+  getFinishedForkPaths(workflowRunId: string, forkId: string): Promise<string[]> {
+    throw new Error("Method not implemented.");
+  }
+}

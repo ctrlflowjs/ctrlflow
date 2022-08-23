@@ -11,6 +11,7 @@
     "kind": "path",
     "steps": [
       {
+        "id": "0",
         "kind": "action",
         "inputs": {
           "testInput": {
@@ -22,6 +23,69 @@
           }
         },
         "type": "test"
+      },
+      {
+        "id": "1",
+        "kind": "action",
+        "inputs": {
+          "testInput": {
+            "kind": "expression",
+            "type": "action-result",
+            "inputs": {
+              "actionId": "0",
+              "outputName": "bla"
+            }
+          }
+        },
+        "type": "test"
+      },
+      {
+        "id": "2",
+        "kind": "fork",
+        "paths": [
+          {
+            "id": "a1",
+            "kind": "path",
+            "steps": [
+              {
+                "id": "3",
+                "kind": "action",
+                "type": "test",
+                "inputs": {
+                  "testInput": {
+                    "kind": "expression",
+                    "type": "action-result",
+                    "inputs": {
+                      "actionId": "0",
+                      "outputName": "bla"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "id": "a2",
+            "kind": "path",
+            "steps": [
+              {
+                "id": "4",
+                "kind": "action",
+                "type": "test",
+                "inputs": {
+                  "testInput": {
+                    "kind": "expression",
+                    "type": "action-result",
+                    "inputs": {
+                      "actionId": "0",
+                      "outputName": "bla"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
       }
     ]
   },

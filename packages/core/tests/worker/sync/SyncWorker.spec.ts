@@ -16,15 +16,16 @@ registry.addAction({
     }
   },
   async perform(inputs) {
-    console.log("!!!!", inputs)
-    return {}
+    return {
+      bla: "hello world!!!!w"
+    }
   }
 })
 
 describe("something", () => {
-  it("does something", () => {
+  it("does something", async () => {
     const worker = new SyncWorker(new MemoryProvider(), registry)
-    worker.executeWorkflow(basicWorkflow as unknown as Workflow, {} as Event)
+    await worker.executeWorkflow(basicWorkflow as unknown as Workflow, {} as Event)
   })
 })
 
@@ -32,3 +33,8 @@ describe("something", () => {
 // TESTS TO WRITE
 // - action does not exist in registry
 //
+
+
+// workflow format validation
+// - fork paths have kind path
+// - overall schema validation

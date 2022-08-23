@@ -11,6 +11,7 @@ module.exports = ctrlflow.actionType("create-user", {
     }
   },
   async perform(inputs, ctx) {
+    console.log("CREATE USER", inputs)
     return {}
   }
 })
