@@ -11,5 +11,5 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
-// if you also want this app to run as a worker
+// start the execution runtime worker
 ctrlflowApp.start()
