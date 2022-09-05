@@ -2,7 +2,7 @@
   <img width="245" height="70" src="./docs/Logo.PNG">
 </p>
 
-ctrlflow is an **app development framework** for no-code process automation that reimagines the modern no-code platform. It empowers engineers to develop and support no-code experiences tailored to your organization, without compromising the processes and tooling they rely on as professionals. It aims to ease no-code adoption for orgs small and large, while providing a natural path to full-code as solutions mature.
+ctrlflow is an **app development framework** for no-code process automation that takes a different approach than typical SaaS no-code platforms. It empowers engineers to develop and support no-code experiences tailored to your organization, without compromising on process or tooling. It aims to ease no-code adoption for orgs small and large, while providing a natural path to full-code as solutions mature.
 
 ## Early Development
 
