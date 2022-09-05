@@ -1,4 +1,4 @@
-<p align="center">
+<p align="left">
   <img width="350" height="100" src="./docs/Logo.PNG">
 </p>
 
