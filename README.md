@@ -14,7 +14,7 @@ ctrlflow can be added to any node application as an npm package.
 npm install @ctrlflow/core
 ```
 
-Describe actions in code, using a mix of configuration metadata and an implementation in code for what the action does when invoked.
+Describe actions and events in code, using a mix of configuration metadata and an implementation in code for what the action does when invoked.
 
 ```
 let ctrlflow = require("@ctrlflow/core")
@@ -30,7 +30,7 @@ module.exports = ctrlflow.actionType("create-user", {
     }
   },
   async perform(inputs, ctx) {
-    return userService.CreateUser({
+    return await userService.CreateUser({
       username: inputs.username,
       emailAddress: inputs.emailAddress,
       firstname: inputs.firstName,
@@ -48,6 +48,8 @@ const ctrlflow = require("@ctrlflow/core")
 
 module.exports = ctrlflow.app({...})
 ```
+
+Finally, setup the dashboard server by applying a built-in express middleware, then start the runtime worker.
 
 ```
 const express = require("express")
@@ -68,22 +70,6 @@ app.listen(port, () => {
 ctrlflowApp.start()
 ```
 
-Out of the box, it provides a workflow editor UI and a workflow execution runtime. Developers simply describe components like actions and events in code that they want to make available to users, and ctrlflow automatically populates them in the UI. Components can also be added from third party packages.
-
-The workflow editor comes in two forms:
-
-1) An admin-style dashboard, where users can author and search for automation definitions, or review executions of these instances. This is an experience similar to what most SaaS no-code platforms provide.
-2) The automation workflow editor also ~~is~~ will be available as a standalone UI component that can be embedded into any web application. This will let you deliver the ability for users to describe automated processes within a specific context, with the option to limit the actions and events that are available to use in that context. This component also integrates automatically with the backend execution runtime.
-
-The framework requires a message scheduling provider and persistent storage. At the moment the only supported provider is Redis, though others may be supported later.
-
-1) npm install
-2) create app instance
-  - adding actions (later)
-  - configuring a provider (later)
-3) plug app into express server
-4) start worker
-
 ## License
 
-ctrlflow is free and open source software with an MIT license at its core. A subscription based pro version will also be made available under a different license, featuring a support plan and features that may be worthwhile for some businesses. The approach is influenced by projects like Sidekiq. It may include value-adds like pre-fabricated third party integrations and advanced administrative controls, but nothing essential will be reserved for the paid version. As great as it would be if all features of ctrlflow could be free of charge, it would benefit the project and its users even more if the maintainer can work on it outside of nights and weekends.
+ctrlflow is free and open source software with an MIT license at its core. A subscription based pro version will also be made available under a separate license, featuring a support plan and features that may be worthwhile for some businesses. The approach is influenced by projects like Sidekiq. It may include value-adds like pre-fabricated third party integrations and advanced administrative controls, but nothing essential will be reserved for the paid version. As great as it would be if all features of ctrlflow could be free of charge, it would benefit the project and its users even more if the maintainer can work on it outside of nights and weekends.
