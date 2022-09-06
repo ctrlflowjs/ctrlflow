@@ -2,13 +2,13 @@
   <img width="245" height="70" src="./docs/Logo.PNG">
 </p>
 
-ctrlflow is an **app development framework** for no-code process automation that reimagines the standard model of no-code platforms. It empowers engineers to easily develop and support no-code experiences custom-tailored to your organization, without compromising on process or tooling. It aims to ease no-code adoption for orgs small and large, while making it easy to move complexity into full-code as solutions mature.
+ctrlflow is an **app development framework** for no-code process automation that reimagines the standard model of no-code platforms. It allows developers to easily create and support no-code experiences custom-tailored to your organization, without compromising on best practice processes and tooling. It aims to ease no-code adoption for orgs small and large, while making it easy to move complexity into full-code as solutions mature.
 
-The project is v0 and still in early development. During v0 each release is expected to run (please give it a try and let us know what you think!) just be warned that there will be bugs, and preserving backwards compatibility is not yet a priority.
+The project is v0 and still in early development. During v0 each release is expected to run (please give it a try and share feedback!) just be warned that there will be bugs, and preserving backwards compatibility is not yet a priority.
 
 ## Getting Started
 
-ctrlflow can be added to any existing or new node application as an npm package.
+ctrlflow can be added to any node application as an npm package.
 
 ```
 npm install @ctrlflow/core
@@ -58,3 +58,5 @@ The framework requires a message scheduling provider and persistent storage. At 
 4) start worker
 
 ## License
+
+ctrlflow is free and open source software with an MIT license at its core. A subscription based pro version will also be made available under a different license, featuring a support plan and features that may be worth having out of the box for some businesses. The approach is influenced by projects like Sidekiq. This may include featurs like pre-fabricated third party integrations and advanced governance controls. Nothing essential will be reserved for the paid version. As great as it would be to provide all features of ctrlflow free of charge, it would be even greater for the maintainer to be able to work on supporting it full time.
