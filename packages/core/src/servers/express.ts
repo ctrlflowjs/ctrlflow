@@ -1,6 +1,6 @@
 import * as express from "express"
 import Application from "../Application"
-const ctrlflowDash = require("@ctrlflow/dashboard")
+const ctrlflowDash = require("@ctrlflow/ui")
 
 export interface ExpressServerConfig {
   app: Application

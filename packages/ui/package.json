@@ -1,5 +1,5 @@
 {
-  "name": "@ctrlflow/dashboard",
+  "name": "@ctrlflow/ui",
   "version": "0.0.2",
   "main": "module.js",
   "targets": {

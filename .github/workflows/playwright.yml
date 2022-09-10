@@ -16,7 +16,7 @@ jobs:
     - name: Install pnpm
       run: npm install -g pnpm
     - name: Run dockerized tests
-      run: cd dashboard && pnpm docker:test
+      run: cd ui && pnpm docker:test
     - uses: actions/upload-artifact@v2
       if: always()
       with:
