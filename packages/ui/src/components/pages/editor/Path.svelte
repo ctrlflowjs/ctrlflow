@@ -85,7 +85,7 @@
     padding-top: 20px;
     border-radius: 10px;
     position: relative;
-    background-color: #fafafa;
+    background-color: white;
     z-index: 1;
     min-width: 50px;
     transition: box-shadow .1s;

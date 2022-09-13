@@ -1,15 +1,15 @@
 {
   "name": "@ctrlflow/ui",
   "version": "0.0.2",
-  "main": "module.js",
+  "main": "dist/main.js",
   "targets": {
     "main": false
   },
   "scripts": {
     "clean": "rimraf dist/*",
     "dev": "parcel ./src/index.html",
-    "build": "npm run clean && parcel build ./src/index.html",
-    "watch": "npm run clean && parcel watch ./src/index.html",
+    "build": "npm run clean && parcel build ./src/main.ts",
+    "watch": "npm run clean && parcel watch ./src/main.ts",
     "demo:clean": "rimraf demo/dist/*",
     "demo:build": "npm run demo:clean && parcel build ./demo/src/index.html --dist-dir demo/dist",
     "demo:watch": "npm run demo:clean && parcel watch ./demo/src/index.html --dist-dir demo/dist",

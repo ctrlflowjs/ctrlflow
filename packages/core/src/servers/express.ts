@@ -3,21 +3,28 @@ import Application from "../Application"
 const ctrlflowDash = require("@ctrlflow/ui")
 
 export interface ExpressServerConfig {
-  app: Application
+  app: Application,
+  dashboard: boolean
 }
 
-export default function({ app }: ExpressServerConfig) {
+export default function({ app, dashboard }: ExpressServerConfig) {
+  if (dashboard === undefined) {
+    dashboard = true
+  }
+
   const router = express.Router()
 
-  // spa routing
-  router.get('*', (req, _, next) => {
-    if (!req.url.startsWith("/ctrlflow/") && !req.url.includes('.')) {
-      req.url = "/"
-    }
-    next()
-  })
+  if (dashboard) {
+    // spa routing
+    router.get('*', (req, _, next) => {
+      if (!req.url.startsWith("/ctrlflow/") && !req.url.includes('.')) {
+        req.url = "/"
+      }
+      next()
+    })
 
-  router.use(express.static(ctrlflowDash.distDir()))
+    router.use(express.static(ctrlflowDash.distDir()))
+  }
 
   router.use(express.json())
 

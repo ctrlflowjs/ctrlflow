@@ -159,7 +159,7 @@
     left: calc(100% + 40px);
     top: 50%;
     transform: translateY(-50%);
-    background-color: #fafafa;
+    background-color: white;
     border: .5px solid black;
     min-width: 300px;
     max-width: 500px;

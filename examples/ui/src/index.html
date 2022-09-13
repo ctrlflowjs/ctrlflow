@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="./index.js" type="module"></script>
+    <script>
+      let opened = false;
+      function toggleOpen() {
+        opened = !opened
+        if (opened) {
+          document.querySelector("#panel").classList.add("open")
+        } else {
+          document.querySelector("#panel").classList.remove("open")
+        }
+      }
+    </script>
+    <style>
+      #panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 330px;
+        visibility: hidden;
+        border-left: 2px solid black;
+        overflow: scroll;
+      }
+
+      #panel.open {
+        visibility: visible;
+      }
+    </style>
+  </head>
+  <body>
+    <button type="button" onclick="toggleOpen()">Add Automation</button>
+    <div id="panel">
+      <ctrlflow-editor></ctrlflow-editor>
+    </div>
+  </body>
+</html>

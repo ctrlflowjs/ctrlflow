@@ -61,7 +61,7 @@
     top: calc(100% + 10px);
     left: calc(50%);
     transform: translateX(-50%);
-    background-color: #fafafa;
+    background-color: white;
     border: .5px solid black;
     min-width: 400px;
     z-index: 15;

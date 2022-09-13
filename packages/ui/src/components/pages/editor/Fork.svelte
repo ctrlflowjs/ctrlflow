@@ -94,7 +94,7 @@
     padding: 28px 0;
     border-radius: 10px;
     position: relative;
-    background-color: #fafafa;
+    background-color: white;
     z-index: 1;
     transition: box-shadow .1s;
   }

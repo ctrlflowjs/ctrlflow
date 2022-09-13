@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="./main.ts" type="module"></script>
   </head>
   <body>
     <div id="app"></div>
+    <script type="module">
+      import App from './main.ts';
+      import 'modern-css-reset';
+
+      new App({
+        target: document.querySelector("#app")
+      });
+    </script>
   </body>
 </html>

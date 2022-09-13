@@ -44,12 +44,12 @@
       workflow = await actions.updateWorkflow(workflow.id, newWorkflow)
     } else {
       workflow = await actions.createWorkflow(newWorkflow)
-      history.pushState(`/workflow/?workflow-id=${workflow.id}`)
+      history?.pushState(`/workflow/?workflow-id=${workflow.id}`)
     }
   }
 
   function close() {
-    history.pushState('/')
+    history?.pushState('/')
   }
 
   function setHover(e) {
@@ -123,7 +123,7 @@
   .title-input {
     border: none;
     outline: none;
-		background-color: #fafafa;
+    background-color: white;
     font-size: 36px;
     width: 700px;
     font-weight: 300;

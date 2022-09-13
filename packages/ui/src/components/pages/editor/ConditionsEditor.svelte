@@ -88,7 +88,7 @@
     left: 50%;
     transform: translateX(-50%);
     bottom: calc(100% + 30px);
-    background-color: #fafafa;
+    background-color: white;
     border: .5px solid black;
     min-width: 300px;
     max-width: 700px;
