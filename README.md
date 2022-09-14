@@ -10,7 +10,7 @@ The project is v0 and still in early development. v0 releases are always expecte
 
 Adding ctrlflow to your app is designed to be as easy as possible:
 
-1) Install it: `npm install @ctrlflow/core`
+1) Install it in your backend `npm install @ctrlflow/core`
 2) Define your app with modules and a storage provider
 3) Start the app runtime and plug in the UI server
 
