@@ -2,7 +2,7 @@
   <img width="245" height="70" src="./docs/assets/Logo.PNG">
 </p>
 
-ctrlflow is a JS framework for turning web applications into **home grown no-code process automation platforms**. It provides a no-code workflow builder UI for business users, backed by an execution engine that runs inside your app. Easily make no-code modules available to your users, each of them backed by code you write as easily as an express handler, or pull from the open source community. Decide for yourself what your users can and should be able to do in no-code, unlike traditional platforms that give
+ctrlflow is a JS framework for turning your web application into a **home grown no-code process automation platform**. It provides a no-code workflow builder UI for business users, backed by an execution engine that runs inside your app. Easily make no-code modules available to your users, each of them backed by code you write as easily as an express handler, or pull from the open source community. Decide for yourself what your users can and should be able to do in no-code, unlike traditional platforms that give
 
 The project is v0 and still in early development. v0 releases are always expected to run (please give it a try and share feedback!) just be warned that there will be bugs, and preserving backwards compatibility is not yet a priority.
 
