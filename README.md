@@ -10,11 +10,11 @@ The project is v0 and still in early development. v0 releases are expected to ru
 
 ## Demo
 
-You can check out the no-code dashboard UI at [demo.ctrlflowjs.com](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/ctrlflow/app.js). This demonstrates an app with a few generic actions, but your app could contain only what's relevant to your business. This sample app's code is [available here](https://github.com/ctrlflowjs/ctrlflow/tree/main/examples/crm).
+You can check out the no-code dashboard UI at [demo.ctrlflowjs.com](https://demo.ctrlflowjs.com/). This demonstrates an app with a few generic actions, but your app could contain only what's relevant to your business. This sample app's code is [available here](https://github.com/ctrlflowjs/ctrlflow/tree/main/examples/crm).
 
 ## Getting Started
 
-Adding ctrlflow to your app is designed to be as easy as possible:
+Adding ctrlflow to your app is straight forward:
 
 1) Install it server-side `npm install @ctrlflow/core`
 2) Define your app with modules and a storage provider ([example](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/ctrlflow/app.js))
