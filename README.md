@@ -10,7 +10,7 @@ The project is v0 and still in early development. v0 releases are expected to ru
 
 ## Demo
 
-You can check out the no-code dashboard UI at [demo.ctrlflowjs.com](https://demo.ctrlflowjs.com/). This demonstrates an app with a few generic actions, but your app could contain only what's relevant to your business. This sample app's code is [available here](https://github.com/ctrlflowjs/ctrlflow/tree/main/examples/crm).
+You can check out the no-code dashboard UI at [demo.ctrlflowjs.com](https://demo.ctrlflowjs.com/). This demonstrates an app with a few generic actions, but your app could contain only what's relevant to your business. You can check out [the demo app's code here](https://github.com/ctrlflowjs/ctrlflow/tree/main/examples/crm) to see how it [adds no-code actions and events](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/ctrlflow/app.js), and how it [connects the UI and starts the runtime](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/server.js).
 
 ## Getting Started
 
