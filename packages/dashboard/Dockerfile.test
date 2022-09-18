@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/playwright:v1.25.0-focal
 
-RUN npm install -g pnpm
+RUN npm install -g pnpm@6.34.0
 
 WORKDIR /app
 
