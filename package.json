@@ -1,6 +1,8 @@
 {
   "scripts": {
     "example:redis": "cd examples/crm && docker compose up -d",
-    "watch": "pnpm example:redis && pnpm --parallel --recursive run watch"
+    "watch": "pnpm example:redis && pnpm --parallel --recursive run watch",
+    "build": "pnpm -r install && pnpm -r run build",
+    "publish": "pnpm build && pnpm -r publish"
   }
 }

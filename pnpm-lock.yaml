@@ -7,18 +7,18 @@ importers:
 
   examples/crm:
     specifiers:
-      '@ctrlflow/core': 0.0.2
+      '@ctrlflow/core': 0.0.4
       express: ^4.18.1
       nodemon: ^2.0.19
     dependencies:
       '@ctrlflow/core': link:../../packages/core
       express: 4.18.1
     devDependencies:
-      nodemon: 2.0.19
+      nodemon: 2.0.20
 
   packages/core:
     specifiers:
-      '@ctrlflow/dashboard': workspace:0.0.2
+      '@ctrlflow/dashboard': workspace:0.0.4
       '@types/express': ^4.17.13
       '@types/jest': ^28.1.7
       '@types/node': ^18.7.1
@@ -56,7 +56,6 @@ importers:
       jest: ^28.1.3
       modern-css-reset: ^1.4.0
       parcel: ^2.7.0
-      parcel-transformer-svelte: ^1.2.3
       rimraf: ^3.0.2
       svelte: ^3.48.0
       svelte-check: ^2.8.1
@@ -74,7 +73,6 @@ importers:
       jest: 28.1.3_@types+node@18.7.1
       modern-css-reset: 1.4.0
       parcel: 2.7.0
-      parcel-transformer-svelte: 1.2.3_@parcel+core@2.7.0
       rimraf: 3.0.2
       svelte: 3.49.0
       svelte-check: 2.8.1_m4xbfui3wfjvslcpzvae6b7sty
@@ -1517,6 +1515,18 @@ packages:
       - '@parcel/core'
     dev: true
 
+  /@parcel/types/2.7.0:
+    resolution: {integrity: sha512-+dhXVUnseTCpJvBTGMp0V6X13z6O/A/+CUtwEpMGZ8XSmZ4Gk44GvaTiBOp0bJpWG4fvCKp+UmC8PYbrDiiziw==}
+    dependencies:
+      '@parcel/cache': 2.7.0_@parcel+core@2.7.0
+      '@parcel/diagnostic': 2.7.0
+      '@parcel/fs': 2.7.0_@parcel+core@2.7.0
+      '@parcel/package-manager': 2.7.0_@parcel+core@2.7.0
+      '@parcel/source-map': 2.1.0
+      '@parcel/workers': 2.7.0_@parcel+core@2.7.0
+      utility-types: 3.10.0
+    dev: true
+
   /@parcel/types/2.7.0_@parcel+core@2.7.0:
     resolution: {integrity: sha512-+dhXVUnseTCpJvBTGMp0V6X13z6O/A/+CUtwEpMGZ8XSmZ4Gk44GvaTiBOp0bJpWG4fvCKp+UmC8PYbrDiiziw==}
     dependencies:
@@ -1562,7 +1572,7 @@ packages:
       '@parcel/core': 2.7.0
       '@parcel/diagnostic': 2.7.0
       '@parcel/logger': 2.7.0
-      '@parcel/types': 2.7.0_@parcel+core@2.7.0
+      '@parcel/types': 2.7.0
       '@parcel/utils': 2.7.0
       chrome-trace-event: 1.0.3
       nullthrows: 1.1.1
@@ -3701,11 +3711,10 @@ packages:
     resolution: {integrity: sha512-PiVXnNuFm5+iYkLBNeq5211hvO38y63T0i2KKh2KnUs3RpzJ+JtODFjkD8yjLwnDkTYF1eKXheUwdssR+NRZdg==}
     dev: true
 
-  /nodemon/2.0.19:
-    resolution: {integrity: sha512-4pv1f2bMDj0Eeg/MhGqxrtveeQ5/G/UVe9iO6uTZzjnRluSA4PVWf8CW99LUPwGB3eNIA7zUFoP77YuI7hOc0A==}
+  /nodemon/2.0.20:
+    resolution: {integrity: sha512-Km2mWHKKY5GzRg6i1j5OxOHQtuvVsgskLfigG25yTtbyfRGn/GNvIbRyOf1PSCKJ2aT/58TiuUsuOU5UToVViw==}
     engines: {node: '>=8.10.0'}
     hasBin: true
-    requiresBuild: true
     dependencies:
       chokidar: 3.5.3
       debug: 3.2.7_supports-color@5.5.0
@@ -3813,18 +3822,6 @@ packages:
   /p-try/2.2.0:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
     engines: {node: '>=6'}
-    dev: true
-
-  /parcel-transformer-svelte/1.2.3_@parcel+core@2.7.0:
-    resolution: {integrity: sha512-yB0Ng4cYPZJNF3NUySbSvDfQsWPw6tjFwwUExUXd5kJehqZdlussSGGBj6e6jTKdPyIgqrThhx+Um69PFPjTIQ==}
-    engines: {node: '>=8', parcel: ^2.0.0}
-    dependencies:
-      '@parcel/plugin': 2.7.0_@parcel+core@2.7.0
-      '@parcel/source-map': 2.1.0
-      '@parcel/utils': 2.7.0
-      svelte: 3.49.0
-    transitivePeerDependencies:
-      - '@parcel/core'
     dev: true
 
   /parcel/2.7.0:
