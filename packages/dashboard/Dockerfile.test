@@ -9,7 +9,7 @@ COPY pnpm-workspace.yaml .
 COPY .npmrc .
 COPY packages/dashboard/package.json ./packages/dashboard/
 
-RUN pnpm install
+RUN pnpm -r install
 
 COPY packages/dashboard/ ./packages/dashboard/
 
