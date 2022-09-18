@@ -1,12 +1,13 @@
 FROM mcr.microsoft.com/playwright:v1.25.0-focal
 
-RUN npm install -g pnpm
+RUN npm install -g pnpm@6.34.0
 
 WORKDIR /app
 
 COPY pnpm-lock.yaml .
 COPY pnpm-workspace.yaml .
 COPY .npmrc .
+COPY package.json .
 COPY packages/dashboard/package.json ./packages/dashboard/
 
 RUN pnpm -r install
