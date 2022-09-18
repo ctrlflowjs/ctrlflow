@@ -7,10 +7,10 @@ WORKDIR /app
 COPY pnpm-lock.yaml .
 COPY pnpm-workspace.yaml .
 COPY .npmrc .
-COPY dashboard/package.json ./dashboard/
+COPY packages/dashboard/package.json ./packages/dashboard/
 
 RUN pnpm install
 
-COPY dashboard/ ./dashboard/
+COPY packages/dashboard/ ./packages/dashboard/
 
-WORKDIR /app/dashboard
+WORKDIR /app/packages/dashboard

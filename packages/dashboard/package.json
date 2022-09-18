@@ -15,7 +15,7 @@
     "demo:watch": "npm run demo:clean && parcel watch ./demo/src/index.html --dist-dir demo/dist",
     "demo:serve": "http-server demo/dist -p 3000 &",
     "test": "pnpm demo:build && (pnpm demo:serve &) && playwright test && pkill -f http-server",
-    "docker:build": "docker build -t test -f Dockerfile.test ..",
+    "docker:build": "docker build -t test -f Dockerfile.test ../..",
     "docker:test": "pnpm docker:build && docker run --rm -t test pnpm test"
   },
   "author": "Max North",
