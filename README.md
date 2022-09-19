@@ -2,15 +2,15 @@
   <img width="245" height="70" src="./docs/assets/Logo.PNG">
 </p>
 
-ctrlflow is a JS framework that **extends your web application into a no-code process automation platform**. It provides a no-code workflow builder UI for business users, backed by an execution engine that runs inside your app. Easily expose your app functionality to users in the form of no-code modules, and further extend it with chosen modules pulled from the open source community.
+ctrlflow is a **JS framework for adding no-code process automation features** to any Node.js web service. It provides a self-service UI that allows non-technical users to describe automated workflows from actions and events written in code by your engineering team. These no-code workflows are executed by a Redis-powered processing engine that runs as a worker in your app. Developers can easily make existing and new app functionality available for users to control as no-code modules, or further extend it with generic modules pulled from the open source community.
 
-The problem with typical SaaS no-code platforms is they give non-technical users more power than they know what to do with while leaving developer extensibility and support as an afterthought. ctrlflow inverts the control, empowering developers to support a competitive no-code user experience, design what users should and shouldn't be able to do in no-code, and do it all **without compromising the ability to write, test, debug, review, secure, and monitor applications the way you should be able to.**
+Most no-code platforms focus on third-party integrations, but they limit you to the ones they support, or provide unsatisfying options for extending with custom capabilities. ctrlflow is for organizations that have invested in building their own services, but who want the business advantage of empowering non-coding individuals to automate and modify processes on their own. It leans into that engineering investment and **empowers developers to easily deliver whatever your organization needs, however it's needed, without compromising their ability to write, test, and manage code like professionals.**
 
 The project is v0 and still in early development. v0 releases are expected to run (please give it a try and share feedback!), just be warned that there will be bugs, and preserving backwards compatibility is not yet a priority.
 
 ## Demo
 
-You can check out the no-code dashboard UI at [demo.ctrlflowjs.com](https://demo.ctrlflowjs.com/). This demonstrates an app with a few generic actions, but your app could contain only what's relevant to your business. You can check out [the demo app's code here](https://github.com/ctrlflowjs/ctrlflow/tree/main/examples/crm) to see how it [adds no-code actions and events](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/ctrlflow/app.js), and how it [connects the UI and starts the runtime](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/server.js).
+You can check out the no-code dashboard UI at [demo.ctrlflowjs.com](https://demo.ctrlflowjs.com/). The actions and events available in this demo are purely illustrative examples, your app would contain components designed and created by your own team. You can check out [the demo app's code here](https://github.com/ctrlflowjs/ctrlflow/tree/main/examples/crm) to see how it [adds no-code actions and events](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/ctrlflow/app.js), and how it [connects the UI and starts the runtime](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/server.js).
 
 ## Getting Started
 
