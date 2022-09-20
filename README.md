@@ -59,7 +59,7 @@ server.listen(port, () => {
 })
 ```
 
-Users can now access the workflow editor and monitoring dashboard. Here, they can describe workflows using 
+Users can now access the workflow editor and monitoring dashboard. Here, they can describe workflows using the actions you created, and specify which events trigger the workflow to run.
 
 <p align="center" style="margin-bottom: -5px; border: 1px solid black;">
   <kbd>
