@@ -1,9 +1,9 @@
 <script lang="ts">
-	import WorkflowLookup from "./pages/WorkflowLookup.svelte";
-  import WorkflowEditor from "./pages/editor/Workflow.svelte";
   import historyContext from "../components/context/history"
   import { onMount } from "svelte";
   import type { ComponentType } from "svelte";
+  import EditorLandingPage from "./pages/EditorLandingPage.svelte";
+  import Workflow from "./pages/editor/Workflow.svelte";
 
   const history = historyContext.get()
 
@@ -24,7 +24,7 @@
   // )
 
   history.pushState = function(url) {
-    window.history.pushState({}, 'lowcodeDevKit', url)
+    window.history.pushState({}, 'ctrlflow', url)
     loadPage()
   }
   history.back = window.history.back
@@ -44,10 +44,10 @@
 
     if (path === "workflow") {
       const workflowId = queryParams.get("workflow-id")
-      return [WorkflowEditor, { workflowId }]
+      return [Workflow, { workflowId }]
     }
 
-    return [WorkflowLookup, {}]
+    return [EditorLandingPage, {}]
   }
 </script>
 

@@ -16,6 +16,17 @@ importers:
     devDependencies:
       nodemon: 2.0.20
 
+  examples/minimal:
+    specifiers:
+      '@ctrlflow/core': 0.0.4
+      express: ^4.18.1
+      nodemon: ^2.0.19
+    dependencies:
+      '@ctrlflow/core': link:../../packages/core
+      express: 4.18.1
+    devDependencies:
+      nodemon: 2.0.20
+
   packages/core:
     specifiers:
       '@ctrlflow/dashboard': workspace:0.0.4

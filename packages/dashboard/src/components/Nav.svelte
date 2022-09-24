@@ -8,14 +8,14 @@
   <div class="nav-banner" on:click={() => history.pushState('/')}>
     <span class="brand-segment-ctrl">ctrl</span><span class="brand-segment-plus">+</span><span class="brand-segment-flow">flow</span>
   </div>
-  <!-- <div class="nav-items">
+  <div class="nav-items">
     <div class="nav-item nav-active">
-      Editor
+      Author
     </div>
     <div class="nav-item">
-      Activity
+      Inspect
     </div>
-  </div> -->
+  </div>
 </nav>
 
 <style>
@@ -66,10 +66,11 @@
     /* font-style: italic;
     font-variant-ligatures: common-ligatures; */
   }
-/*
+
   .nav-items {
     display: inline-block;
     font-family: 'Roboto', sans-serif;
+    margin-left: 80px;
   }
 
   .nav-item {
@@ -80,8 +81,7 @@
   }
 
   .nav-active {
-    font-size: 22px;
     margin-right: 45px;
     font-weight: 400;
-  } */
+  }
 </style>
