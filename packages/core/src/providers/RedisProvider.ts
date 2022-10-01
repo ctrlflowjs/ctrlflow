@@ -7,6 +7,7 @@ import StepScheduledMessage from "../worker/interfaces/StepScheduledMessage";
 import Workflow from "../api/interfaces/Workflow";
 import ValueMap from "../api/interfaces/ValueMap";
 import Event from "../api/interfaces/Event";
+import WorkflowRun from "../api/interfaces/WorkflowRun";
 
 const EVENT_TRIGGERED_MESSAGE = "EventTriggered"
 const STEP_SCHEDULED_MESSAGE = "StepScheduled"
@@ -109,14 +110,11 @@ export class RedisProvider implements Provider {
     await this.redis.hset(EVENT_STORE, event.id, JSON.stringify(event))
   }
 
-  async createWorkflowRun(workflowId: string, workflowRunId: string): Promise<void> {
-    await this.redis.hset(WORKFLOW_RUN_STORE, workflowRunId, JSON.stringify({
-      workflowId,
-      workflowRunId
-    }))
+  async saveWorkflowRun(workflowRun: WorkflowRun): Promise<void> {
+    await this.redis.hset(WORKFLOW_RUN_STORE, workflowRun.id, JSON.stringify(workflowRun))
   }
 
-  async getWorkflowRuns(): Promise<{ workflowId: string, workflowRunId: string }[]> {
+  async getWorkflowRuns(): Promise<WorkflowRun[]> {
     const entries = await this.redis.hgetall(WORKFLOW_RUN_STORE)
     return Object.values(entries).map(v => JSON.parse(v))
   }

@@ -17,7 +17,7 @@ export default class ApiClient {
       createdAt: new Date().toISOString()
     }
     await this.provider.saveEvent(event)
-    await this.provider.emitEventTriggered({
+    await this.provider.scheduleEventHandler({
       event
     })
   }

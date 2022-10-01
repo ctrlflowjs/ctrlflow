@@ -8,6 +8,8 @@ import Fork from "../../api/interfaces/Fork"
 import Registry from "../../registry/Registry"
 import ValueMap from "../../api/interfaces/ValueMap"
 import Expression from "../../api/interfaces/Expression"
+import WorkflowRun from "../../api/interfaces/WorkflowRun"
+import { randomUUID } from "crypto"
 
 export default class SyncWorker {
   private readonly exprEval: ExpressionEvaluator
@@ -33,8 +35,25 @@ export default class SyncWorker {
     let workflowIds = await this.provider.getWorkflowsSubscribedToEvent(message.event.type)
     console.log("workflowIds", workflowIds)
     let workflowResults = workflowIds.map(async (workflowId: string) => {
-      let workflow = await this.provider.getWorkflow(workflowId)
-      await this.executeWorkflow(workflow!, message.event)
+      let workflow = (await this.provider.getWorkflow(workflowId))!
+      let workflowRun: WorkflowRun = {
+        id: randomUUID(),
+        workflow: {
+          id: workflow.id,
+          title: workflow.title
+        },
+        trigger: {
+          id: message.event.id,
+          kind: message.event.kind,
+          title: message.event.type // TODO
+        },
+        createdAt: new Date().toISOString(),
+        status: "pending",
+        startedAt: null,
+        finishedAt: null
+      }
+      await this.provider.saveWorkflowRun(workflowRun)
+      await this.executeWorkflow(workflow, message.event)
     })
 
     await Promise.all(workflowResults)
@@ -108,6 +127,7 @@ interface WorkflowRunState {
   trigger: Event
   actionResults: { [actionId: string]: ValueMap } // TODO: support errors
   // TODO: path variables
+  workflowRun: WorkflowRun
 }
 
 class ExpressionEvaluator {
