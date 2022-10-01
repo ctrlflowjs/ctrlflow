@@ -9,7 +9,7 @@ export default class PathStepProvider implements StepProvider {
   async startStep(message: StepScheduledMessage): Promise<void> {
     const path = await this.worker.getStep(message.step) as Path// should be done by parent
     const firstStep = path.steps[0]
-    await this.worker.emitScheduleStep({
+    await this.worker.scheduleStepHandler({
       ...message,
       step: {
         kind: firstStep.kind,
@@ -25,7 +25,7 @@ export default class PathStepProvider implements StepProvider {
     const nextStep = path.steps[stepIndex + 1]
 
     if (nextStep) {
-      await this.worker.emitScheduleStep({
+      await this.worker.scheduleStepHandler({
         ...message,
         step: {
           kind: nextStep.kind,
@@ -34,7 +34,7 @@ export default class PathStepProvider implements StepProvider {
         status: "started"
       })
     } else {
-      await this.worker.emitScheduleStep({
+      await this.worker.scheduleStepHandler({
         ...message,
         step: {
           kind: "path",

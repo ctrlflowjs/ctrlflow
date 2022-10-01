@@ -6,6 +6,7 @@ import Provider from "./Provider"
 import StepScheduledMessage from "../worker/interfaces/StepScheduledMessage";
 import Workflow from "../api/interfaces/Workflow";
 import ValueMap from "../api/interfaces/ValueMap";
+import Event from "../api/interfaces/Event";
 
 const EVENT_TRIGGERED_MESSAGE = "EventTriggered"
 const STEP_SCHEDULED_MESSAGE = "StepScheduled"
@@ -15,6 +16,7 @@ const DATA_PREFIX = `${DATA_VERSION}:ctrflow`
 const WORKFLOW_STORE = `${DATA_PREFIX}:workflows`
 const WORKFLOW_RUN_STORE = `${DATA_PREFIX}:workflow-runs`
 const EVENT_SUB_STORE_PREFIX = `${DATA_PREFIX}:event-subscriptions`
+const EVENT_STORE = `${DATA_PREFIX}:events`
 
 export class RedisProvider implements Provider {
   readonly redis: Redis
@@ -53,11 +55,11 @@ export class RedisProvider implements Provider {
     this.handlers = null
   }
 
-  async emitEventTriggered(message: EventTriggeredMessage): Promise<void> {
+  async scheduleEventHandler(message: EventTriggeredMessage): Promise<void> {
     await this.queue.add(EVENT_TRIGGERED_MESSAGE, message)
   }
 
-  async emitScheduleStep(message: StepScheduledMessage): Promise<void> {
+  async scheduleStepHandler(message: StepScheduledMessage): Promise<void> {
     await this.queue.add(STEP_SCHEDULED_MESSAGE, message)
   }
 
@@ -96,6 +98,15 @@ export class RedisProvider implements Provider {
 
   async getWorkflowsSubscribedToEvent(eventName: string): Promise<string[]> {
     return await this.redis.smembers(`${EVENT_SUB_STORE_PREFIX}:${eventName}`)
+  }
+
+  async getAllEvents(): Promise<Event[]> {
+    let hash = await this.redis.hgetall(EVENT_STORE)
+    return Object.values(hash).map(x => JSON.parse(x))
+  }
+
+  async saveEvent(event: Event): Promise<void> {
+    await this.redis.hset(EVENT_STORE, event.id, JSON.stringify(event))
   }
 
   async createWorkflowRun(workflowId: string, workflowRunId: string): Promise<void> {

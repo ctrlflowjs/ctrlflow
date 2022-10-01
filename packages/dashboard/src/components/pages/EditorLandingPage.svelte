@@ -1,12 +1,10 @@
-<script>
+<script lang="ts">
   import actions from "./editor/actions"
-  import { getContext } from "svelte";
+  import navManager from "../../utils/NavManager";
 
   let selectedWorkflow
   let metadata
   let workflows = []
-
-  let history = getContext('history')
 
   $: {
     if (!selectedWorkflow) {
@@ -21,11 +19,11 @@
   }
 
   function createWorkflow() {
-    history.pushState('/workflow/')
+    navManager.setUrl('/workflow/')
   }
 
   function openWorkflow(workflowId) {
-    history.pushState(`/workflow/?workflow-id=${workflowId}`)
+    navManager.setUrl(`/workflow/?workflow-id=${workflowId}`)
   }
 </script>
 

@@ -54,7 +54,12 @@ export default function({ app }: ExpressServerConfig) {
     res.end()
   })
 
-  router.post('/ctrlflow/emit-event', async (req, res) => {
+  router.get('/ctrlflow/events', async (req, res) => {
+    const result = await app.getAllEvents()
+    res.json(result)
+  })
+
+  router.post('/ctrlflow/events', async (req, res) => {
     let { type, inputs } = req.body
     await app.emitEvent(type, inputs)
     res.end()

@@ -1,11 +1,10 @@
 <script lang="ts">
-  import historyContext from "../components/context/history"
-  import { onMount } from "svelte";
-  import type { ComponentType } from "svelte";
-  import EditorLandingPage from "./pages/EditorLandingPage.svelte";
-  import Workflow from "./pages/editor/Workflow.svelte";
-
-  const history = historyContext.get()
+  import { onDestroy, onMount } from "svelte"
+  import type { ComponentType } from "svelte"
+  import EditorLandingPage from "./pages/EditorLandingPage.svelte"
+  import Workflow from "./pages/editor/Workflow.svelte"
+  import MonitorLandingPage from "./pages/MonitorLandingPage.svelte"
+  import navManager from "../utils/NavManager"
 
   // function routeRegex(urlTemplate) {
   //   let pathRegex = location.pathname
@@ -23,14 +22,12 @@
   //   (workflowId, actionId) => [WorkflowEditor, { workflowId, actionId }]
   // )
 
-  history.pushState = function(url) {
-    window.history.pushState({}, 'ctrlflow', url)
-    loadPage()
-  }
-  history.back = window.history.back
-
   let props = {}
-  let component: ComponentType|null = null
+  let component: ComponentType
+
+  navManager.onUrlChange(() => {
+    loadPage()
+  }, onDestroy)
 
   onMount(loadPage)
 
@@ -45,6 +42,10 @@
     if (path === "workflow") {
       const workflowId = queryParams.get("workflow-id")
       return [Workflow, { workflowId }]
+    }
+
+    if (path === "monitor") {
+      return [MonitorLandingPage, {}]
     }
 
     return [EditorLandingPage, {}]

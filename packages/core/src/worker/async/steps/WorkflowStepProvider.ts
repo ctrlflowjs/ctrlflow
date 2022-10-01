@@ -15,7 +15,7 @@ export default class WorkflowStepProvider implements StepProvider {
     // TODO: store info about the trigger for value reference
     // TODO: if trigger has conditions, evaluate them and skip if needed
     const workflowRunId = randomUUID().replace(/-/g, "")
-    await this.worker.emitScheduleStep({
+    await this.worker.scheduleStepHandler({
       workflowId: message.workflowId,
       workflowRunId,
       step: {

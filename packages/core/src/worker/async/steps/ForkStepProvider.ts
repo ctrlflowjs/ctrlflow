@@ -11,7 +11,7 @@ export default class ForkStepProvider implements StepProvider {
     const fork = await this.worker.getStep(message.step) as Fork// should be done by parent
     // TODO evaluate conditions
     for (const path of fork.paths) {
-      await this.worker.emitScheduleStep({
+      await this.worker.scheduleStepHandler({
         workflowId: message.workflowId,
         workflowRunId: message.workflowRunId,
         step: {
@@ -37,7 +37,7 @@ export default class ForkStepProvider implements StepProvider {
       return
     }
 
-    await this.worker.emitScheduleStep({
+    await this.worker.scheduleStepHandler({
       workflowId: message.workflowId,
       workflowRunId: message.workflowRunId,
       step: {

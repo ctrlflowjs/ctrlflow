@@ -1,4 +1,5 @@
 import ApiClient from "./api/ApiClient"
+import Event from "./api/interfaces/Event"
 import Workflow from "./api/interfaces/Workflow"
 import { MemoryProvider } from "./providers/MemoryProvider"
 import Provider from "./providers/Provider"
@@ -69,5 +70,13 @@ export default class Application {
 
   emitEvent(eventName: string, eventInputs: { [key: string]: any }): Promise<void> {
     return this.client.emitEvent(eventName, eventInputs)
+  }
+
+  // getWorkflowRuns() {
+  //   return this.client.getWorkflowRuns()
+  // }
+
+  getAllEvents(): Promise<Event[]> {
+    return this.client.getAllEvents()
   }
 }

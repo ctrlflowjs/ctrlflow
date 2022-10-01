@@ -2,7 +2,8 @@
   import actions from "./actions"
   import Path from "./Path.svelte"
   import Triggers from "./Triggers.svelte"
-  import { getContext, setContext } from "svelte"
+  import { setContext } from "svelte"
+  import navManager from "../../../utils/NavManager"
 
   export let workflowId
 
@@ -28,8 +29,6 @@
 
   $: setContext("parents", [workflow])
 
-  let history = getContext('history')
-
   let workflowJSON
   $: {
     workflowJSON = JSON.stringify(workflow || null, null, 2)
@@ -44,12 +43,12 @@
       workflow = await actions.updateWorkflow(workflow.id, newWorkflow)
     } else {
       workflow = await actions.createWorkflow(newWorkflow)
-      history.pushState(`/workflow/?workflow-id=${workflow.id}`)
+      navManager.setUrl(`/workflow/?workflow-id=${workflow.id}`)
     }
   }
 
   function close() {
-    history.pushState('/')
+    navManager.setUrl('/')
   }
 
   function setHover(e) {
