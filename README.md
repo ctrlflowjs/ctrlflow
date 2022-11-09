@@ -2,16 +2,17 @@
   <img width="245" height="70" src="./docs/assets/Logo.PNG">
 </p>
 
-ctrl+flow is an open source framework for **empowering users to make application changes without writing code.**
+ctrl+flow is the open source **user automation** framework.
 
-### Project philosophy
-- Developer time should be spent solving your hard technical problems, not on making low risk changes to business logic. Organizations can overcome bottlenecks and unlock velocity gains by delegating select responsibilities to non-developers.
-- Developers need to have control over what users can automate, and visibility into what they're doing. Unsupervised users with unconstrained access will cause issues in complex systems.
-- Users should have access to simple interfaces to business services that developers can maintain and test in code. Expecting them to do technical work like sending HTTP requests and forming database queries makes solutions hard to maintain and provides poor UX.
+#### What is user automation? 
 
-### Demo
+User automation means enabling users to automate parts of an application by letting them choose a triggering event and a series of actions to perform. It allows users an advanced level of control of app logic without writing code or needing developer support. It's found in many popular enterprise tools like Airtable, Slack, and Trello, and with ctrl+flow it can easily be added to any Node.js web app.
 
-You can check out the no-code dashboard UI at [demo.ctrlflowjs.com](https://demo.ctrlflowjs.com/). The actions and events available in this demo are purely illustrative examples, your app would contain components designed and created by your own team. You can check out [the demo app's code here](https://github.com/ctrlflowjs/ctrlflow/tree/main/examples/crm) to see how it [adds no-code actions and events](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/ctrlflow/app.js), and how it [connects the UI and starts the runtime](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/server.js).
+## Demo
+
+[demo.ctrlflowjs.com](https://demo.ctrlflowjs.com/)
+
+The actions and events available in this demo are purely illustrative examples, your app would contain components you create or install from third party packages.
 
 ## Getting Started
 
