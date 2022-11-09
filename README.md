@@ -2,11 +2,16 @@
   <img width="245" height="70" src="./docs/assets/Logo.PNG">
 </p>
 
-ctrl+flow is the open source **user automation** framework.
+ctrl+flow is an open source **user automation** framework.
 
 #### What is user automation? 
 
 User automation means enabling users to automate parts of an application by letting them choose a triggering event and a series of actions to perform. It provides users advanced control of app logic without writing code or needing developer support. It's found in many popular enterprise tools like Airtable, Slack, and Trello, and with ctrl+flow it can easily be added to any Node.js web app.
+
+#### How can you use it?
+- Enrich internal apps by empowering users to automate select scenarios, and reduce reliance on the dev team
+- Build a complete No-Code platform for the enterprise
+- Give your product users heightened control by providing automation capabilities
 
 ## Demo
 
