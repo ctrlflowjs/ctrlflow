@@ -2,7 +2,7 @@
   <img width="245" height="70" src="./docs/assets/Logo.PNG">
 </p>
 
-ctrlflow provides **user automation** as a feature that developers can add to Node.js web apps. 
+ctrl+flow provides **user automation** as a feature that developers can add to Node.js web apps. 
 
 #### What is user automation? 
 
