@@ -2,7 +2,7 @@
   <img width="245" height="70" src="./docs/assets/Logo.PNG">
 </p>
 
-ctrl+flow is open source software that allows developers to add **user automation** as a feature in their web applications. 
+ctrl+flow allows developers to add **user automation** as a feature in their web applications. 
 
 #### What is user automation? 
 
