@@ -13,7 +13,7 @@ User automation means enabling users to automate parts of an application by lett
 - Create a complete no-code automation platform for the enterprise
 - Give your product users heightened control by providing automation capabilities
 
-## Demo
+## Demo (Prototype)
 
 [demo.ctrlflowjs.com](https://demo.ctrlflowjs.com/)
 
@@ -21,14 +21,14 @@ The actions and events available in this demo are purely illustrative examples, 
 
 ## Getting Started
 
-> The project is v0 and still in early development. v0 releases are expected to run (please give it a try and share feedback!), just be warned that there will be bugs, and preserving backwards compatibility is not yet a priority.
+> The project is v0 and still at the prototyping stage. Updates will be published to npm, but expect a bumpy ride at this phase - things will be changing and breaking compatibility as needed.
 
-Adding ctrlflow to your app is straight forward:
+Adding ctrlflow to your app:
 
-1) Install it server-side `npm install @ctrlflow/core`
+1) Install with `npm install --save @ctrlflow/core`
 2) Define your app with modules and a storage provider ([example](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/ctrlflow/app.js))
 3) Start the app runtime and plug in the UI server ([example](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/server.js))
 
 ## License
 
-ctrl+flow is free and open source software with an MIT license. A pro license will also be available with a support plan and advanced controls for larger organizations.
+ctrl+flow is free and open source software with an MIT license. A pro license will also be available with a support plan and advanced features for larger organizations.
