@@ -10,7 +10,7 @@ User automation means enabling users to automate parts of an application by lett
 
 #### How can you use it?
 - Enrich internal apps and reduce reliance on the dev team by enabling users to self-automate select scenarios
-- Create a complete No-Code platform for the enterprise
+- Create a complete no-code automation platform for the enterprise
 - Give your product users heightened control by providing automation capabilities
 
 ## Demo
