@@ -6,7 +6,7 @@ ctrl+flow provides **user automation** as a feature that developers can add to N
 
 #### What is user automation? 
 
-User automation means enabling users to automate parts of an application by letting them choose a triggering event and a series of actions to perform. It provides users advanced control of app logic without writing code or needing developer support. It's found in many popular enterprise tools like Airtable, Slack, and Trello, and with ctrl+flow it can easily be added to any Node.js web app.
+User automation means enabling users to automate parts of an application by letting them choose a triggering event and a series of actions to perform. It provides users advanced control of app logic without writing code or needing developer support. It's found in many popular enterprise tools like Airtable, Slack, and Trello, and with ctrl+flow it can be added to any Node.js web app.
 
 #### How can you use it?
 - Enrich internal apps and reduce reliance on the dev team by enabling users to self-automate select scenarios
