@@ -2,6 +2,8 @@
   <img width="245" height="70" src="./docs/assets/Logo.PNG">
 </p>
 
+![Build](https://github.com/ctrlflowjs/ctrlflow/actions/workflows/ci.yml/badge.svg)
+
 ctrl+flow is an app dev framework for adding **user automation** capabilities to Node.js web apps. 
 
 #### What is user automation? 
