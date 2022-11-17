@@ -1,8 +1,8 @@
-<p align="center" style="margin-bottom: -5px">
+<p align="left" style="margin-bottom: -50px">
   <img width="245" height="70" src="./docs/assets/Logo.PNG">
 </p>
 
-ctrl+flow provides **user automation** as a feature that developers can add to Node.js web apps. 
+ctrl+flow is an app dev framework for adding **user automation** capabilities to Node.js web apps. 
 
 #### What is user automation? 
 
