@@ -28,7 +28,7 @@ The actions and events available in this demo are purely illustrative examples, 
 Adding ctrlflow to your app:
 
 1) Install with `npm install --save @ctrlflow/core`
-2) Define your app with modules and a storage provider ([example](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/ctrlflow/app.js))
+2) Define your app with modules and a storage provider ([example](https://github.com/ctrlflowjs/ctrlflow/tree/main/examples/crm/src/ctrlflow))
 3) Start the app runtime and plug in the UI server ([example](https://github.com/ctrlflowjs/ctrlflow/blob/main/examples/crm/src/server.js))
 
 ## License
