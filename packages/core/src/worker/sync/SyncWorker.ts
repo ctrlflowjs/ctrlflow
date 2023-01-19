@@ -53,7 +53,7 @@ export default class SyncWorker {
         finishedAt: null
       }
       await this.provider.saveWorkflowRun(workflowRun)
-      await this.executeWorkflow(workflow, message.event)
+      await this.executeWorkflow(workflow, workflowRun, message.event)
     })
 
     await Promise.all(workflowResults)
@@ -67,13 +67,21 @@ export default class SyncWorker {
     }
   }
 
-  async executeWorkflow(workflow: Workflow, event: Event) {
+  async executeWorkflow(workflow: Workflow, workflowRun: WorkflowRun, event: Event) {
     const state: WorkflowRunState = {
       trigger: event,
-      actionResults: {}
+      actionResults: {},
+      workflowRun
     }
 
+    state.workflowRun.startedAt = new Date().toISOString()
+    state.workflowRun.status = "running"
+    await this.provider.saveWorkflowRun(state.workflowRun)
     await this.executePath(workflow.path, state)
+
+    state.workflowRun.finishedAt = new Date().toISOString()
+    state.workflowRun.status = "finished"
+    await this.provider.saveWorkflowRun(state.workflowRun)
   }
 
   async executePath(path: Path, state: WorkflowRunState) {

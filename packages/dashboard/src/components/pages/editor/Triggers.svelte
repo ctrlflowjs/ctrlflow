@@ -25,10 +25,6 @@
   .trigger-set {
     display: flex;
     flex-direction: row;
-    padding: 5px;
-    border: .5px solid black;
-    border-radius: 10px;
-    margin: 5px;
     position: relative;
   }
 
@@ -41,8 +37,8 @@
   }
 
   .hovering {
-    border: 3px solid lightblue;
-    padding: 2.5px 2.5px;
+    /* border: 3px solid lightblue;
+    padding: 2.5px 2.5px; */
   }
 
   .hovering > .add-trigger {

@@ -17,7 +17,12 @@ const ctrlflowApp = ctrlflow.app({
       }
     }),
     ctrlflow.eventType("cocktail-party-started", {
-      title: "Cocktail party started"
+      title: "Cocktail party started",
+      inputSchema: {
+        properties: {
+          hostName: { type: "string", title: "Host Name" }
+        }
+      }
     })
   ]
 })
@@ -36,4 +41,4 @@ server.listen(port, () => {
 ctrlflowApp.start()
 
 // emit events to trigger subscribed no-code workflows
-setInterval(() => ctrlflowApp.emitEvent("cocktail-party-started"), 10_000)
+// setInterval(() => ctrlflowApp.emitEvent("cocktail-party-started"), 10_000)

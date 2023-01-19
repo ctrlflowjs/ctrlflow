@@ -2,7 +2,7 @@
   import Path from "./Path.svelte"
   import AddStep from "./AddStep.svelte"
   import ConditionsEditor from "./ConditionsEditor.svelte"
-  import { getLineDef } from "./svg"
+  import { getLineDef, strokeWidth } from "./svg"
   import { getContext, setContext } from "svelte"
 
   export let def;
@@ -72,7 +72,7 @@
     <Path def={path} />
   {/each}
 
-  <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width="2.5" stroke-linecap="round">
+  <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width={strokeWidth} stroke-linecap="round">
     {#if forkRef}
       {#each def.paths as path, pathIndex}
         <path class="path-line" fill="none" stroke="black" d={getLine(path, pathIndex, forkRef)} />

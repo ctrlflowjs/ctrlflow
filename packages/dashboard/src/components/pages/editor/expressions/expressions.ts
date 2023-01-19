@@ -22,7 +22,7 @@ export default {
         },
         {
           component: ActionResultExpression,
-          title: "Action Result",
+          title: "Trigger / Action Result",
           type: "action-result"
         },
         {

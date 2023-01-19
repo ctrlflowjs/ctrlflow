@@ -4,10 +4,32 @@
 
   let metadata: any
   let events: any[] = []
+  let workflowRuns: any[] = []
   let activeSection: string = "workflow-runs"
+  let pageSize: number = 10
+  let nextPageToken: number = 0
+
+  let lastActiveSection = activeSection
+  $: {
+    if (activeSection !== lastActiveSection) {
+      lastActiveSection = activeSection
+      pageSize = 10
+      nextPageToken = 0
+    }
+  }
 
   $: {
-    actions.getAllEvents().then(e => events = e)
+    if (activeSection === "events") {
+      actions.getAllEvents(nextPageToken.toString(), pageSize)
+        .then(e => events = e)
+    }
+  }
+
+  $: {
+    if (activeSection === "workflow-runs") {
+      actions.getAllWorkflowRuns(nextPageToken.toString(), pageSize)
+        .then(wr => workflowRuns = wr)
+    }
   }
 
   $: {
@@ -40,16 +62,16 @@
       <table class="section-table">
         <tr height="60px" class="section-header">
           <th>Workflow</th>
-          <th>Ran At</th>
+          <th>Created At</th>
           <th>Status</th>
           <th>Trigger</th>
         </tr>
-        {#each [{}] as workflow}
+        {#each workflowRuns as workflowRun}
           <tr class="section-row" height="40px">
-            <td>{workflow.title}</td>
-            <td>{workflow.lastModifiedAt}</td>
-            <td>{workflow.lastModifiedAt}</td>
-            <td>{workflow.lastModifiedAt}</td>
+            <td>{workflowRun.workflow.title}</td>
+            <td>{workflowRun.createdAt}</td>
+            <td>{workflowRun.status}</td>
+            <td>{workflowRun.trigger.title}</td>
           </tr>
         {/each}
       </table>
@@ -72,6 +94,21 @@
       </table>
     </div>
   {/if}
+  <div>
+    <button
+      on:click={() => nextPageToken = nextPageToken - pageSize}
+      disabled={nextPageToken <= 0}
+    >
+      Previous Page
+    </button>
+    <button on:click={() => nextPageToken = nextPageToken + pageSize}>Next Page</button>
+    <select bind:value={pageSize}>
+      <option value={10}>10</option>
+      <option value={25}>25</option>
+      <option value={50}>50</option>
+      <option value={100}>100</option>
+    </select>
+  </div>
 </div>
 
 <style>
@@ -84,7 +121,7 @@
 	}
 
   .section-name {
-    font-family: 'Roboto', 'sans-serif';
+    font-family: 'Roboto Flex', 'sans-serif';
     font-weight: 300;
     font-size: 30px;
     display: inline-block;
@@ -98,7 +135,9 @@
 
   .section-container {
     width: 100%;
+    max-height: 475px;
     min-height: 30vh;
+    overflow-y: scroll;
     background-color: rgb(250, 250, 250);
     box-shadow: 0px 2px 13px -2px #00000040;
     padding: 0 15px 15px 15px;

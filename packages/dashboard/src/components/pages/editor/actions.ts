@@ -40,8 +40,13 @@ const actions = {
     })
   },
 
-  async getAllEvents() {
-    return await fetch(`${host}/ctrlflow/events`).then(x => x.json())
+  async getAllEvents(nextPageToken: string, pageSize: number) {
+    return await fetch(`${host}/ctrlflow/events?nextPageToken=${nextPageToken}&pageSize=${pageSize}`).then(x => x.json())
+  },
+
+  async getAllWorkflowRuns(nextPageToken: string, pageSize: number) {
+    return await fetch(`${host}/ctrlflow/workflowruns?nextPageToken=${nextPageToken}&pageSize=${pageSize}`)
+      .then(x => x.json())
   },
 }
 

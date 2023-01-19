@@ -2,9 +2,9 @@
   import actions from "./editor/actions"
   import navManager from "../../utils/NavManager";
 
-  let selectedWorkflow
-  let metadata
-  let workflows = []
+  let selectedWorkflow: any
+  let metadata: any[]
+  let workflows: any[] = []
 
   $: {
     if (!selectedWorkflow) {
@@ -22,13 +22,13 @@
     navManager.setUrl('/workflow/')
   }
 
-  function openWorkflow(workflowId) {
+  function openWorkflow(workflowId: string) {
     navManager.setUrl(`/workflow/?workflow-id=${workflowId}`)
   }
 </script>
 
 <div class="content-area">
-  <h2 class="section-name">
+  <h2 class="section-name section-active">
     Workflows
     <span class="btn" on:click={createWorkflow}>
       New +
@@ -50,47 +50,9 @@
       {/each}
     </table>
   </div>
-
-  <h2 class="section-name">
-    Components
-  </h2>
-  <div class="components-section">
-    <div class="component-col">
-      <div class="component-col-header">Events</div>
-      {#each metadata?.eventDefs || [] as event}
-        <div class="component-col-row">{event.title}</div>
-      {/each}
-    </div>
-    <div class="component-col">
-      <div class="component-col-header">Actions</div>
-      {#each metadata?.actionDefs || [] as action}
-        <div class="component-col-row">{action.title}</div>
-      {/each}
-    </div>
-    <!-- <div class="component-col">
-      <div class="component-col-header">Templates</div>
-      {#each metadata?.workflowDefs || [] as workflow}
-        <div class="component-col-row">{workflow.title}</div>
-      {/each}
-    </div> -->
-  </div>
 </div>
 
 <style>
-	.content-area {
-		padding: 35px 50px 35px 50px;
-		max-width: 1100px;
-		margin-right: auto;
-		margin-left: auto;
-	}
-
-  .section-name {
-    font-family: 'Roboto', 'sans-serif';
-    font-weight: 400;
-    font-size: 40px;
-    margin-left: 10px;
-  }
-
   .btn {
     font-size: 18px;
     font-weight: 300;
@@ -107,13 +69,34 @@
     cursor: pointer;
   }
 
+	.content-area {
+		padding: 35px 50px 35px 50px;
+		max-width: 1100px;
+		margin-right: auto;
+		margin-left: auto;
+    margin-top: 20px;
+	}
+
+  .section-name {
+    font-family: 'Roboto Flex', 'sans-serif';
+    font-weight: 300;
+    font-size: 30px;
+    display: inline-block;
+    margin: 5px 12px;
+    cursor: pointer;
+  }
+
+  .section-name.section-active {
+    font-weight: 500;
+  }
+
   .section-container {
     width: 100%;
+    max-height: 475px;
     min-height: 30vh;
-    border: 1px solid gainsboro;
-    border-radius: 2px;
+    overflow-y: scroll;
     background-color: rgb(250, 250, 250);
-    box-shadow: 0px 3px 20px -12px;
+    box-shadow: 0px 2px 13px -2px #00000040;
     padding: 0 15px 15px 15px;
     margin-bottom: 30px;
   }
@@ -128,39 +111,18 @@
     padding-bottom: 10px;
   }
 
+  .section-header th {
+    font-weight: 500;
+  }
+
   .section-row {
     max-height: 20px;
+    font-weight: 300;
   }
 
   .section-row:hover {
     cursor: pointer;
-    background-color: rgb(229, 227, 227);
-  }
-
-  .components-section {
-    display: flex;
-  }
-
-  .component-col {
-    width: calc(100% / 2);
-    padding: 20px;
-    border: 1px solid gainsboro;
-    border-radius: 2px;
-    background-color: rgb(250, 250, 250);
-    box-shadow: 0px 3px 20px -12px;
-  }
-
-  .component-col:not(:last-child) {
-    margin-right: 15px;
-  }
-
-  .component-col-header {
-    font-size: 20px;
-    font-weight: 500;
-  }
-
-  .component-col-row {
-    margin-top: 10px;
+    background-color: rgb(239, 239, 239);
   }
 
   .section-row > *:first-child, .section-header > *:first-child {

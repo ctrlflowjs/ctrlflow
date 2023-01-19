@@ -38,9 +38,6 @@
 </nav>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,300;1,400;1,700&family=Source+Code+Pro:wght@300;600;800&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&family=Roboto:wght@100;300;400;500&display=swap');
-
   .nav-bar {
     width: 100%;
     height: 60px;
@@ -77,18 +74,13 @@
   }
 
   .brand-segment-flow {
-    /* font-weight: 400;
-    font-family: 'Lato', sans-serif; */
-    /* font-size: 28px; */
     font-family: 'Source Code Pro', monospace;
     font-weight: 600;
-    /* font-style: italic;
-    font-variant-ligatures: common-ligatures; */
   }
 
   .nav-items {
     display: inline-block;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto Flex', sans-serif;
     margin-left: 80px;
   }
 

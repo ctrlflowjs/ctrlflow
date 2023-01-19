@@ -55,7 +55,10 @@ export default function({ app }: ExpressServerConfig) {
   })
 
   router.get('/ctrlflow/events', async (req, res) => {
-    const result = await app.getAllEvents()
+    // TODO: research various possible
+    const nextPageToken = req.query.nextPageToken as string|undefined
+    const pageSize = Number(req.query.pageSize) || undefined
+    const result = await app.getAllEvents(nextPageToken, pageSize)
     res.json(result)
   })
 
@@ -63,6 +66,14 @@ export default function({ app }: ExpressServerConfig) {
     let { type, inputs } = req.body
     await app.emitEvent(type, inputs)
     res.end()
+  })
+
+  router.get('/ctrlflow/workflowruns', async (req, res) => {
+    // TODO: research various possible
+    const nextPageToken = req.query.nextPageToken as string|undefined
+    const pageSize = Number(req.query.pageSize) || undefined
+    const result = await app.getAllWorkflowRuns(nextPageToken, pageSize)
+    res.json(result)
   })
 
   return router

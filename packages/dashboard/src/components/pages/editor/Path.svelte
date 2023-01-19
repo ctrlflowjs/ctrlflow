@@ -2,7 +2,7 @@
   import Node from "./Node.svelte"
   import Fork from "./Fork.svelte"
   import AddStep from "./AddStep.svelte"
-  import { getLineDef } from "./svg"
+  import { getLineDef, strokeWidth } from "./svg"
   import { getContext, setContext, onDestroy } from "svelte"
 
   export let def
@@ -69,7 +69,7 @@
     </div>
   {/each}
 
-  <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width="2.5" stroke-linecap="round">
+  <svg class="svg-path" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" stroke-width={strokeWidth} stroke-linecap="round">
     <path fill="none" stroke="black" d={pathDef} />
   </svg>
 </div>
@@ -80,7 +80,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 20px 0;
+    padding: 10px 0;
     margin: 0 2px;
     padding-top: 20px;
     border-radius: 10px;
@@ -115,7 +115,7 @@
   }
 
   .hovering {
-    box-shadow: black 0 0 6px -3px;
+    /* box-shadow: black 0 0 6px -3px; */
   }
 
   .add-step {

@@ -3,6 +3,8 @@ import { randomUUID } from 'crypto'
 import Workflow from "./interfaces/Workflow";
 import ValueMap from "./interfaces/ValueMap";
 import Event from "./interfaces/Event";
+import WorkflowRun from "./interfaces/WorkflowRun";
+import { off } from "process";
 
 export default class ApiClient {
   constructor(private readonly provider: Provider) {}
@@ -51,7 +53,10 @@ export default class ApiClient {
     return await this.provider.deleteWorkflow(id)
   }
 
-  async getAllEvents(): Promise<Event[]> {
+  async getAllEvents(
+    nextPageToken?: string,
+    pageSize?: number
+  ): Promise<Event[]> {
     let events = await this.provider.getAllEvents()
     events.sort((a, b) => {
       if (a.createdAt < b.createdAt) {
@@ -63,6 +68,34 @@ export default class ApiClient {
       return 0
     })
 
+    const offset = Number(nextPageToken) || 0
+    pageSize = pageSize || 10
+    events = events.slice(offset, offset + pageSize)
+
     return events
+  }
+
+  async getAllWorkflowRuns(
+    nextPageToken?: string,
+    pageSize?: number
+  ): Promise<WorkflowRun[]> {
+    let workflowRuns = await this.provider.getWorkflowRuns()
+    workflowRuns.sort((a, b) => {
+      if (a.createdAt < b.createdAt) {
+        return 1
+      }
+      if (a.createdAt > b.createdAt) {
+        return -1
+      }
+      return 0
+    })
+
+    const offset = Number(nextPageToken) || 0
+    pageSize = pageSize || 10
+    console.log("page deets", offset, pageSize, workflowRuns.length)
+    workflowRuns = workflowRuns.slice(offset, offset + pageSize)
+    console.log("page deets", offset, pageSize, workflowRuns.length)
+
+    return workflowRuns
   }
 }

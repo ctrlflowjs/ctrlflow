@@ -55,3 +55,5 @@ export function getLineDef(startX, startY, endX, endY, mode = defaultMode) {
     `
   }
 }
+
+export const strokeWidth = 3.5;

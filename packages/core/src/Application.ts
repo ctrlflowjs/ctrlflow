@@ -1,7 +1,7 @@
 import ApiClient from "./api/ApiClient"
 import Event from "./api/interfaces/Event"
 import Workflow from "./api/interfaces/Workflow"
-import { MemoryProvider } from "./providers/MemoryProvider"
+import WorkflowRun from "./api/interfaces/WorkflowRun"
 import Provider from "./providers/Provider"
 import { RedisProvider } from "./providers/RedisProvider"
 import ActionType from "./registry/interfaces/ActionType"
@@ -72,11 +72,11 @@ export default class Application {
     return this.client.emitEvent(eventName, eventInputs)
   }
 
-  // getWorkflowRuns() {
-  //   return this.client.getWorkflowRuns()
-  // }
+  getAllWorkflowRuns(nextPageToken?: string, pageSize?: number): Promise<WorkflowRun[]> {
+    return this.client.getAllWorkflowRuns(nextPageToken, pageSize)
+  }
 
-  getAllEvents(): Promise<Event[]> {
-    return this.client.getAllEvents()
+  getAllEvents(nextPageToken?: string, pageSize?: number): Promise<Event[]> {
+    return this.client.getAllEvents(nextPageToken, pageSize)
   }
 }

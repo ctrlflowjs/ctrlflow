@@ -4,13 +4,18 @@
   import Triggers from "./Triggers.svelte"
   import { setContext } from "svelte"
   import navManager from "../../../utils/NavManager"
+    import { writable } from "svelte/store";
 
   export let workflowId
 
   let workflow
+  let metadata = writable(undefined)
+
+  $: setContext("metadata", metadata)
 
   if (workflowId) {
     actions.getWorkflow(workflowId).then(w => workflow = w)
+    actions.getMetadata().then(m => $metadata = m)
   } else {
     workflow = {
       kind: "workflow",
@@ -28,6 +33,7 @@
   }
 
   $: setContext("parents", [workflow])
+  $: setContext("triggers", workflow?.triggers)
 
   let workflowJSON
   $: {
@@ -80,10 +86,11 @@
           placeholder="Title"
         />
         <div class="node-flow">
-          <div class="section-headers">Triggers</div>
+          <div class="section-headers">When</div>
           <Triggers triggers={workflow.triggers} />
-          <div class="section-headers">Workflow</div>
+          <div class="section-headers">Then</div>
           <Path def={workflow.path} />
+          <div class="section-headers">End</div>
         </div>
       </div>
     </div>
