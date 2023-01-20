@@ -1,10 +1,9 @@
 <script>
   export let def
-  $: {
-    if (!def.inputs) {
-      def.inputs = {
-        value: null
-      }
+
+  $: if (!def.inputs) {
+    def.inputs = {
+      value: null
     }
   }
 </script>

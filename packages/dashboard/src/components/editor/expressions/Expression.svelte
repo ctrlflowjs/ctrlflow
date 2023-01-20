@@ -3,16 +3,16 @@
   import ExpressionSelector from "./ExpressionSelector.svelte"
 
   export let def
+
+  let expression
+  let self
+  let openSelector
+
   $: {
     if (def?.type !== expression?.type) {
       expression = expressions.categories[0].expressions.find(x => x.type === def?.type)
     }
   }
-
-  let expression
-
-  let self
-  let openSelector
 
   function receiveSelection(e) {
     // TODO mutate existing value
@@ -22,7 +22,9 @@
 
   function remove() {
     def.type = undefined
-    def.inputs = {}
+    for (let inputName of Object.keys(def.inputs)) {
+      def.inputs[inputName] = { kind: "expression" }
+    }
   }
 </script>
 

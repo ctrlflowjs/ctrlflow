@@ -3,22 +3,13 @@
 </script>
 
 <script>
-  import { onMount, createEventDispatcher } from "svelte"
-  import Portal from "../../utils/Portal.svelte"
+  import { createEventDispatcher } from "svelte"
+  import Portal from "../utils/Portal.svelte"
   import Expression from "./expressions/Expression.svelte"
 
   export let def
   export let rootEl
 
-  const dispatch = createEventDispatcher()
-  $: {
-    if (def?.type) {
-      dispatch("change-type", def.type)
-    }
-  }
-
-  let showEditor = false
-  let editorEl
   export const open = () => {
     if (!showEditor) {
       closeOthers()
@@ -32,7 +23,17 @@
     }
   }
 
+  const dispatch = createEventDispatcher()
+  let showEditor = false
+  let editorEl
   let closeBtn
+
+  $: {
+    if (def?.type) {
+      dispatch("change-type", def.type)
+    }
+  }
+
   function handleGlobalClick(e) {
     if (
       showEditor

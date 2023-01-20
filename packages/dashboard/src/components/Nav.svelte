@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy } from "svelte";
-  import navManager from "../utils/NavManager"
+  import navManager from "../services/NavManager"
 
   let activeNavItem: string
 
@@ -21,14 +21,14 @@
   </div>
   <div class="nav-items">
     <div
-      class="nav-item"
+      class="nav-item nav-item-author"
       class:nav-active={activeNavItem === 'Author'}
       on:click={() => navManager.setUrl('/')}
     >
       Author
     </div>
     <div
-      class="nav-item"
+      class="nav-item nav-item-monitor"
       class:nav-active={activeNavItem === 'Monitor'}
       on:click={() => navManager.setUrl('/monitor')}
     >
@@ -67,9 +67,9 @@
     font-weight: 400;
     font-family: 'Source Code Pro', monospace;
     margin-left: -2px;
-    margin-right: -2px;
+    margin-right: -1.5px;
     font-size: 20px;
-    transform: translateY(-1px);
+    transform: translateY(-.5px);
     display: inline-block;
   }
 
@@ -90,6 +90,16 @@
     font-size: 22px;
     font-weight: 300;
     cursor: pointer;
+  }
+
+  .nav-item-author {
+    width: 65px;
+    text-align: center;
+  }
+
+  .nav-item-monitor {
+    width: 76px;
+    text-align: center;
   }
 
   .nav-active {

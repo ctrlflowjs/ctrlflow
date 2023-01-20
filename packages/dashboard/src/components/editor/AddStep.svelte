@@ -1,9 +1,21 @@
 <script>
   import { createEventDispatcher } from "svelte"
+    import nodeIdService from "./services/NodeIdService";
 
   export let kind;
 
   const dispatch = createEventDispatcher()
+
+  function emitSelection(kind) {
+    let value
+    if (kind) {
+      value = {
+        kind,
+        id: nodeIdService.nextId()
+      }
+    }
+    dispatch("select", value)
+  }
 </script>
 
 <div class="add-step-container">
@@ -13,16 +25,16 @@
     </div>
     <div class="add-step-btns">
       {#if kind === "path"}
-        <button type="button" on:click={() => dispatch("select", { kind: "action" })}>+</button>
-        <button type="button" on:click={() => dispatch("select", { kind: "fork" })}>⅄</button>
-        <!-- <button type="button" on:click={() => dispatch("select", { kind: "loop" })}>↻</button> -->
+        <button type="button" on:click={() => emitSelection("action")}>+</button>
+        <button type="button" on:click={() => emitSelection("fork")}>⅄</button>
+        <!-- <button type="button" on:click={() => emitSelection("loop")}>↻</button> -->
       {:else if kind === "trigger"}
-        <button type="button" on:click={() => dispatch("select")}>+</button>
+        <button type="button" on:click={() => emitSelection()}>+</button>
       {:else}
-        <button type="button" on:click={() => dispatch("select", { kind: "conditions" })}>
+        <button type="button" on:click={() => emitSelection("conditions")}>
           <span class="fork-route">⇄</span>
         </button>
-        <button type="button" on:click={() => dispatch("select", { kind: "fork" })}>⅄</button>
+        <button type="button" on:click={() => emitSelection("fork")}>⅄</button>
       {/if}
     </div>
   </div>

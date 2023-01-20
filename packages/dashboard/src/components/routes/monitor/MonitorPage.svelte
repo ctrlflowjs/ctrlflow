@@ -1,6 +1,5 @@
 <script lang="ts">
-  import actions from "./editor/actions"
-  import navManager from "../../utils/NavManager"
+  import actions from "../../editor/actions"
 
   let metadata: any
   let events: any[] = []
@@ -8,8 +7,8 @@
   let activeSection: string = "workflow-runs"
   let pageSize: number = 10
   let nextPageToken: number = 0
-
   let lastActiveSection = activeSection
+
   $: {
     if (activeSection !== lastActiveSection) {
       lastActiveSection = activeSection
@@ -42,14 +41,14 @@
 <div class="content-area">
   <div>
     <h2
-      class="section-name"
+      class="section-name section-name-workflow-runs"
       class:section-active={activeSection === 'workflow-runs'}
       on:click={() => activeSection = 'workflow-runs'}
     >
       Workflow Runs
     </h2>
     <h2
-      class="section-name"
+      class="section-name section-name-events"
       class:section-active={activeSection === 'events'}
       on:click={() => activeSection = 'events'}
     >
@@ -131,6 +130,16 @@
 
   .section-name.section-active {
     font-weight: 500;
+  }
+
+  .section-name-workflow-runs {
+    width: 193px;
+    text-align: center;
+  }
+
+  .section-name-events {
+    width: 81px;
+    text-align: center;
   }
 
   .section-container {

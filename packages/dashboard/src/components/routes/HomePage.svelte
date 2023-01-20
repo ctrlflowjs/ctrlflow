@@ -1,6 +1,6 @@
 <script lang="ts">
-  import actions from "./editor/actions"
-  import navManager from "../../utils/NavManager";
+  import actions from "../editor/actions"
+  import navManager from "../../services/NavManager";
 
   let selectedWorkflow: any
   let metadata: any[]

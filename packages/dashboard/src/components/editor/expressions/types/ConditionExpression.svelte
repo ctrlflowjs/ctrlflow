@@ -2,17 +2,17 @@
   import Expression from "../Expression.svelte"
 
   export let def
-  $: {
-    if (!def.inputs) {
-      def.inputs = {
-        firstValue: { kind: "expression" },
-        secondValue: { kind: "expression" }
-      }
+
+  $: if (!def.inputs) {
+    def.inputs = {
+      firstValue: { kind: "expression" },
+      secondValue: { kind: "expression" }
     }
-    if (!def.settings) {
-      def.settings = {
-        conditionType: "=="
-      }
+  }
+
+  $: if (!def.settings) {
+    def.settings = {
+      conditionType: "=="
     }
   }
 </script>

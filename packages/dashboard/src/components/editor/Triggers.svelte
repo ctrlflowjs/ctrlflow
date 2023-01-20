@@ -1,11 +1,13 @@
 <script>
   import Node from "./Node.svelte"
   import AddStep from "./AddStep.svelte"
+  import nodeIdService from "./services/NodeIdService";
 
   export let triggers
 
-  function addTrigger(kind, stepIndex) {
+  function addTrigger() {
     triggers.push({
+      id: nodeIdService.nextId(),
       kind: "trigger"
     })
     triggers = triggers

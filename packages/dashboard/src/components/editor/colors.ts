@@ -11,7 +11,7 @@ const colors = [
   "#66BB6A", // green
   "#9CCC65", // light green
   "#D4E157", // lime
-  "#FFEE58", // yellow
+  // "#FFEE58", // yellow
   "#FFCA28", // amber
   "#FFA726", // orange
   "#FF7043", // deep orange
@@ -19,7 +19,7 @@ const colors = [
   "#78909C", // deep blue grey
 ]
 
-export function pickColor(str) {
+export function pickColor(str: string) {
   if (!str || str === "?") {
     return "#9E9E9E" // grey
   }
@@ -28,7 +28,7 @@ export function pickColor(str) {
   return colors[colorIndex]
 }
 
-function hashString(str) {
+function hashString(str: string) {
   var hash = 0, i, chr;
   if (str.length === 0) return hash;
   for (i = 0; i < str.length; i++) {

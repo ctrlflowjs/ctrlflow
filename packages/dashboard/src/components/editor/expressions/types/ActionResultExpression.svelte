@@ -3,24 +3,38 @@
 
   export let def
 
-  let metadata = getContext("metadata")
-  let parents = [...getContext("parents")]
-  let triggers = [...getContext("triggers")]
-  let prevSteps = getParentsPreviousSteps(parents.pop(), parents).reverse()
-  let action = prevSteps.find(x => x.id === def.settings?.actionId)
+  const metadata = getContext("metadata")
+  const parents = [...getContext("parents")]
+  const triggers = getContext("triggers")
+  const prevSteps = getParentsPreviousSteps(parents.pop(), parents).reverse()
+
+  let referencedNode = getReferencedNode(def.inputs, triggers, prevSteps)
   let outputSchema
 
-  $: if (!def.settings) {
-    def.settings = {
-      actionId: undefined,
-      outputName: undefined
+  console.log(def.inputs, triggers, prevSteps, referencedNode)
+
+  $: {
+    def.inputs = {
+      reference: {
+        kind: referencedNode?.kind,
+        id: referencedNode?.id,
+      },
+      outputName: def.inputs?.outputName,
     }
   }
 
-  $: if (action?.kind === "trigger") {
-    outputSchema = $metadata?.eventDefs.find(x => x.type === action?.type)?.inputSchema
-  } else {
-    outputSchema = $metadata?.actionDefs.find(x => x.type === action?.type)?.outputSchema
+  $: {
+    if (referencedNode?.kind === "trigger") {
+      outputSchema = $metadata?.eventDefs.find(x => x.type === referencedNode?.type)?.inputSchema
+    } else {
+      outputSchema = $metadata?.actionDefs.find(x => x.type === referencedNode?.type)?.outputSchema
+    }
+  }
+
+  $: {
+    if (!outputSchema?.properties?.[def.inputs.outputName]) {
+      def.inputs.outputName = undefined
+    }
   }
 
   // when the component is created, it should display the action
@@ -43,10 +57,22 @@
     }
     return getParentsPreviousSteps(parent, parents)
   }
+
+  function getReferencedNode(inputs, triggers, prevSteps) {
+    if (!inputs || !inputs.reference?.id || !inputs.reference?.kind) {
+      return undefined
+    }
+
+    const reference = inputs.reference
+
+    return [...triggers, ...prevSteps].find(x => {
+      return x.kind === reference.kind && x.id === reference.id
+    })
+  }
 </script>
 
 <div class="ref-expression">
-  <select bind:value={action}>
+  <select bind:value={referencedNode}>
     <option disabled={true} value={undefined}>Select</option>
     {#if prevSteps?.length}
       <optgroup label="Actions">
@@ -64,7 +90,7 @@
   <div>
     Output:
   </div>
-  <select bind:value={def.settings.outputName}>
+  <select bind:value={def.inputs.outputName}>
     <option disabled={true} value={undefined}>Select</option>
     {#each Object.keys(outputSchema?.properties ?? {}) as propertyName}
       <option value={propertyName}>{outputSchema.properties[propertyName].title}</option>

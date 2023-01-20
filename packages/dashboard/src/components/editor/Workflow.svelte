@@ -3,15 +3,15 @@
   import Path from "./Path.svelte"
   import Triggers from "./Triggers.svelte"
   import { setContext } from "svelte"
-  import navManager from "../../../utils/NavManager"
-    import { writable } from "svelte/store";
+  import navManager from "../../services/NavManager"
+  import { writable } from "svelte/store"
+  import nodeIdService from "./services/NodeIdService"
 
   export let workflowId
 
   let workflow
   let metadata = writable(undefined)
-
-  $: setContext("metadata", metadata)
+  let workflowJSON
 
   if (workflowId) {
     actions.getWorkflow(workflowId).then(w => workflow = w)
@@ -20,22 +20,24 @@
     workflow = {
       kind: "workflow",
       triggers: [{
+        id: nodeIdService.nextId(),
         kind: "trigger"
       }],
       path: {
-        id: 0,
+        id: nodeIdService.nextId(),
         kind: "path",
         steps: [{
+          id: nodeIdService.nextId(),
           kind: "action"
         }]
       }
     }
   }
 
+  $: setContext("metadata", metadata)
   $: setContext("parents", [workflow])
   $: setContext("triggers", workflow?.triggers)
 
-  let workflowJSON
   $: {
     workflowJSON = JSON.stringify(workflow || null, null, 2)
   }
@@ -97,12 +99,12 @@
   </div>
   <div id="action-editor-portal"></div>
 
-  <!-- <div class="json-viewer">
+  <div class="json-viewer">
     <code>
       <div><button type="button" on:click={() => workflow = workflow}>Refresh</button></div>
       {workflowJSON}
     </code>
-  </div> -->
+  </div>
 {/if}
 
 <style>
@@ -164,10 +166,10 @@
     cursor: pointer;
   }
 
-  /* .json-viewer {
+  .json-viewer {
     white-space: pre;
     background-color: white;
-    color: gray;
+    color: black;
     margin-top: 20px;
-  } */
+  }
 </style>

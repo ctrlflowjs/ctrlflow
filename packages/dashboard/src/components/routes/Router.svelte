@@ -1,10 +1,11 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte"
   import type { ComponentType } from "svelte"
-  import EditorLandingPage from "./pages/EditorLandingPage.svelte"
-  import Workflow from "./pages/editor/Workflow.svelte"
-  import MonitorLandingPage from "./pages/MonitorLandingPage.svelte"
-  import navManager from "../utils/NavManager"
+  import HomePage from "./HomePage.svelte"
+  import Workflow from "../editor/Workflow.svelte"
+  import MonitorPage from "./monitor/MonitorPage.svelte"
+  import navManager from "../../services/NavManager"
+    import EditWorkflowPage from "./workflow/EditWorkflowPage.svelte";
 
   // function routeRegex(urlTemplate) {
   //   let pathRegex = location.pathname
@@ -41,14 +42,14 @@
 
     if (path === "workflow") {
       const workflowId = queryParams.get("workflow-id")
-      return [Workflow, { workflowId }]
+      return [EditWorkflowPage, { workflowId }]
     }
 
     if (path === "monitor") {
-      return [MonitorLandingPage, {}]
+      return [MonitorPage, {}]
     }
 
-    return [EditorLandingPage, {}]
+    return [HomePage, {}]
   }
 </script>
 

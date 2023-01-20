@@ -8,14 +8,6 @@
 
   export let rootEl
 
-  const dispatch = createEventDispatcher()
-
-  function selectExpression(expression) {
-    dispatch('selection', expression)
-    close()
-  }
-
-  let show = false
   export const open = () => {
     if (!show) {
       closeOthers()
@@ -27,6 +19,14 @@
     if (show) {
       show = false
     }
+  }
+
+  const dispatch = createEventDispatcher()
+  let show = false
+
+  function selectExpression(expression) {
+    dispatch('selection', expression)
+    close()
   }
 
   function handleGlobalClick({ target }) {

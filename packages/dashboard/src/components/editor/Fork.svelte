@@ -1,18 +1,22 @@
 <script>
+  import { getContext, setContext } from "svelte"
+
   import Path from "./Path.svelte"
   import AddStep from "./AddStep.svelte"
   import ConditionsEditor from "./ConditionsEditor.svelte"
   import { getLineDef, strokeWidth } from "./svg"
-  import { getContext, setContext } from "svelte"
+  import nodeIdService from "./services/NodeIdService"
 
   export let def;
 
   let parents = getContext("parents") || []
+  let forkRef
+  let observing = false
+  let openEditor
+  let addStepEl
+
   setContext("parents", [...parents, def])
 
-  let forkRef;
-
-  let observing = false;
   $: {
     if (forkRef && !observing) {
       observing = true
@@ -44,8 +48,10 @@
   function handleAddStep(e) {
     if (e.detail.kind === "fork") {
       def.paths.push({
+        id: nodeIdService.nextId(),
         kind: "path",
         steps: [{
+          id: nodeIdService.nextId(),
           kind: "action"
         }]
       })
@@ -56,10 +62,6 @@
       openEditor()
     }
   }
-
-  let openEditor
-  let addStepEl
-
 </script>
 
 <div class="fork hover-target {"" && "hovering"}" bind:this={forkRef}>

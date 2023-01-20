@@ -1,30 +1,54 @@
 <script>
+  import { getContext, setContext, onDestroy } from "svelte"
+
   import Node from "./Node.svelte"
   import Fork from "./Fork.svelte"
   import AddStep from "./AddStep.svelte"
   import { getLineDef, strokeWidth } from "./svg"
-  import { getContext, setContext, onDestroy } from "svelte"
+  import nodeIdService from "./services/NodeIdService"
 
   export let def
 
   let parents = getContext("parents")
+  let rootEl
+  let pathDef = ''
+  let resizeObserver = new ResizeObserver(() => {
+    pathDef = getLineDef(0, 1, 0, rootEl?.offsetHeight -2)
+  });
+
+  onDestroy(() => {
+    resizeObserver.disconnect()
+  })
+
   setContext("parents", [...parents, def])
+
+  $: if (rootEl) {
+    resizeObserver.observe(rootEl)
+  }
 
   function addStep(kind, stepIndex) {
     if (kind === "action") {
-      def.steps.splice(stepIndex, 0, { kind: "action" })
+      def.steps.splice(stepIndex, 0, {
+        id: nodeIdService.nextId(),
+        kind: "action"
+      })
     } else if (kind === "fork") {
       let followingSteps = def.steps.splice(stepIndex)
       const newStep = {
         kind,
         paths: [
           {
+            id: nodeIdService.nextId(),
             kind: "path",
             steps: followingSteps
           },
           {
+            id: nodeIdService.nextId(),
             kind: "path",
-            steps: [{ kind: "action" }]
+            steps: [{
+              id: nodeIdService.nextId(),
+              kind: "action"
+            }]
           }
         ]
       }
@@ -33,19 +57,6 @@
 
     def = def
   }
-
-  let rootEl
-  let pathDef = ''
-
-  let resizeObserver = new ResizeObserver(() => {
-    pathDef = getLineDef(0, 1, 0, rootEl?.offsetHeight -2)
-  });
-  $: if (rootEl) {
-    resizeObserver.observe(rootEl)
-  }
-  onDestroy(() => {
-    resizeObserver.disconnect()
-  })
 
   function removeStep(stepIndex) {
     def.steps.splice(stepIndex, 1)

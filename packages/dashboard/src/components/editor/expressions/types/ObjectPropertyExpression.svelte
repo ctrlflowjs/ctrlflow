@@ -1,12 +1,9 @@
 <script>
-  import Expression from "../Expression.svelte"
-
   export let def
-  $: {
-    if (!def.inputs) {
-      def.inputs = {
-        path: []
-      }
+
+  $: if (!def.inputs) {
+    def.inputs = {
+      path: []
     }
   }
 </script>

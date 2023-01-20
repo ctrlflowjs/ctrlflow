@@ -8,14 +8,13 @@
   export let kind
 
   let parents = getContext("parents") || []
-  setContext("parents", [...parents, def])
-
   let self
   let openEditor
-
   let displayName
-
   let nodeTypeDefs
+
+  setContext("parents", [...parents, def])
+
   actions.getMetadata().then(m => {
     if (kind === "trigger") {
       nodeTypeDefs = m.eventDefs

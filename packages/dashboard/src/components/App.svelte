@@ -1,8 +1,6 @@
 <script lang="ts">
 	import Nav from "./Nav.svelte"
-	import Router from "./Router.svelte"
-
-
+	import Router from "./routes/Router.svelte"
 </script>
 
 <div class="background">

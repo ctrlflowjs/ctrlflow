@@ -4,31 +4,52 @@
 
 <script>
   import { onMount, createEventDispatcher } from "svelte"
-  import Portal from "../../utils/Portal.svelte"
+  import Portal from "../utils/Portal.svelte"
   import actions from "./actions"
   import Expression from "./expressions/Expression.svelte"
 
   export let def
   export let rootEl
 
+  export const open = () => {
+    if (!showEditor) {
+      closeOthers()
+      closeOthers = close
+      showEditor = true
+    }
+  }
+  export const close = () => {
+    if (showEditor) {
+      showEditor = false
+    }
+  }
+
   const dispatch = createEventDispatcher()
+
+  let metadata
+  let actionType
+  let showEditor = false
+  let editorEl
+  let closeBtn
+
+  onMount(async () => {
+    def.inputs = def.inputs || {}
+    metadata = await actions.getMetadata()
+  })
+
   $: {
     if (def?.type) {
       dispatch("change-type", def.type)
     }
   }
 
-  let metadata
-  onMount(async () => {
-    def.inputs = def.inputs || {}
-    metadata = await actions.getMetadata()
-  })
-
-  let actionType
   $: {
     actionType = metadata?.actionDefs.find(d => d.type === def.type)
     setInputs()
   }
+
+  $: actionInputs = Object.keys(actionType?.inputSchema.properties || {})
+  $: actionInputDefs = actionInputs.map(k => ({ inputName: k, inputDef: actionType.inputSchema.properties[k] }))
 
   function setInputs() {
     if (!actionType?.inputSchema.properties) {
@@ -44,22 +65,6 @@
     def.inputs = inputs
   }
 
-  let showEditor = false
-  let editorEl
-  export const open = () => {
-    if (!showEditor) {
-      closeOthers()
-      closeOthers = close
-      showEditor = true
-    }
-  }
-  export const close = () => {
-    if (showEditor) {
-      showEditor = false
-    }
-  }
-
-  let closeBtn
   function handleGlobalClick(e) {
     if (
       showEditor
@@ -76,8 +81,9 @@
     close()
   }
 
-  $: actionInputs = Object.keys(actionType?.inputSchema.properties || {})
-  $: actionInputDefs = actionInputs.map(k => ({ inputName: k, inputDef: actionType.inputSchema.properties[k] }))
+  function getInputDef() {
+
+  }
 </script>
 
 <svelte:window on:click={handleGlobalClick} />
