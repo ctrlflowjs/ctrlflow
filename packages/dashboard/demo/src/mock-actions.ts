@@ -1,4 +1,4 @@
-import actions from "../../src/components/pages/editor/actions"
+import actions from "../../src/components/editor/actions"
 import metadata from "./metadata.json"
 
 function getWorkflows() {
