@@ -38,9 +38,9 @@
   $: setContext("parents", [workflow])
   $: setContext("triggers", workflow?.triggers)
 
-  $: {
-    workflowJSON = JSON.stringify(workflow || null, null, 2)
-  }
+  // $: {
+  //   workflowJSON = JSON.stringify(workflow || null, null, 2)
+  // }
 
   async function saveWorkflow() {
     let newWorkflow = {
@@ -99,12 +99,12 @@
   </div>
   <div id="action-editor-portal"></div>
 
-  <div class="json-viewer">
+  <!-- <div class="json-viewer">
     <code>
       <div><button type="button" on:click={() => workflow = workflow}>Refresh</button></div>
       {workflowJSON}
     </code>
-  </div>
+  </div> -->
 {/if}
 
 <style>
@@ -166,10 +166,10 @@
     cursor: pointer;
   }
 
-  .json-viewer {
+  /* .json-viewer {
     white-space: pre;
     background-color: white;
     color: black;
     margin-top: 20px;
-  }
+  } */
 </style>
