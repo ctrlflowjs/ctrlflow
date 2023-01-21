@@ -41,7 +41,7 @@ export default class AsyncWorker {
   async handleEventTriggered(message: EventTriggeredMessage): Promise<void> {
     let workflowIds = await this.provider.getWorkflowsSubscribedToEvent(message.event.type)
     for (const workflowId of workflowIds) {
-      this.provider.emitScheduleStep({
+      this.provider.scheduleStepHandler({
         workflowId,
         workflowRunId: "",
         step: {
@@ -75,8 +75,8 @@ export default class AsyncWorker {
     return {} as T
   }
 
-  async emitScheduleStep(message: StepScheduledMessage): Promise<void> {
-    return this.provider.emitScheduleStep(message)
+  async scheduleStepHandler(message: StepScheduledMessage): Promise<void> {
+    return this.provider.scheduleStepHandler(message)
   }
 
   async addFinishedForkPath(workflowRunId: string, forkId: string, pathId: string): Promise<void> {

@@ -8,4 +8,5 @@ export default interface Workflow {
   triggers: Trigger[]
   path: Path
   modifiedAt: string
+  title: string
 }

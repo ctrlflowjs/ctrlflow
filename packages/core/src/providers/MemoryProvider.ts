@@ -4,6 +4,8 @@ import Provider from "./Provider"
 import StepScheduledMessage from "../worker/interfaces/StepScheduledMessage";
 import Workflow from "../api/interfaces/Workflow";
 import ValueMap from "../api/interfaces/ValueMap";
+import Event from "../api/interfaces/Event";
+import WorkflowRun from "../api/interfaces/WorkflowRun";
 
 export class MemoryProvider implements Provider {
   private handlers: MessageHandlers|null = null
@@ -16,14 +18,14 @@ export class MemoryProvider implements Provider {
     this.handlers = null
   }
 
-  async emitEventTriggered(message: EventTriggeredMessage): Promise<void> {
+  async scheduleEventHandler(message: EventTriggeredMessage): Promise<void> {
     if (!this.handlers) {
       throw new Error("handlers is not assigned in MemoryProvider")
     }
     await this.handlers.handleEventTriggered(message)
   }
 
-  async emitScheduleStep(message: StepScheduledMessage): Promise<void> {
+  async scheduleStepHandler(message: StepScheduledMessage): Promise<void> {
     if (!this.handlers) {
       throw new Error("handlers is not assigned in MemoryProvider")
     }
@@ -39,7 +41,7 @@ export class MemoryProvider implements Provider {
   }
 
   async saveWorkflow(workflow: Workflow): Promise<void> {
-    this.workflows[workflow.id]
+    this.workflows[workflow.id] = workflow
   }
 
   async deleteWorkflow(id: string): Promise<void> {
@@ -55,14 +57,19 @@ export class MemoryProvider implements Provider {
     return this.eventSubscriptions[eventType] || []
   }
 
-  async createWorkflowRun(workflowId: string, workflowRunId: string): Promise<void> {
-    this.workflowRuns[`${workflowId}|${workflowRunId}`] = {
-      workflowId,
-      workflowRunId
-    }
+  async saveWorkflowRun(workflowRun: WorkflowRun): Promise<void> {
+    this.workflowRuns[workflowRun.id] = workflowRun
   }
 
-  async getWorkflowRuns(): Promise<{ workflowId: string, workflowRunId: string }[]> {
+  async getAllEvents(): Promise<Event[]> {
+    return Object.values(this.events)
+  }
+
+  async saveEvent(event: Event): Promise<void> {
+    this.events[event.id] = event
+  }
+
+  async getWorkflowRuns(): Promise<WorkflowRun[]> {
     return Object.values(this.workflowRuns)
   }
 
@@ -88,7 +95,8 @@ export class MemoryProvider implements Provider {
 
   workflows: { [id: string]: Workflow } = {}
   eventSubscriptions: { [eventType: string]: string[] } = {}
-  workflowRuns: { [id: string]: { workflowId: string, workflowRunId: string } } = {}
+  events: { [id: string]: Event } = {}
+  workflowRuns: { [id: string]: WorkflowRun } = {}
   workflowRunStepResults: { [id: string]: ValueMap } = {}
   workflowRunForkPaths: { [workflowRunId: string]: { [forkId: string]: string[] } } = {}
 }

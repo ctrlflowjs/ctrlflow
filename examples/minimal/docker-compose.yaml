@@ -1,0 +1,13 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  local-redis:
+    image: redis
+    ports:
+      - target: 6379
+        published: 6379
+        protocol: tcp
+        mode: host
+    volumes:
+      - redisvol:/data
+volumes:
+  redisvol: {}

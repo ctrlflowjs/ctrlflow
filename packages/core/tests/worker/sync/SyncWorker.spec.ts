@@ -1,5 +1,6 @@
 import Event from "../../../src/api/interfaces/Event"
 import Workflow from "../../../src/api/interfaces/Workflow"
+import WorkflowRun from "../../../src/api/interfaces/WorkflowRun"
 import { MemoryProvider } from "../../../src/providers/MemoryProvider"
 import Registry from "../../../src/registry/Registry"
 import SyncWorker from "../../../src/worker/sync/SyncWorker"
@@ -25,7 +26,7 @@ registry.addAction({
 describe("something", () => {
   it("does something", async () => {
     const worker = new SyncWorker(new MemoryProvider(), registry)
-    await worker.executeWorkflow(basicWorkflow as unknown as Workflow, {} as Event)
+    await worker.executeWorkflow(basicWorkflow as unknown as Workflow, {} as WorkflowRun, {} as Event)
   })
 })
 

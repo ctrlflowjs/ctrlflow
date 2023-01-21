@@ -5,7 +5,7 @@ importers:
   .:
     specifiers: {}
 
-  examples/crm:
+  examples/minimal:
     specifiers:
       '@ctrlflow/core': 0.0.4
       express: ^4.18.1
@@ -40,7 +40,7 @@ importers:
       '@types/jest': 28.1.7
       '@types/node': 18.7.1
       jest: 28.1.3_@types+node@18.7.1
-      ts-jest: 28.0.8_m5noci3hdgjcbp5i3skppiufvq
+      ts-jest: 28.0.8_bi2kohzqnxavgozw3csgny5hju
       typescript: 4.7.4
 
   packages/dashboard:
@@ -4566,7 +4566,7 @@ packages:
       nopt: 1.0.10
     dev: true
 
-  /ts-jest/28.0.8_m5noci3hdgjcbp5i3skppiufvq:
+  /ts-jest/28.0.8_bi2kohzqnxavgozw3csgny5hju:
     resolution: {integrity: sha512-5FaG0lXmRPzApix8oFG8RKjAz4ehtm8yMKOTy5HX3fY6W8kmvOrmcY0hKDElW52FJov+clhUbrKAqofnj4mXTg==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     hasBin: true
@@ -4587,7 +4587,6 @@ packages:
       esbuild:
         optional: true
     dependencies:
-      '@babel/core': 7.18.10
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
       jest: 28.1.3_@types+node@18.7.1

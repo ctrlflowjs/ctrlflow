@@ -1,4 +1,4 @@
-import App from './components/App.svelte';
+import App from "./components/App.svelte"
 import 'modern-css-reset'
 
 export default function bootstrap() {

@@ -6,6 +6,8 @@ import Provider from "./Provider"
 import StepScheduledMessage from "../worker/interfaces/StepScheduledMessage";
 import Workflow from "../api/interfaces/Workflow";
 import ValueMap from "../api/interfaces/ValueMap";
+import Event from "../api/interfaces/Event";
+import WorkflowRun from "../api/interfaces/WorkflowRun";
 
 const EVENT_TRIGGERED_MESSAGE = "EventTriggered"
 const STEP_SCHEDULED_MESSAGE = "StepScheduled"
@@ -15,6 +17,7 @@ const DATA_PREFIX = `${DATA_VERSION}:ctrflow`
 const WORKFLOW_STORE = `${DATA_PREFIX}:workflows`
 const WORKFLOW_RUN_STORE = `${DATA_PREFIX}:workflow-runs`
 const EVENT_SUB_STORE_PREFIX = `${DATA_PREFIX}:event-subscriptions`
+const EVENT_STORE = `${DATA_PREFIX}:events`
 
 export class RedisProvider implements Provider {
   readonly redis: Redis
@@ -53,11 +56,11 @@ export class RedisProvider implements Provider {
     this.handlers = null
   }
 
-  async emitEventTriggered(message: EventTriggeredMessage): Promise<void> {
+  async scheduleEventHandler(message: EventTriggeredMessage): Promise<void> {
     await this.queue.add(EVENT_TRIGGERED_MESSAGE, message)
   }
 
-  async emitScheduleStep(message: StepScheduledMessage): Promise<void> {
+  async scheduleStepHandler(message: StepScheduledMessage): Promise<void> {
     await this.queue.add(STEP_SCHEDULED_MESSAGE, message)
   }
 
@@ -98,14 +101,20 @@ export class RedisProvider implements Provider {
     return await this.redis.smembers(`${EVENT_SUB_STORE_PREFIX}:${eventName}`)
   }
 
-  async createWorkflowRun(workflowId: string, workflowRunId: string): Promise<void> {
-    await this.redis.hset(WORKFLOW_RUN_STORE, workflowRunId, JSON.stringify({
-      workflowId,
-      workflowRunId
-    }))
+  async getAllEvents(): Promise<Event[]> {
+    let hash = await this.redis.hgetall(EVENT_STORE)
+    return Object.values(hash).map(x => JSON.parse(x))
   }
 
-  async getWorkflowRuns(): Promise<{ workflowId: string, workflowRunId: string }[]> {
+  async saveEvent(event: Event): Promise<void> {
+    await this.redis.hset(EVENT_STORE, event.id, JSON.stringify(event))
+  }
+
+  async saveWorkflowRun(workflowRun: WorkflowRun): Promise<void> {
+    await this.redis.hset(WORKFLOW_RUN_STORE, workflowRun.id, JSON.stringify(workflowRun))
+  }
+
+  async getWorkflowRuns(): Promise<WorkflowRun[]> {
     const entries = await this.redis.hgetall(WORKFLOW_RUN_STORE)
     return Object.values(entries).map(v => JSON.parse(v))
   }

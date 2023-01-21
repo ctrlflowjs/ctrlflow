@@ -34,7 +34,7 @@ export default class ActionStepProvider implements StepProvider {
       console.log("ACTION ERROR: ", error)
     }
 
-    this.worker.emitScheduleStep({
+    this.worker.scheduleStepHandler({
       ...message,
       status: "completed"
     })

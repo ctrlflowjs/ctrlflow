@@ -3,10 +3,12 @@ import EventTriggeredMessage from "../worker/interfaces/EventTriggeredMessage"
 import MessageHandlers from "../worker/interfaces/MessageHandlers"
 import StepScheduledMessage from "../worker/interfaces/StepScheduledMessage"
 import ValueMap from "../api/interfaces/ValueMap"
+import Event from "../api/interfaces/Event"
+import WorkflowRun from "../api/interfaces/WorkflowRun"
 
 export default interface Provider {
-  emitEventTriggered(message: EventTriggeredMessage): Promise<void>
-  emitScheduleStep(message: StepScheduledMessage): Promise<void>
+  scheduleEventHandler(message: EventTriggeredMessage): Promise<void>
+  scheduleStepHandler(message: StepScheduledMessage): Promise<void>
   startListening(handlers: MessageHandlers): Promise<void>
   stopListening(): Promise<void>
 
@@ -15,11 +17,14 @@ export default interface Provider {
   saveWorkflow(workflow: Workflow): Promise<void>
   deleteWorkflow(id: string): Promise<void>
 
+  getAllEvents(): Promise<Event[]>
+  saveEvent(event: Event): Promise<void>
+
   subscribeWorkflowToEvent(workflowId: string, eventType: string): Promise<void>
   getWorkflowsSubscribedToEvent(eventType: string): Promise<string[]>
 
-  createWorkflowRun(workflowId: string, workflowRunId: string): Promise<void>
-  getWorkflowRuns(): Promise<{ workflowId: string, workflowRunId: string }[]>
+  saveWorkflowRun(workflowRun: WorkflowRun): Promise<void>
+  getWorkflowRuns(): Promise<WorkflowRun[]>
 
   setWorkflowRunStepResult(workflowRunId: string, stepId: string, result: ValueMap): Promise<void>
   getWorkflowRunStepResult(workflowRunId: string, stepId: string): Promise<ValueMap>
