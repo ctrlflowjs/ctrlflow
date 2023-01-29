@@ -4,7 +4,7 @@
 
 ![Build](https://github.com/ctrlflowjs/ctrlflow/actions/workflows/ci.yml/badge.svg)
 
-ctrl+flow is a lightweight alternative to business process automation platforms. It's a framework you can `npm install` in any Node.js app and begin experimenting with in minutes. It prioritizes developer needs over inflated business appeal, ensuring it can be extended, monitored, debugged, and maintained with the tools and processes of your choosing.
+ctrl+flow is a lightweight alternative to business process automation platforms. It's a framework you can `npm install` into any Node.js web app and begin experimenting with in minutes. It prioritizes developer needs over inflated business appeal, ensuring it can be extended, monitored, debugged, and maintained with the tools and processes of your choosing.
 
 #### How can you use it?
 - Enrich internal apps and reduce reliance on the dev team by enabling users to self-automate select scenarios
