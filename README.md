@@ -4,7 +4,7 @@
 
 ![Build](https://github.com/ctrlflowjs/ctrlflow/actions/workflows/ci.yml/badge.svg)
 
-ctrl+flow is an app dev framework for adding **user automation** capabilities to Node.js web apps. 
+ctrl+flow is a lightweight alternative to business process automation platforms. It has no standalone deployment, it's a framework you can install into any Node.js web app and requires only a Redis instance to support background processing.
 
 #### What is user automation? 
 
