@@ -4,11 +4,7 @@
 
 ![Build](https://github.com/ctrlflowjs/ctrlflow/actions/workflows/ci.yml/badge.svg)
 
-ctrl+flow is a lightweight alternative to business process automation platforms. It has no standalone deployment, it's a framework you can install into any Node.js web app and requires only a Redis instance to support background processing.
-
-#### What is user automation? 
-
-User automation means enabling users to automate parts of an application by letting them choose a triggering event and a series of actions to perform. It provides users advanced control of app logic without writing code or needing developer support. It's often found as a premium feature in many popular enterprise tools like Airtable, Slack, and Trello, and with ctrl+flow it can be added to any Node.js web app.
+ctrl+flow is a lightweight alternative to business process automation platforms. It's a framework you can `npm install` in any Node.js app and begin experimenting with in minutes. It prioritizes developer needs over artificial business appeal, ensuring it can be extended, monitored, debugged, and maintained with the tools and processes of your choosing.
 
 #### How can you use it?
 - Enrich internal apps and reduce reliance on the dev team by enabling users to self-automate select scenarios
